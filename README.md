@@ -27,7 +27,7 @@
 🚀 Установка и запуск
 
     Клонируйте репозиторий:
-    git clone https://github.com/yourusername/college-website.git
+    git clone https://github.com/NGAEK/MainSite.git
     cd college-website
 
 Настройте базу данных MySQL:
