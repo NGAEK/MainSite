@@ -15,10 +15,10 @@ tabBtns.forEach(btn => {
         // Remove active class from all buttons and tab contents
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
+        
         // Add active class to clicked button
         btn.classList.add('active');
-
+        
         // Show corresponding tab content
         const tabId = btn.getAttribute('data-tab');
         document.getElementById(tabId).classList.add('active');
@@ -50,7 +50,7 @@ function updateSlider() {
         left: currentSlide * gallerySlider.offsetWidth,
         behavior: 'smooth'
     });
-
+    
     // Update dots
     sliderDots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentSlide);
@@ -65,7 +65,7 @@ themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
     themeToggle.querySelector('i').classList.toggle('fa-moon');
     themeToggle.querySelector('i').classList.toggle('fa-sun');
-
+    
     // Update checkbox if in modal
     darkModeToggle.checked = document.body.classList.contains('dark-mode');
 });
@@ -123,12 +123,12 @@ window.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('high-contrast');
         highContrastToggle.checked = true;
     }
-
+    
     if (localStorage.getItem('largeText') === 'true') {
         document.body.classList.add('large-text');
         largeTextToggle.checked = true;
     }
-
+    
     if (localStorage.getItem('darkMode') === 'true') {
         document.body.classList.add('dark-mode');
         darkModeToggle.checked = true;

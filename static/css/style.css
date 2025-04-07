@@ -179,7 +179,7 @@ nav {
 /* Hero Section */
 .hero {
     background-image: url("../images/uR7ulbeVu-8.jpg");
-
+    
     background-size: 100%;
     height: 450px;
     display: flex;
@@ -641,6 +641,52 @@ textarea.form-control {
     background-color: #2980b9;
 }
 
+/* partners */
+.hr-shadow {
+	margin: 20px 0;
+	padding: 0;
+	height: 10px;
+	border: none;
+	border-top: 1px solid #333;
+	box-shadow: 0 10px 10px -10px #8c8b8b inset;
+}
+.partners-container {
+    overflow: hidden;
+    position: relative;
+    padding: 20px 0;
+}
+
+.partners-scroll {
+    display: flex;
+    animation: scroll 30s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+}
+
+.partners-scroll:hover {
+    animation-play-state: paused;
+}
+
+.partners-scroll img {
+    height: 60px;
+    margin: 0 20px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.partners-scroll img:hover {
+    transform: scale(1.1);
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
 /* Footer */
 footer {
     background-color: var(--footer-bg);
@@ -797,8 +843,8 @@ footer {
     font-size: 18px;
 }
 
-.large-text h1,
-.large-text h2,
+.large-text h1, 
+.large-text h2, 
 .large-text h3 {
     font-size: 150%;
 }
@@ -808,11 +854,11 @@ footer {
     .hero {
         height: 400px;
     }
-
+    
     .hero h1 {
         font-size: 2rem;
     }
-
+    
     .slide {
         height: 400px;
     }
@@ -824,17 +870,17 @@ footer {
         text-align: center;
         gap: 15px;
     }
-
+    
     .logo {
         flex-direction: column;
         align-items: center;
     }
-
+    
     .logo img {
         margin-right: 0;
         margin-bottom: 10px;
     }
-
+    
     .main-nav {
         display: none;
         flex-direction: column;
@@ -845,15 +891,15 @@ footer {
         background-color: var(--primary-color);
         z-index: 100;
     }
-
+    
     .main-nav.active {
         display: flex;
     }
-
+    
     .mobile-menu-btn {
         display: block;
     }
-
+    
     .dropdown-menu {
         position: static;
         opacity: 1;
@@ -862,27 +908,27 @@ footer {
         width: auto;
         display: none;
     }
-
+    
     .main-nav li:hover .dropdown-menu {
         display: block;
     }
-
+    
     .specialty-card {
         flex-direction: column;
     }
-
+    
     .hero {
         height: 350px;
     }
-
+    
     .hero h1 {
         font-size: 1.8rem;
     }
-
+    
     .hero p {
         font-size: 1rem;
     }
-
+    
     .slide {
         height: 300px;
     }
@@ -894,23 +940,23 @@ footer {
         width: 100%;
         margin-bottom: 10px;
     }
-
+    
     .btn-outline {
         margin-left: 0;
     }
-
+    
     .hero {
         height: 300px;
     }
-
+    
     .hero h1 {
         font-size: 1.5rem;
     }
-
+    
     .section-title h2 {
         font-size: 1.5rem;
     }
-
+    
     .slide {
         height: 250px;
     }
