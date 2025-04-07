@@ -1,17 +1,31 @@
 package main
 
 import (
+	"github.com/gorilla/mux"
+	"log"
 	"net/http"
-	"net/url"
 )
 
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "templates/index.html")
+}
+
 func main() {
-	request := http.Request{
-		Method: "GET",
-		URL: &url.URL{
-			Scheme: "http",
-			Host:   "localhost:8080",
-			Path:   "/",
-		},
+	r := mux.NewRouter()
+
+	fs := http.FileServer(http.Dir("static"))
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
+
+	jsFs := http.FileServer(http.Dir("js"))
+	r.PathPrefix("/js/").Handler(http.StripPrefix("/js/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/javascript")
+		jsFs.ServeHTTP(w, r)
+	})))
+
+	r.HandleFunc("/", homeHandler)
+
+	log.Println("Сервер запущен на http://localhost:8081")
+	if err := http.ListenAndServe(":8081", r); err != nil {
+		log.Fatal(err)
 	}
 }
