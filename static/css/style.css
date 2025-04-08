@@ -382,6 +382,12 @@ nav {
     box-shadow: 0 5px 15px var(--shadow-color);
     display: flex;
     gap: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.specialty-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .specialty-icon {
@@ -408,6 +414,7 @@ nav {
     align-items: center;
     gap: 5px;
 }
+
 
 /* Gallery Section */
 .gallery-container {
