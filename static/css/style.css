@@ -48,6 +48,8 @@ body {
     padding: 0 20px;
 }
 
+
+
 /* Header Styles */
 header {
     background-color: var(--header-bg);
@@ -233,14 +235,18 @@ nav {
     color: var(--primary-color);
 }
 
-/* News Section */
+/* Section Titles */
 .section {
-    padding: 4rem 0;
+    padding: 2.5rem 0;
+    margin-bottom: 2rem;
 }
-
+.bg-light {
+    background-color: var(--card-bg);
+}
 .section-title {
-    text-align: center;
+    position: relative;
     margin-bottom: 3rem;
+    text-align: center;
 }
 
 .section-title h2 {
@@ -262,13 +268,65 @@ nav {
     background-color: var(--secondary-color);
 }
 
+/* News Navigation */
+.news-navigation {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.news-section {
+    position: relative;
+    padding: 4rem 0;
+}
+
+.news-section .section-title {
+    position: relative;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.news-prev, .news-next {
+    background: var(--secondary-color);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.news-prev:hover, .news-next:hover {
+    background: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.news-prev:disabled, .news-next:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .news-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    display: flex;
+    overflow: hidden;
+    scroll-behavior: smooth;
     gap: 30px;
+    padding: 10px 0;
 }
 
 .news-card {
+    flex: 0 0 calc(33.33% - 20px);
+    min-width: calc(33.33% - 20px);
     background-color: var(--card-bg);
     border-radius: 8px;
     overflow: hidden;
@@ -310,6 +368,7 @@ nav {
 .news-title {
     font-size: 1.2rem;
     margin-bottom: 10px;
+    color: var(--text-color);
 }
 
 .news-excerpt {
@@ -335,6 +394,25 @@ nav {
     transform: translateX(5px);
 }
 
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .news-card {
+        flex: 0 0 calc(50% - 15px);
+        min-width: calc(50% - 15px);
+    }
+}
+
+@media (max-width: 768px) {
+    .news-card {
+        flex: 0 0 100%;
+        min-width: 100%;
+    }
+    
+    .news-navigation {
+        position: static;
+        margin-top: 20px;
+    }
+}
 /* Specialties Section */
 .specialties-tabs {
     display: flex;

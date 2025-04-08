@@ -143,3 +143,37 @@ window.addEventListener('click', (e) => {
         accessibilityModal.style.display = 'none';
     }
 });
+
+// news slider
+const newsGrid = document.querySelector('.news-grid');
+const newsPrev = document.querySelector('.news-prev');
+const newsNext = document.querySelector('.news-next');
+
+newsNext.addEventListener('click', () => {
+    const scrollAmount = newsGrid.clientWidth;
+    newsGrid.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+    });
+});
+
+newsPrev.addEventListener('click', () => {
+    const scrollAmount = newsGrid.clientWidth;
+    newsGrid.scrollBy({
+        left: -scrollAmount,
+        behavior: 'smooth'
+    });
+});
+
+// Disable buttons when at start/end
+const checkNewsButtons = () => {
+    const scrollLeft = newsGrid.scrollLeft;
+    const maxScroll = newsGrid.scrollWidth - newsGrid.clientWidth;
+    
+    newsPrev.disabled = scrollLeft === 0;
+    newsNext.disabled = scrollLeft >= maxScroll - 1;
+};
+
+newsGrid.addEventListener('scroll', checkNewsButtons);
+window.addEventListener('resize', checkNewsButtons);
+checkNewsButtons();
