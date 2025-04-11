@@ -1,10 +1,22 @@
-
-// Mobile Menu Toggle
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const mainNav = document.getElementById('mainNav');
 
 mobileMenuBtn.addEventListener('click', () => {
     mainNav.classList.toggle('active');
+    mobileMenuBtn.classList.toggle('active');
+});
+
+// Dropdown Menu Handling
+const navItems = document.querySelectorAll('.main-nav > li');
+
+navItems.forEach(item => {
+    const link = item.querySelector('a');
+    link.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+            e.preventDefault();
+            item.classList.toggle('active');
+        }
+    });
 });
 
 // Tab Navigation

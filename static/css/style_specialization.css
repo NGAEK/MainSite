@@ -1,0 +1,158 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --text-color: #333;
+    --bg-color: #f9f9f9;
+    --card-bg: #fff;
+    --header-bg: #2c3e50;
+    --footer-bg: #34495e;
+    --nav-link-color: #ecf0f1;
+    --border-color: #ddd;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode {
+    --primary-color: #34495e;
+    --secondary-color: #2980b9;
+    --accent-color: #c0392b;
+    --text-color: #ffffff;
+    --bg-color: #2c3e50;
+    --card-bg: #34495e;
+    --header-bg: #1a252f;
+    --footer-bg: #1a252f;
+    --nav-link-color: #bdc3c7;
+    --border-color: #444;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+.specialties-grid {
+    display: flex;
+    justify-content: center;
+    align-items: stretch; /* Растягиваем карточки по высоте */
+    gap: 2rem;
+    padding: 0.5rem;
+    max-width: 100%;
+    margin: 0 auto;
+    flex-wrap: wrap; /* Добавляем перенос на мобильных */
+}
+
+.specialty-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
+    width: 200px; /* Фиксированная ширина */
+    min-height: 150px; /* Фиксированная высота */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex-shrink: 0;
+    color: var(--text-color);
+}
+
+.specialty-card:hover {
+    transform: translateY(-5px);
+}
+
+.specialty-icon {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.specialty-info h3 {
+    color: var(--text-color);
+    margin: 0;
+    font-size: 15px;
+    word-wrap: break-word; /* Перенос текста */
+    overflow-wrap: break-word; /* Перенос текста */
+    hyphens: auto; /* Автоматическая расстановка переносов */
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .specialties-grid {
+        gap: 1rem;
+        padding: 1rem;
+        justify-content: space-around; /* Равномерное распределение */
+    }
+    
+    .specialty-card {
+        width: 45%; /* Две карточки в ряд */
+        min-height: 120px;
+        padding: 1rem;
+    }
+    
+    .specialty-icon {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .specialty-card {
+        width: 100%; /* Одна карточка в ряд */
+    }
+}
+
+.entry-content {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.entry-content h2 {
+    color: var(--text-color);
+    margin-top: 2rem;
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 0.5rem;
+}
+
+.entry-content p {
+    margin: 1rem 0;
+    font-size: 1.1rem;
+}
+
+.entry-content strong {
+    color: #2c3e50;
+}
+
+.avPlayerWrapper {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.avPlayerContainer {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.avPlayerContainer iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 768px) {
+    .entry-content {
+        padding: 0 0.5rem;
+    }
+    
+    .entry-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .entry-content p {
+        font-size: 1rem;
+    }
+}
