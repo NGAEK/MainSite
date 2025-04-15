@@ -6,10 +6,6 @@ import (
 	"net/http"
 )
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "templates/index.html")
-}
-
 func main() {
 	r := mux.NewRouter()
 
@@ -22,7 +18,7 @@ func main() {
 		jsFs.ServeHTTP(w, r)
 	})))
 
-	r.HandleFunc("/", homeHandler)
+	RoutersLoad(r)
 
 	log.Println("Сервер запущен на http://localhost:8081")
 	if err := http.ListenAndServe(":8081", r); err != nil {
