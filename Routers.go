@@ -7,6 +7,7 @@ import (
 
 func RoutersLoad(r *mux.Router) {
 	r.HandleFunc("/", page.HomeHandler)
+	r.HandleFunc("/news/{id:[0-9]+}", page.NewsDetailHandler) // Добавьте эту строку
 	r.HandleFunc("/spec/byx", page.SpecByx)
 	r.HandleFunc("/spec/do", page.SpecDo)
 	r.HandleFunc("/spec/ogu", page.SpecOgu)

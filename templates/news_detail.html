@@ -1,0 +1,19 @@
+{{ template "header.html" . }}
+<section class="section news-detail-section">
+    <div class="container">
+        <div class="news-detail">
+            <div class="news-img">
+                <img src="{{ .ImagePath }}" alt="{{ .Name }}">
+            </div>
+            <div class="news-content">
+                <span class="news-date">{{ .FormattedDate }}</span>
+                <h1 class="news-title">{{ .Name }}</h1>
+                <div class="news-fulltext">
+                    {{ .Description }}
+                </div>
+                <a href="/" class="back-link">← Вернуться к списку новостей</a>
+            </div>
+        </div>
+    </div>
+</section>
+{{ template "footer.html" . }}

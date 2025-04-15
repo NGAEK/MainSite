@@ -7,69 +7,37 @@
         </div>
     </section>
 
-    <!-- News Section -->
-    <section class="section news-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Новости</h2>
-                <div class="news-navigation">
-                    <button class="news-prev" aria-label="Предыдущие новости">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="news-next" aria-label="Следующие новости">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="news-grid">
-                <div class="news-card">
-                    <div class="news-img">
-                        <img src="../static/images/news_images/1655471619_4-kartinkof-club-p-kartinki-na-den-otkritikh-dverei-4.jpg" alt="Новость 1">
-                    </div>
-                    <div class="news-content">
-                        <span class="news-date">15 мая 2023</span>
-                        <h3 class="news-title">День открытых дверей</h3>
-                        <p class="news-excerpt">Приглашаем всех желающих на день открытых дверей, который состоится 25 мая в 15:00 в главном корпусе колледжа.</p>
-                        <a href="#" class="read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-img">
-                        <img src="../static/images/news_images/images.png" alt="Новость 2">
-                    </div>
-                    <div class="news-content">
-                        <span class="news-date">10 мая 2023</span>
-                        <h3 class="news-title">Победа в конкурсе профмастерства</h3>
-                        <p class="news-excerpt">Наши студенты заняли первое место в республиканском конкурсе профессионального мастерства по специальности "Программное обеспечение".</p>
-                        <a href="#" class="read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-img">
-                        <img src="../static/images/galery/auditory.jpg" alt="Новость 3">
-                    </div>
-                    <div class="news-content">
-                        <span class="news-date">5 мая 2023</span>
-                        <h3 class="news-title">Новые лаборатории</h3>
-                        <p class="news-excerpt">В колледже открыты новые современные лаборатории, оснащенные по последнему слову техники для подготовки специалистов.</p>
-                        <a href="#" class="read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-img">
-                        <img src="../static/images/galery/auditory.jpg" alt="Новость 3">
-                    </div>
-                    <div class="news-content">
-                        <span class="news-date">5 мая 2023</span>
-                        <h3 class="news-title">Новые лаборатории</h3>
-                        <p class="news-excerpt">В колледже открыты новые современные лаборатории, оснащенные по последнему слову техники для подготовки специалистов.</p>
-                        <a href="#" class="read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <!-- add more -->
+<!-- News Section -->
+<section class="section news-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Новости</h2>
+            <div class="news-navigation">
+                <button class="news-prev" aria-label="Предыдущие новости">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="news-next" aria-label="Следующие новости">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
-    </section>
+        <div class="news-grid">
+            {{ range .NewsList }}
+            <div class="news-card">
+                <div class="news-img">
+                    <img src="{{ .ImagePath }}" alt="{{ .Name }}">
+                </div>
+                <div class="news-content">
+                    <span class="news-date">{{ .FormattedDate }}</span>
+                    <h3 class="news-title">{{ .Name }}</h3>
+                    <p class="news-excerpt">{{ .Description }}</p>
+                    <a href="/news/{{ .ID }}" class="read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+</section>
 
     <!-- Specialties Section -->
     <section class="section bg-light">
@@ -77,7 +45,7 @@
             <div class="section-title">
                 <h2>Наши специальности</h2>
             </div>
-                <a href="./specialization/po.html" style="text-decoration: none;"><div class="specialty-card">
+                <a href="/spec/po" style="text-decoration: none;"><div class="specialty-card">
                     <div class="specialty-icon">
                         <i class="fas fa-laptop-code"></i>
                     </div>
@@ -90,7 +58,7 @@
                         <p>Подготовка специалистов по разработке, тестированию и сопровождению программного обеспечения.</p>
                     </div>
                 </div></a>
-                <a href="./specialization/byx.html" style="text-decoration: none;"><div class="specialty-card">
+                <a href="/spec/byx" style="text-decoration: none;"><div class="specialty-card">
                     <div class="specialty-icon">
                         <i class="fas fa-calculator"></i>
                     </div>
@@ -103,7 +71,7 @@
                         <p>Подготовка специалистов по ведению бухгалтерского учета, анализу финансово-хозяйственной деятельности.</p>
                     </div>
                 </div></a>
-                <a href="./specialization/ogu.html" style="text-decoration: none;"><div class="specialty-card">
+                <a href="/spec/ogu" style="text-decoration: none;"><div class="specialty-card">
                     <div class="specialty-icon">
                         <i class="fas fa-house"></i>
                     </div>
@@ -116,7 +84,7 @@
                         <p>Обучение чему-то</p>
                     </div>
                 </div></a>
-                <a href="./specialization/do.html" style="text-decoration: none;"><div class="specialty-card">
+                <a href="/spec/do" style="text-decoration: none;"><div class="specialty-card">
                     <div class="specialty-icon">
                         <i class="fas fa-folder"></i>
                     </div>
@@ -129,7 +97,7 @@
                         <p>Подготовка специалистов по чему то</p>
                     </div>
                 </div></a>
-                <a href="./specialization/soc_rab.html" style="text-decoration: none;"><div class="specialty-card">
+                <a href="/spec/soc_rab" style="text-decoration: none;"><div class="specialty-card">
                     <div class="specialty-icon">
                         <i class="fas fa-person-chalkboard"></i>
                     </div>

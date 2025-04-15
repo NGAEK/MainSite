@@ -34,7 +34,7 @@
 
     mysql -u root -p < database/schema.sql
 
-Настройте конфигурацию в файле config.yaml:
+Настройте конфигурацию в файле config.yml:
 
     database:
     host: "localhost"
