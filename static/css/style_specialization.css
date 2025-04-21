@@ -91,6 +91,7 @@
     }
 }
 
+
 @media (max-width: 480px) {
     .specialty-card {
         width: 100%; /* Одна карточка в ряд */

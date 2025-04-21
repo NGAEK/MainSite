@@ -1,8 +1,8 @@
 database:
   host: "localhost"
   port: 3306
-  user: "root"
-  password: ""
+  user: "test"
+  password: "test"
   name: "ngaek"
 server:
   port: ":8080"
