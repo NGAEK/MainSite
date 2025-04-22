@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"src/config"
 	"src/db"
+	"src/page"
 )
 
 func main() {
@@ -18,6 +19,8 @@ func main() {
 		cfg.Database.Port, cfg.Database.Name)
 
 	r := mux.NewRouter()
+
+	r.NotFoundHandler = http.HandlerFunc(page.NotFoundHandler)
 
 	fs := http.FileServer(http.Dir("static"))
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))

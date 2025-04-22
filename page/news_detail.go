@@ -10,7 +10,7 @@ import (
 	"strconv"
 )
 
-func NewsDetailHandler(w http.ResponseWriter, r *http.Request) {
+func NewsDetailHandler(w http.ResponseWriter, r *http.Request, id int) {
 	idStr := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(idStr)
 	if err != nil {

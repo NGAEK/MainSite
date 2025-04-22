@@ -33,3 +33,16 @@ func GetNewsByID(id int) (models.News, error) {
 
 	return n, err
 }
+
+func NewsExists(id string) (bool, error) {
+	var exists bool
+	query := "SELECT EXISTS(SELECT 1 FROM news WHERE id = ?)"
+
+	err := DB.QueryRow(query, id).Scan(&exists)
+	if err != nil {
+		log.Printf("Ошибка при проверке существования новости: %v", err)
+		return false, err
+	}
+
+	return exists, nil
+}
