@@ -1,7 +1,139 @@
 {{ template "header.html" . }}
-<div class="error-page">
-    <h1>404 - Страница не найдена</h1>
-    <p>Извините, запрошенная страница <code>{{.Path}}</code> не существует.</p>
-    <a href="/" class="btn">Вернуться на главную</a>
+<link rel="stylesheet" href="/static/css/style_error.css">
+<section class="section error-section">
+    <div class="container">
+        <div class="error-content">
+            <div class="error-code">404</div>
+            <h1 class="error-title">Страница не найдена</h1>
+            <p>Извините, запрошенная страница <code>{{.Path}}</code> не существует.</p>
+        </div>
+    <div class="error-actions">
+        <a href="/" class="btn btn-primary">Вернуться на главную</a>
+    </div>
 </div>
-{{ template "footer.html" . }}
+</div>
+</section>
+<section class="section bg-light">
+    <hr class="hr-shadow">
+    <div class="container">
+        <div class="partners-container">
+            <div class="partners-scroll">
+                <a href="https://brsm.by/ru" target="_blank"><img src="../static/images/partners/brsm.jpg" alt="Партнер 1"></a>
+                <a href="https://edu.gov.by/" target="_blank"><img src="../static/images/partners/images.jpg" alt="Партнер 2"></a>
+                <a href="https://minsk-roo.gov.by/" target="_blank"><img src="../static/images/partners/images1.jpg" alt="Партнер 3"></a>
+                <a href="https://uomoik.gov.by/" target="_blank"><img src="../static/images/partners/mo1.jpg" alt="Партнер 4"></a>
+                <a href="https://1br.by/" target="_blank"><img src="../static/images/partners/belrus.jpg" alt="Партнер 5"></a>
+                <a href="https://pomogut.by/" target="_blank"><img src="../static/images/partners/imvd_banner_170_60.jpg" alt="Партнер 6"></a>
+                <a href="https://profitest.ripo.by/public/main" target="_blank"><img src="../static/images/partners/social-image.jpg" alt="Партнер 7"></a>
+                <a href="https://xn----7sbgfh2alwzdhpc0c.xn--90ais/organization/23563/org-page" target="_blank"><img src="../static/images/partners/изображение_2022-02-10_165646.png" alt="Партнер 8"></a>
+                <a href="https://president.gov.by/ru" target="_blank"><img src="../static/images/partners/president.gif" alt="Партнер 9"></a>
+                <a href="https://ripo.by/index.php?id=1648" target="_blank"><img src="../static/images/partners/ripo.png" alt="Партнер 10"></a>
+                <a href="https://xn--d1acdremb9i.xn--90ais/" target="_blank"><img src="../static/images/partners/Banner-molodezh-bel-2.jpg" alt="Партнер 11"></a>
+                <a href="https://beldosaaf.by/" target="_blank"><img src="../static/images/partners/dosaaf.jpg" alt="Партнер 12"></a>
+                <a href="https://pravo.by/" target="_blank"><img src="../static/images/partners/minselxoz.jpg" alt="Партнер 13"></a>
+                <a href="https://www.mintrud.gov.by/ru/trud-molodezh-ru" target="_blank"><img src="../static/images/partners/Banner_zanyatost20molodezhi.png" alt="Партнер 14"></a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>О колледже</h3>
+                <ul class="footer-links">
+                    <li><a href="#">История</a></li>
+                    <li><a href="#">Администрация</a></li>
+                    <li><a href="#">Документы</a></li>
+                    <li><a href="#">Вакансии</a></li>
+                    <li><a href="#">Фотогалерея</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Абитуриенту</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Специальности</a></li>
+                    <li><a href="#">Правила приема</a></li>
+                    <li><a href="#">День открытых дверей</a></li>
+                    <li><a href="#">Подготовительные курсы</a></li>
+                    <li><a href="#">Вопрос-ответ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Студенту</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Расписание</a></li>
+                    <li><a href="#">Электронное обучение</a></li>
+                    <li><a href="#">Библиотека</a></li>
+                    <li><a href="#">Студенческий совет</a></li>
+                    <li><a href="#">Спортивные секции</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Контакты</h3>
+                <div class="footer-contact-item">
+                    <i class="fas fa-map-marker-alt footer-contact-icon"></i>
+                    <span>г. Минск, ул. Свердлова, 15</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-phone footer-contact-icon"></i>
+                    <span>+375 (17) 123-45-67</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-envelope footer-contact-icon"></i>
+                    <span>info@mgptk.by</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-clock footer-contact-icon"></i>
+                    <span>Пн-Пт: 8:30 - 17:30</span>
+                </div>
+                <div class="social-links" style="margin-top: 15px;">
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Новопольский Государственный Аграрно Экономический Колледж. Все права защищены.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Accessibility Modal -->
+<div class="modal" id="accessibilityModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Настройки доступности</h3>
+            <button class="close-modal" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="accessibility-option">
+                <label>
+                    <input type="checkbox" id="highContrastToggle">
+                    Высокая контрастность
+                </label>
+            </div>
+            <div class="accessibility-option">
+                <label>
+                    <input type="checkbox" id="largeTextToggle">
+                    Увеличенный шрифт
+                </label>
+            </div>
+            <div class="accessibility-option">
+                <label>
+                    <input type="checkbox" id="darkModeToggle">
+                    Темный режим
+                </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" id="resetAccessibility">Сбросить</button>
+            <button class="btn" id="saveAccessibility">Сохранить</button>
+        </div>
+    </div>
+</div>
+<script src="../js/script.js"></script>
+</body>

@@ -189,3 +189,35 @@ const checkNewsButtons = () => {
 newsGrid.addEventListener('scroll', checkNewsButtons);
 window.addEventListener('resize', checkNewsButtons);
 checkNewsButtons();
+
+const langButtons = document.querySelectorAll('.lang-btn');
+
+langButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const lang = button.getAttribute('data-lang');
+        changeLanguage(lang);
+    });
+});
+
+function changeLanguage(lang) {
+
+    if (lang === 'ru') {
+        alert('Язык изменен на русский');
+    } else if (lang === 'be') {
+        alert('Мова зменена на беларускую');
+    }
+    
+
+}
+
+
+const searchForm = document.querySelector('.search-form');
+if (searchForm) {
+    searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const query = searchForm.querySelector('input').value;
+        if (query.trim()) {
+            window.location.href = `/search?q=${encodeURIComponent(query)}`;
+        }
+    });
+}
