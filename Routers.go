@@ -10,6 +10,7 @@ import (
 
 func RoutersLoad(r *mux.Router) {
 	r.HandleFunc("/", page.HomeHandler)
+	r.HandleFunc("/search", page.SearchHandler)
 	r.HandleFunc("/news/{id:[0-9]+}", func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		id := vars["id"]

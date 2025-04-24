@@ -11,7 +11,14 @@
 <section class="section news-section">
     <div class="container">
         <div class="section-title">
-            <h2>Новости</h2>
+            <h2>
+                {{if .IsSearchResults}}
+                Результаты поиска: "{{.Query}}" (найдено {{.SearchCount}})
+                {{else}}
+                Новости
+                {{end}}
+            </h2>
+            {{if not .IsSearchResults}}
             <div class="news-navigation">
                 <button class="news-prev" aria-label="Предыдущие новости">
                     <i class="fas fa-chevron-left"></i>
@@ -20,7 +27,18 @@
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
+            {{end}}
         </div>
+
+        {{if .IsSearchResults}}
+        <div class="search-actions">
+            <a href="/" class="btn btn-outline">
+                <i class="fas fa-arrow-left"></i> Назад ко всем новостям
+            </a>
+        </div>
+        {{end}}
+
+        {{if gt .SearchCount 0}}
         <div class="news-grid">
             {{ range .NewsList }}
             <div class="news-card">
@@ -36,6 +54,16 @@
             </div>
             {{ end }}
         </div>
+        {{else if .IsSearchResults}}
+        <div class="no-results">
+            <div class="no-results-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <h3>Ничего не найдено</h3>
+            <p>По запросу "{{.Query}}" не найдено ни одной новости.</p>
+            <a href="/" class="btn">Показать все новости</a>
+        </div>
+        {{end}}
     </div>
 </section>
 

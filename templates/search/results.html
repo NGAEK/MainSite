@@ -1,0 +1,41 @@
+{{ template "header.html" . }}
+
+<div class="search-results-container">
+  <h1>Результаты поиска: "{{.Query}}"</h1>
+
+  {{if .Results}}
+  <div class="search-results-count">Найдено новостей: {{len .Results}}</div>
+  <a href="/" class="btn-back">← Вернуться на главную</a>
+
+  <div class="news-grid">
+    {{range .Results}}
+    <div class="news-card">
+      <div class="news-img">
+        {{if .ImagePath}}
+        <img src="{{.ImagePath}}" alt="{{.Name}}">
+        {{else}}
+        <img src="/static/images/news-placeholder.jpg" alt="Новость">
+        {{end}}
+      </div>
+      <div class="news-content">
+        <span class="news-date">{{.Date.Format "02.01.2006"}}</span>
+        <h3 class="news-title">{{.Name}}</h3>
+        <p class="news-excerpt">{{.Description}}</p>
+        <a href="/news/{{.ID}}" class="read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+    {{end}}
+  </div>
+  {{else}}
+  <div class="no-results">
+    <div class="no-results-icon">
+      <i class="fas fa-search"></i>
+    </div>
+    <h3>Ничего не найдено</h3>
+    <p>По запросу "{{.Query}}" не найдено ни одной новости.</p>
+    <a href="/" class="btn">Показать все новости</a>
+  </div>
+  {{end}}
+</div>
+
+{{ template "footer.html" . }}
