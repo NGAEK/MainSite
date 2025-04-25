@@ -9,4 +9,5 @@ cache/
 *.bundle.*
 *.bundle-min.*
 *.log
+*.txt
 package-lock.json
