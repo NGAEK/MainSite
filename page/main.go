@@ -1,6 +1,7 @@
 package page
 
 import (
+	"context"
 	"html/template"
 	"log"
 	"net/http"
@@ -19,14 +20,13 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	query := strings.TrimSpace(r.URL.Query().Get("q"))
-	log.Printf("Search query: '%s'", query) // Логируем поисковый запрос
+	log.Printf("Search query: '%s'", query)
 
 	var filteredNews []models.News
 	var isSearchResults bool
 
 	if query != "" {
 		isSearchResults = true
-		// Ищем сначала через базу данных
 		dbResults, err := db.SearchNews(query)
 		if err != nil {
 			log.Printf("Ошибка поиска в БД: %v", err)
@@ -78,4 +78,30 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Ошибка рендеринга шаблона: %v", err)
 		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
 	}
+}
+
+func languageMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Определяем язык из cookie или параметра URL
+		lang := r.URL.Query().Get("lang")
+		if lang == "" {
+			if cookie, err := r.Cookie("lang"); err == nil {
+				lang = cookie.Value
+			} else {
+				lang = "ru" // язык по умолчанию
+			}
+		}
+
+		// Сохраняем язык в контексте запроса
+		ctx := context.WithValue(r.Context(), "lang", lang)
+		next.ServeHTTP(w, r.WithContext(ctx))
+
+		// Устанавливаем cookie
+		http.SetCookie(w, &http.Cookie{
+			Name:   "lang",
+			Value:  lang,
+			Path:   "/",
+			MaxAge: 30 * 24 * 60 * 60, // 30 дней
+		})
+	})
 }

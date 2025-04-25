@@ -1,6 +1,7 @@
 package db
 
 import (
+	"database/sql"
 	"log"
 	"src/models"
 )
@@ -62,9 +63,11 @@ func GetNewsByID(id int) (models.News, error) {
 	err := DB.QueryRow("SELECT id, name, date, description, image_path FROM news WHERE id = ?", id).
 		Scan(&n.ID, &n.Name, &n.Date, &n.Description, &n.ImagePath)
 
+	if err == sql.ErrNoRows {
+		return n, nil // Возвращаем пустую новость, если она не найдена
+	}
 	return n, err
 }
-
 func NewsExists(id string) (bool, error) {
 	var exists bool
 	query := "SELECT EXISTS(SELECT 1 FROM news WHERE id = ?)"

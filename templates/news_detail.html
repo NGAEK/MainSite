@@ -3,13 +3,13 @@
     <div class="container">
         <div class="news-detail">
             <div class="news-img">
-                <img src="{{ .ImagePath }}" alt="{{ .Name }}">
+                <img src="{{ .News.ImagePath }}" alt="{{ .News.Name }}">
             </div>
             <div class="news-content">
-                <span class="news-date">{{ .FormattedDate }}</span>
-                <h1 class="news-title">{{ .Name }}</h1>
+                <span class="news-date">{{ .News.FormattedDate }}</span>
+                <h1 class="news-title">{{ .News.Name }}</h1>
                 <div class="news-fulltext">
-                    {{ .Description }}
+                    {{ .News.Description }}
                 </div>
                 <a href="/" class="back-link">← Вернуться к списку новостей</a>
             </div>
