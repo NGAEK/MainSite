@@ -5,39 +5,11 @@ import (
 	"log"
 	"net/http"
 	"src/db"
-	"src/models"
 	"strconv"
 )
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	newsList, err := db.GetAllNews()
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	tmpl := template.Must(template.ParseFiles(
-		"templates/base.html",
-		"templates/header.html",
-		"templates/footer.html",
-		"templates/index.html",
-	))
-
-	data := struct {
-		NewsList []models.News
-	}{
-		NewsList: newsList,
-	}
-
-	err = tmpl.ExecuteTemplate(w, "base", data)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-	}
-}
-
 func NewsDetailHandler(w http.ResponseWriter, r *http.Request) {
+	// Извлекаем ID из URL
 	idStr := r.URL.Path[len("/news/"):]
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -45,22 +17,50 @@ func NewsDetailHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	news, err := db.GetNewsByID(id)
+	// Проверяем существование новости
+	exists, err := db.NewsExists(idStr)
 	if err != nil {
+		log.Printf("Error checking news existence: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	if !exists {
 		http.Error(w, "News not found", http.StatusNotFound)
 		return
 	}
 
-	tmpl := template.Must(template.ParseFiles(
+	// Получаем новость из БД
+	news, err := db.GetNewsByID(id)
+	if err != nil {
+		log.Printf("Error getting news: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	// Проверяем, что новость не пустая
+	if news.ID == 0 {
+		http.Error(w, "News not found", http.StatusNotFound)
+		return
+	}
+
+	// Подготавливаем шаблоны
+	tmpl, err := template.ParseFiles(
 		"templates/base.html",
 		"templates/header.html",
-		"templates/footer.html",
 		"templates/news_detail.html",
-	))
+		"templates/footer.html",
+	)
+	if err != nil {
+		log.Printf("Template parsing error: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 
+	// Рендерим шаблон
 	err = tmpl.ExecuteTemplate(w, "base", news)
 	if err != nil {
-		log.Println(err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		log.Printf("Template execution error: %v", err)
+		// Не отправляем повторно заголовок ошибки
 	}
 }

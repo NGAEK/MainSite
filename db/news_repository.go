@@ -6,9 +6,14 @@ import (
 	"src/models"
 )
 
+// GetAllNews возвращает все новости из базы данных
 func GetAllNews() ([]models.News, error) {
-	rows, err := DB.Query("SELECT id, name, date, description, image_path FROM news ORDER BY date DESC")
+	rows, err := DB.Query(`
+        SELECT id, name, date, description, image_path 
+        FROM news 
+        ORDER BY date DESC`)
 	if err != nil {
+		log.Printf("Error getting all news: %v", err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -18,25 +23,34 @@ func GetAllNews() ([]models.News, error) {
 		var n models.News
 		err := rows.Scan(&n.ID, &n.Name, &n.Date, &n.Description, &n.ImagePath)
 		if err != nil {
-			log.Println(err)
+			log.Printf("Error scanning news row: %v", err)
 			continue
 		}
 		newsList = append(newsList, n)
 	}
 
+	if err = rows.Err(); err != nil {
+		log.Printf("Rows error: %v", err)
+		return nil, err
+	}
+
 	return newsList, nil
 }
 
+// SearchNews выполняет поиск новостей по запросу
 func SearchNews(query string) ([]models.News, error) {
-	query = "%" + query + "%"
+	searchQuery := "%" + query + "%"
 
 	rows, err := DB.Query(`
         SELECT id, name, date, description, image_path 
         FROM news 
         WHERE name LIKE ? OR description LIKE ?
         ORDER BY date DESC`,
-		query, query)
-
+		searchQuery, searchQuery)
+	if err != nil {
+		log.Printf("Error searching news: %v", err)
+		return nil, err
+	}
 	defer rows.Close()
 
 	var results []models.News
@@ -58,25 +72,32 @@ func SearchNews(query string) ([]models.News, error) {
 	return results, nil
 }
 
+// GetNewsByID возвращает новость по ID
 func GetNewsByID(id int) (models.News, error) {
 	var n models.News
-	err := DB.QueryRow("SELECT id, name, date, description, image_path FROM news WHERE id = ?", id).
+	err := DB.QueryRow(`
+        SELECT id, name, date, description, image_path 
+        FROM news 
+        WHERE id = ?`, id).
 		Scan(&n.ID, &n.Name, &n.Date, &n.Description, &n.ImagePath)
 
-	if err == sql.ErrNoRows {
-		return n, nil // Возвращаем пустую новость, если она не найдена
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return models.News{}, nil
+		}
+		log.Printf("Error getting news by ID: %v", err)
+		return models.News{}, err
 	}
-	return n, err
+	return n, nil
 }
+
+// NewsExists проверяет существование новости по ID
 func NewsExists(id string) (bool, error) {
 	var exists bool
-	query := "SELECT EXISTS(SELECT 1 FROM news WHERE id = ?)"
-
-	err := DB.QueryRow(query, id).Scan(&exists)
+	err := DB.QueryRow("SELECT EXISTS(SELECT 1 FROM news WHERE id = ?)", id).Scan(&exists)
 	if err != nil {
-		log.Printf("Ошибка при проверке существования новости: %v", err)
+		log.Printf("Error checking news existence: %v", err)
 		return false, err
 	}
-
 	return exists, nil
 }

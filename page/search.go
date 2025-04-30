@@ -1,8 +1,8 @@
 package page
 
 import (
-	"bytes"
 	"html/template"
+	"log"
 	"net/http"
 	"path/filepath"
 	"src/db"
@@ -23,13 +23,11 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	templates := []string{
+	tmpl, err := template.ParseFiles(
 		filepath.Join("templates", "header.html"),
 		filepath.Join("templates", "search", "results.html"),
 		filepath.Join("templates", "footer.html"),
-	}
-
-	tmpl, err := template.ParseFiles(templates...)
+	)
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
@@ -45,12 +43,8 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		Results: results,
 	}
 
-	var buf bytes.Buffer
-	if err := tmpl.ExecuteTemplate(&buf, "results.html", data); err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	buf.WriteTo(w)
+	if err := tmpl.ExecuteTemplate(w, "results.html", data); err != nil {
+		log.Printf("Error executing template: %v", err)
+	}
 }

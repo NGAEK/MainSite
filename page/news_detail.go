@@ -11,30 +11,36 @@ import (
 	"strconv"
 )
 
-func NewsDetailHandler(w http.ResponseWriter, r *http.Request, id int) {
-	idStr := mux.Vars(r)["id"]
+func NewsDetailHandler(w http.ResponseWriter, r *http.Request) {
+	// Получаем ID из URL
+	vars := mux.Vars(r)
+	idStr := vars["id"]
+
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, "Invalid news ID", http.StatusBadRequest)
+		http.Error(w, "Некорректный ID новости", http.StatusBadRequest)
 		return
 	}
 
 	news, err := db.GetNewsByID(id)
 	if err != nil {
-		http.Error(w, "News not found", http.StatusNotFound)
+		http.Error(w, "Новость не найдена", http.StatusNotFound)
 		return
 	}
 
-	// Получаем параметр запроса q, если он есть в URL
+	if news == (models.News{}) {
+		http.Error(w, "Новость не найдена", http.StatusNotFound)
+		return
+	}
+
 	query := r.URL.Query().Get("q")
 
-	// Подготавливаем данные для передачи в шаблон
 	data := struct {
 		News  models.News
-		Query string // Добавляем поле Query для хранения поискового запроса
+		Query string
 	}{
 		News:  news,
-		Query: query, // Записываем поисковый запрос в структуру данных
+		Query: query,
 	}
 
 	templates := []string{
@@ -43,17 +49,21 @@ func NewsDetailHandler(w http.ResponseWriter, r *http.Request, id int) {
 		filepath.Join("templates", "footer.html"),
 	}
 
-	tmpl, err := template.ParseFiles(templates...)
+	tmpl := template.New("news_detail.html").Funcs(template.FuncMap{
+		"safeHTML": func(s string) template.HTML {
+			return template.HTML(s)
+		},
+	})
+
+	tmpl, err = tmpl.ParseFiles(templates...)
 	if err != nil {
 		log.Printf("Ошибка загрузки шаблонов: %v", err)
-		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+		http.Error(w, "500 Внутренняя ошибка сервера", http.StatusInternalServerError)
 		return
 	}
 
-	// Передаем данные в шаблон
 	err = tmpl.ExecuteTemplate(w, "news_detail.html", data)
 	if err != nil {
-		log.Printf("Ошибка рендеринга шаблона: %v", err)
-		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+		log.Printf("Ошибка рендеринга: %v", err)
 	}
 }

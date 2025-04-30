@@ -22,15 +22,18 @@ func main() {
 
 	r.NotFoundHandler = http.HandlerFunc(page.NotFoundHandler)
 
+	// Статические файлы
 	fs := http.FileServer(http.Dir("static"))
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
 
+	// JavaScript файлы
 	jsFs := http.FileServer(http.Dir("js"))
 	r.PathPrefix("/js/").Handler(http.StripPrefix("/js/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/javascript")
 		jsFs.ServeHTTP(w, r)
 	})))
 
+	// Загрузка маршрутов
 	RoutersLoad(r)
 
 	log.Printf("Сервер запущен на http://localhost%s", cfg.Server.Port)

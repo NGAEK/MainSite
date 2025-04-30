@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"src/db"
 	"src/page"
-	"strconv"
 )
 
 func RoutersLoad(r *mux.Router) {
@@ -26,8 +25,7 @@ func RoutersLoad(r *mux.Router) {
 			return
 		}
 
-		newsID, _ := strconv.Atoi(id)
-		page.NewsDetailHandler(w, r, newsID)
+		page.NewsDetailHandler(w, r)
 	})
 	r.HandleFunc("/spec/byx", page.SpecByx)
 	r.HandleFunc("/spec/do", page.SpecDo)
