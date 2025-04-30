@@ -1,27 +1,39 @@
 {{ template "header.html" . }}
-
+<link rel="stylesheet" href="/static/css/search.css">
 <div class="search-results-container">
-  <h1>Результаты поиска: "{{.Query}}"</h1>
+  <div class="search-header">
+    <h1 class="search-title">Результаты поиска: <span class="search-query">"{{.Query}}"</span></h1>
+    <a href="/" class="btn-back">
+      <i class="fas fa-arrow-left"></i> Вернуться на главную
+    </a>
+  </div>
 
   {{if .Results}}
-  <div class="search-results-count">Найдено новостей: {{len .Results}}</div>
-  <a href="/" class="btn-back">← Вернуться на главную</a>
+  <div class="search-meta">
+    <div class="search-results-count">
+      <div class="txtcolor"><i class="fas fa-newspaper"></i> Найдено новостей: {{len .Results}}</div>
+    </div>
+  </div>
 
   <div class="news-grid">
     {{range .Results}}
     <div class="news-card">
       <div class="news-img">
         {{if .ImagePath}}
-        <img src="{{.ImagePath}}" alt="{{.Name}}">
+        <img src="{{.ImagePath}}" alt="{{.Name}}" class="news-image">
         {{else}}
-        <img src="/static/images/news-placeholder.jpg" alt="Новость">
+        <img src="/static/images/news-placeholder.jpg" alt="Новость" class="news-image">
         {{end}}
       </div>
       <div class="news-content">
-        <span class="news-date">{{.Date.Format "02.01.2006"}}</span>
+        <span class="news-date">
+          <i class="far fa-calendar-alt"></i>{{.Date.Format "02.01.2006"}}
+        </span>
         <h3 class="news-title">{{.Name}}</h3>
         <p class="news-excerpt">{{.Description}}</p>
-        <a href="/news/{{.ID}}" class="read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
+        <a href="/news/{{.ID}}" class="read-more">
+          Читать далее <i class="fas fa-arrow-right"></i>
+        </a>
       </div>
     </div>
     {{end}}
@@ -29,11 +41,13 @@
   {{else}}
   <div class="no-results">
     <div class="no-results-icon">
-      <i class="fas fa-search"></i>
+      <i class="fas fa-search fa-3x"></i>
     </div>
-    <h3>Ничего не найдено</h3>
-    <p>По запросу "{{.Query}}" не найдено ни одной новости.</p>
-    <a href="/" class="btn">Показать все новости</a>
+    <h3 class="no-results-title">Ничего не найдено</h3>
+    <p class="no-results-text">По запросу "{{.Query}}" не найдено ни одной новости.</p>
+    <a href="/" class="btn btn-primary">
+      <div class="txtcolor"><i class="fas fa-newspaper"></i> Показать все новости</div>
+    </a>
   </div>
   {{end}}
 </div>

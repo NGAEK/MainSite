@@ -1,10 +1,38 @@
 {{ template "header.html" . }}
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Профессиональное образование - путь к успеху</h1>
-            <p>Получи востребованную профессию</p>
+    <!-- Hero Slider -->
+    <section class="hero-slider">
+        <div class="slides-container">
+            <div class="slid">
+                <img src="../static/images/uR7ulbeVu-8.jpg" alt="Главный корпус колледжа">
+                <div class="slide-content">
+                    <h1>Профессиональное образование - путь к успеху</h1>
+                    <p>Получи востребованную профессию</p>
+                </div>
+            </div>
+            <div class="slid">
+                <img src="../static/images/galery/auditory.jpg" alt="Учебные лаборатории">
+                <div class="slide-content">
+                    <h1>Современные учебные лаборатории</h1>
+                    <p>Оборудованные по последним стандартам</p>
+                </div>
+            </div>
+            <div class="slid">
+                <img src="../static/images/galery/sport.jpg" alt="Спортивные мероприятия">
+                <div class="slide-content">
+                    <h1>Активная студенческая жизнь</h1>
+                    <p>Спорт, творчество и самореализация</p>
+                </div>
+            </div>
         </div>
+        <div class="slider-controls">
+            <button class="slider-btn prev-btn" aria-label="Предыдущий слайд">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-btn next-btn" aria-label="Следующий слайд">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        
     </section>
 
 <!-- News Section -->

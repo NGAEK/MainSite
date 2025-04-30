@@ -1,0 +1,125 @@
+.news-detail-section {
+    max-width: 100%;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.news-detail {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    flex: 1;
+}
+
+.news-img {
+    width: 100%;
+    height: 60vh;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.news-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.article-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+    background: white;
+    position: relative;
+    z-index: 2;
+    margin-top: -100px;
+    padding-top: 40px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.news-date {
+    display: block;
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+}
+
+.news-title {
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    line-height: 1.2;
+}
+
+.news-fulltext {
+    line-height: 1.8;
+    font-size: 1.1em;
+    color: #444;
+    margin-bottom: 40px;
+}
+
+.article-body {
+    margin-bottom: 40px;
+    line-height: 1.8;
+    font-size: 1.1em;
+    color: #444;
+}
+
+.image-gallery {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid #eee;
+}
+
+.image-gallery h2 {
+    font-size: 1.8em;
+    margin-bottom: 30px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.back-link {
+    display: inline-block;
+    color: #007bff;
+    text-decoration: none;
+    margin-top: 20px;
+    font-size: 1em;
+    padding: 10px 20px;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.back-link:hover {
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .news-img {
+        height: 40vh;
+        margin-bottom: 20px;
+    }
+
+.gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+}
