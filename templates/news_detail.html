@@ -1,28 +1,34 @@
 {{ template "header.html" . }}
-<div class="news-detail-container">
-    <article class="news-article">
-        {{ if .News.ImagePath }}
-        <div class="news-image">
-            <img src="{{ .News.ImagePath }}" alt="{{ .News.Name }}" class="img-fluid">
+<link rel="stylesheet" href="/static/css/news_detail.css">
+<section class="section news-detail-section">
+    <div class="news-detail">
+        <div class="news-img">
+            <img src="{{ .News.ImagePath }}" alt="{{ .News.Name }}">
         </div>
-        {{ end }}
-
-        <div class="news-header">
-            <h1 class="news-title">{{ .News.Name }}</h1>
-            <div class="news-meta">
-                <time datetime="{{ .News.Date.Format "2006-01-02" }}" class="news-date">
+        <div class="article-content">
+            <span class="news-date"><time datetime="{{ .News.Date.Format "2006-01-02" }}" class="news-date">
                 {{ .News.FormattedDate }}
-                </time>
+                </time></span>
+            <h1 class="news-title">{{ .News.Name }}</h1>
+            <div class="article-body">
+                {{ .News.Description | safeHTML }}
             </div>
-        </div>
+            <div class="image-gallery">
 
-        <div class="news-content">
-            {{ .News.Description | safeHTML }}
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="https://picsum.photos/400/300?random=1" alt="Gallery image 1">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://picsum.photos/400/300?random=2" alt="Gallery image 2">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://picsum.photos/400/300?random=3" alt="Gallery image 3">
+                    </div>
+                </div>
+            </div>
+            <a href="/" class="back-link">← Вернуться к списку новостей</a>
         </div>
-
-        <div class="news-footer">
-            <a href="/" class="btn btn-primary">Back to News List</a>
-        </div>
-    </article>
-</div>
+    </div>
+</section>
 {{ template "footer.html" . }}
