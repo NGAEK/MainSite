@@ -1,5 +1,8 @@
-{{ template "header.html" . }}
+{% extends "base.html" %}
+{% block extra_css %}
 <link rel="stylesheet" href="/static/css/style_specialization.css">
+{% endblock %}
+{% block content %}
 <section class="section bg-light">
     <div class="container specialties-grid">
 
@@ -66,4 +69,4 @@
             </div>
         </div>
     </section>
-{{ template "footer.html" . }}
+{% endblock %}

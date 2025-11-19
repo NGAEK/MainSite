@@ -18,7 +18,8 @@
 
 🛠 Технологии
 
-![Go](https://img.shields.io/badge/-Go-00ADD8?logo=go&logoColor=white)
+![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/-Flask-000000?logo=flask&logoColor=white)
 ![MySQL](https://img.shields.io/badge/-MySQL-4479A1?logo=mysql&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?logo=javascript&logoColor=black)
 ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?logo=html5&logoColor=white)
@@ -30,28 +31,32 @@
     git clone https://github.com/NGAEK/MainSite.git
     cd college-website
 
+Установите зависимости:
+
+    pip install -r requirements.txt
+
 Настройте базу данных MySQL:
 
-    mysql -u root -p < database/schema.sql
+    mysql -u root -p < ngaek.sql
 
 Настройте конфигурацию в файле config.yml:
 
     database:
-    host: "localhost"
+    host: "127.0.0.1"
     port: 3306
-    user: "youruser"
-    password: "yourpassword"
-    name: "college_db"
+    user: "test"
+    password: "test"
+    name: "ngaek"
     server:
     port: ":8080"
 
 Запустите сервер:
     
-    go run main.go
+    python app.py
 
 Откройте в браузере:
 
-    http://localhost:8081
+    http://localhost:8080
 
 📝 Лицензия
 

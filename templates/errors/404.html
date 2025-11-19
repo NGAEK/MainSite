@@ -1,11 +1,14 @@
-{{ template "header.html" . }}
+{% extends "base.html" %}
+{% block extra_css %}
 <link rel="stylesheet" href="/static/css/style_error.css">
+{% endblock %}
+{% block content %}
 <section class="section error-section">
     <div class="container">
         <div class="error-content">
             <div class="error-code">404</div>
             <h1 class="error-title">Страница не найдена</h1>
-            <p>Извините, запрошенная страница <code>{{.Path}}</code> не существует.</p>
+            <p>Извините, запрошенная страница <code>{{ path }}</code> не существует.</p>
         </div>
     <div class="error-actions">
         <a href="/" class="btn btn-primary">Вернуться на главную</a>
@@ -135,5 +138,4 @@
         </div>
     </div>
 </div>
-<script src="../js/script.js"></script>
-</body>
+{% endblock %}

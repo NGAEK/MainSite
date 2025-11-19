@@ -1,8 +1,8 @@
 database:
-  host: "127.0.0.1"
+  host: "88.99.182.38"
   port: 3306
-  user: "test"
-  password: "test"
+  user: "NeNortos"
+  password: "FJIODSKFBHEDYUIWEHDISKSJD<"
   name: "ngaek"
 server:
   port: ":8080"

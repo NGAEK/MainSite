@@ -1,17 +1,20 @@
-{{ template "header.html" . }}
+{% extends "base.html" %}
+{% block extra_css %}
 <link rel="stylesheet" href="/static/css/news_detail.css">
+{% endblock %}
+{% block content %}
 <section class="section news-detail-section">
     <div class="news-detail">
         <div class="news-img">
-            <img src="{{ .News.ImagePath }}" alt="{{ .News.Name }}">
+            <img src="{{ news.image_path }}" alt="{{ news.name }}">
         </div>
         <div class="article-content">
-            <span class="news-date"><time datetime="{{ .News.Date.Format "2006-01-02" }}" class="news-date">
-                {{ .News.FormattedDate }}
+            <span class="news-date"><time datetime="{{ news.date | date_format('%Y-%m-%d') }}" class="news-date">
+                {{ news.formatted_date() }}
                 </time></span>
-            <h1 class="news-title">{{ .News.Name }}</h1>
+            <h1 class="news-title">{{ news.name }}</h1>
             <div class="article-body">
-                {{ .News.Description | safeHTML }}
+                {{ news.description | safe }}
             </div>
             <div class="image-gallery">
 
@@ -31,4 +34,4 @@
         </div>
     </div>
 </section>
-{{ template "footer.html" . }}
+{% endblock %}

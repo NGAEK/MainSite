@@ -1,55 +1,57 @@
-{{ template "header.html" . }}
+{% extends "base.html" %}
+{% block extra_css %}
 <link rel="stylesheet" href="/static/css/search.css">
+{% endblock %}
+{% block content %}
 <div class="search-results-container">
   <div class="search-header">
-    <h1 class="search-title">Результаты поиска: <span class="search-query">"{{.Query}}"</span></h1>
+    <h1 class="search-title">Результаты поиска: <span class="search-query">"{{ query }}"</span></h1>
     <a href="/" class="btn-back">
       <i class="fas fa-arrow-left"></i> Вернуться на главную
     </a>
   </div>
 
-  {{if .Results}}
+  {% if results %}
   <div class="search-meta">
     <div class="search-results-count">
-      <div class="txtcolor"><i class="fas fa-newspaper"></i> Найдено новостей: {{len .Results}}</div>
+      <div class="txtcolor"><i class="fas fa-newspaper"></i> Найдено новостей: {{ results|length }}</div>
     </div>
   </div>
 
   <div class="news-grid">
-    {{range .Results}}
+    {% for news in results %}
     <div class="news-card">
       <div class="news-img">
-        {{if .ImagePath}}
-        <img src="{{.ImagePath}}" alt="{{.Name}}" class="news-image">
-        {{else}}
+        {% if news.image_path %}
+        <img src="{{ news.image_path }}" alt="{{ news.name }}" class="news-image">
+        {% else %}
         <img src="/static/images/news-placeholder.jpg" alt="Новость" class="news-image">
-        {{end}}
+        {% endif %}
       </div>
       <div class="news-content">
         <span class="news-date">
-          <i class="far fa-calendar-alt"></i>{{.Date.Format "02.01.2006"}}
+          <i class="far fa-calendar-alt"></i>{{ news.formatted_date() }}
         </span>
-        <h3 class="news-title">{{.Name}}</h3>
-        <p class="news-excerpt">{{.Description}}</p>
-        <a href="/news/{{.ID}}" class="read-more">
+        <h3 class="news-title">{{ news.name }}</h3>
+        <p class="news-excerpt">{{ news.description }}</p>
+        <a href="/news/{{ news.id }}" class="read-more">
           Читать далее <i class="fas fa-arrow-right"></i>
         </a>
       </div>
     </div>
-    {{end}}
+    {% endfor %}
   </div>
-  {{else}}
+  {% else %}
   <div class="no-results">
     <div class="no-results-icon">
       <i class="fas fa-search fa-3x"></i>
     </div>
     <h3 class="no-results-title">Ничего не найдено</h3>
-    <p class="no-results-text">По запросу "{{.Query}}" не найдено ни одной новости.</p>
+    <p class="no-results-text">По запросу "{{ query }}" не найдено ни одной новости.</p>
     <a href="/" class="btn btn-primary">
       <div class="txtcolor"><i class="fas fa-newspaper"></i> Показать все новости</div>
     </a>
   </div>
-  {{end}}
+  {% endif %}
 </div>
-
-{{ template "footer.html" . }}
+{% endblock %}

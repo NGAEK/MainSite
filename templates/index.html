@@ -1,4 +1,5 @@
-{{ template "header.html" . }}
+{% extends "base.html" %}
+{% block content %}
     <!-- Hero Slider -->
     <section class="hero-slider">
         <div class="slides-container">
@@ -40,13 +41,13 @@
     <div class="container">
         <div class="section-title">
             <h2>
-                {{if .IsSearchResults}}
-                Результаты поиска: "{{.Query}}" (найдено {{.SearchCount}})
-                {{else}}
+                {% if is_search_results %}
+                Результаты поиска: "{{ query }}" (найдено {{ search_count }})
+                {% else %}
                 Новости
-                {{end}}
+                {% endif %}
             </h2>
-            {{if not .IsSearchResults}}
+            {% if not is_search_results %}
             <div class="news-navigation">
                 <button class="news-prev" aria-label="Предыдущие новости">
                     <i class="fas fa-chevron-left"></i>
@@ -55,43 +56,43 @@
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
-            {{end}}
+            {% endif %}
         </div>
 
-        {{if .IsSearchResults}}
+        {% if is_search_results %}
         <div class="search-actions">
             <a href="/" class="btn btn-outline">
                 <i class="fas fa-arrow-left"></i> Назад ко всем новостям
             </a>
         </div>
-        {{end}}
+        {% endif %}
 
-        {{if gt .SearchCount 0}}
+        {% if search_count > 0 %}
         <div class="news-grid">
-            {{ range .NewsList }}
+            {% for news in news_list %}
             <div class="news-card">
                 <div class="news-img">
-                    <img src="{{ .ImagePath }}" alt="{{ .Name }}">
+                    <img src="{{ news.image_path }}" alt="{{ news.name }}">
                 </div>
                 <div class="news-content">
-                    <span class="news-date">{{ .FormattedDate }}</span>
-                    <h3 class="news-title">{{ .Name }}</h3>
-                    <p class="news-excerpt">{{ .Description }}</p>
-                    <a href="/news/{{ .ID }}" class="read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
+                    <span class="news-date">{{ news.formatted_date() }}</span>
+                    <h3 class="news-title">{{ news.name }}</h3>
+                    <p class="news-excerpt">{{ news.description }}</p>
+                    <a href="/news/{{ news.id }}" class="read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
-            {{ end }}
+            {% endfor %}
         </div>
-        {{else if .IsSearchResults}}
+        {% elif is_search_results %}
         <div class="no-results">
             <div class="no-results-icon">
                 <i class="fas fa-search"></i>
             </div>
             <h3>Ничего не найдено</h3>
-            <p>По запросу "{{.Query}}" не найдено ни одной новости.</p>
+            <p>По запросу "{{ query }}" не найдено ни одной новости.</p>
             <a href="/" class="btn">Показать все новости</a>
         </div>
-        {{end}}
+        {% endif %}
     </div>
 </section>
 
@@ -390,4 +391,4 @@
         </div>
     </div>
 </section>
-{{ template "footer.html" . }}
+{% endblock %}

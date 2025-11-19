@@ -23,7 +23,7 @@
             <!-- Search Form -->
             <form class="search-form" action="/search" method="GET">
                 <input type="text" name="q" placeholder="Поиск новостей..." aria-label="Поиск по новостям"
-                       value="{{if .Query}}{{.Query}}{{end}}">
+                       value="{{ query if query else '' }}">
                 <button type="submit" aria-label="Искать">
                     <div class="search-icon"><i class="fas fa-search"></i></div>
                 </button>
