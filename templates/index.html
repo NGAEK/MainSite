@@ -4,32 +4,32 @@
     <section class="hero-slider">
         <div class="slides-container">
             <div class="slid">
-                <img src="../static/images/uR7ulbeVu-8.jpg" alt="Главный корпус колледжа">
+                <img src="../static/images/uR7ulbeVu-8.jpg" alt="{{ t.hero.slide1_alt }}">
                 <div class="slide-content">
-                    <h1>Профессиональное образование - путь к успеху</h1>
-                    <p>Получи востребованную профессию</p>
+                    <h1>{{ t.hero.slide1_title }}</h1>
+                    <p>{{ t.hero.slide1_subtitle }}</p>
                 </div>
             </div>
             <div class="slid">
-                <img src="../static/images/galery/auditory.jpg" alt="Учебные лаборатории">
+                <img src="../static/images/galery/auditory.jpg" alt="{{ t.hero.slide2_alt }}">
                 <div class="slide-content">
-                    <h1>Современные учебные лаборатории</h1>
-                    <p>Оборудованные по последним стандартам</p>
+                    <h1>{{ t.hero.slide2_title }}</h1>
+                    <p>{{ t.hero.slide2_subtitle }}</p>
                 </div>
             </div>
             <div class="slid">
-                <img src="../static/images/galery/sport.jpg" alt="Спортивные мероприятия">
+                <img src="../static/images/galery/sport.jpg" alt="{{ t.hero.slide3_alt }}">
                 <div class="slide-content">
-                    <h1>Активная студенческая жизнь</h1>
-                    <p>Спорт, творчество и самореализация</p>
+                    <h1>{{ t.hero.slide3_title }}</h1>
+                    <p>{{ t.hero.slide3_subtitle }}</p>
                 </div>
             </div>
         </div>
         <div class="slider-controls">
-            <button class="slider-btn prev-btn" aria-label="Предыдущий слайд">
+            <button class="slider-btn prev-btn" aria-label="{{ t.hero.prev_aria }}">
                 <i class="fas fa-chevron-left"></i>
             </button>
-            <button class="slider-btn next-btn" aria-label="Следующий слайд">
+            <button class="slider-btn next-btn" aria-label="{{ t.hero.next_aria }}">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
@@ -42,17 +42,17 @@
         <div class="section-title">
             <h2>
                 {% if is_search_results %}
-                Результаты поиска: "{{ query }}" (найдено {{ search_count }})
+                {{ t.news.search_results }}: "{{ query }}" ({{ t.news.found_count }} {{ search_count }})
                 {% else %}
-                Новости
+                {{ t.news.title }}
                 {% endif %}
             </h2>
             {% if not is_search_results %}
             <div class="news-navigation">
-                <button class="news-prev" aria-label="Предыдущие новости">
+                <button class="news-prev" aria-label="{{ t.news.prev_aria }}">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                <button class="news-next" aria-label="Следующие новости">
+                <button class="news-next" aria-label="{{ t.news.next_aria }}">
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
@@ -62,7 +62,7 @@
         {% if is_search_results %}
         <div class="search-actions">
             <a href="/" class="btn btn-outline">
-                <i class="fas fa-arrow-left"></i> Назад ко всем новостям
+                <i class="fas fa-arrow-left"></i> {{ t.news.back_to_news }}
             </a>
         </div>
         {% endif %}
@@ -78,7 +78,7 @@
                     <span class="news-date">{{ news.formatted_date() }}</span>
                     <h3 class="news-title">{{ news.name }}</h3>
                     <p class="news-excerpt">{{ news.description }}</p>
-                    <a href="/news/{{ news.id }}" class="read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
+                    <a href="/news/{{ news.id }}" class="read-more">{{ t.news.read_more }} <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
             {% endfor %}
@@ -88,9 +88,9 @@
             <div class="no-results-icon">
                 <i class="fas fa-search"></i>
             </div>
-            <h3>Ничего не найдено</h3>
-            <p>По запросу "{{ query }}" не найдено ни одной новости.</p>
-            <a href="/" class="btn">Показать все новости</a>
+            <h3>{{ t.news.no_results_title }}</h3>
+            <p>«{{ query }}» — {{ t.news.no_results_text }}</p>
+            <a href="/" class="btn">{{ t.news.show_all }}</a>
         </div>
         {% endif %}
     </div>
@@ -100,19 +100,19 @@
     <section class="section bg-light">
         <div class="container">
             <div class="section-title">
-                <h2>Наши специальности</h2>
+                <h2>{{ t.specialties.title }}</h2>
             </div>
                 <a href="/spec/po" style="text-decoration: none;"><div class="specialty-card">
                     <div class="specialty-icon">
                         <i class="fas fa-laptop-code"></i>
                     </div>
                     <div class="specialty-info">
-                        <h3>Программное обеспечение информационных технологий</h3>
+                        <h3>{{ t.specialties.po_title }}</h3>
                         <div class="specialty-meta">
-                            <span class="specialty-item"><i class="fas fa-clock"></i><p>3 года 10 мес.</p></span>
-                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>Техник-программист</p></span>
+                            <span class="specialty-item"><i class="fas fa-clock"></i><p>{{ t.specialties.po_duration }}</p></span>
+                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>{{ t.specialties.po_qualification }}</p></span>
                         </div>
-                        <p>Подготовка специалистов по разработке, тестированию и сопровождению программного обеспечения.</p>
+                        <p>{{ t.specialties.po_description }}</p>
                     </div>
                 </div></a>
                 <a href="/spec/byx" style="text-decoration: none;"><div class="specialty-card">
@@ -120,12 +120,12 @@
                         <i class="fas fa-calculator"></i>
                     </div>
                     <div class="specialty-info">
-                        <h3>Бухгалтерский учет, анализ и контроль</h3>
+                        <h3>{{ t.specialties.byx_title }}</h3>
                         <div class="specialty-meta">
-                            <span class="specialty-item"><i class="fas fa-clock"></i><p>2 года 10 мес.</p></span>
-                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>Бухгалтер</p></span>
+                            <span class="specialty-item"><i class="fas fa-clock"></i><p>{{ t.specialties.byx_duration }}</p></span>
+                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>{{ t.specialties.byx_qualification }}</p></span>
                         </div>
-                        <p>Подготовка специалистов по ведению бухгалтерского учета, анализу финансово-хозяйственной деятельности.</p>
+                        <p>{{ t.specialties.byx_description }}</p>
                     </div>
                 </div></a>
                 <a href="/spec/ogu" style="text-decoration: none;"><div class="specialty-card">
@@ -133,12 +133,12 @@
                         <i class="fas fa-house"></i>
                     </div>
                     <div class="specialty-info">
-                        <h3>Организация Гостиничный Услуг</h3>
+                        <h3>{{ t.specialties.ogu_title }}</h3>
                         <div class="specialty-meta">
-                            <span class="specialty-item"><i class="fas fa-clock"></i><p>2 года 10 мес.</p></span>
-                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>кто-то</p></span>
+                            <span class="specialty-item"><i class="fas fa-clock"></i><p>{{ t.specialties.ogu_duration }}</p></span>
+                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>{{ t.specialties.ogu_qualification }}</p></span>
                         </div>
-                        <p>Обучение чему-то</p>
+                        <p>{{ t.specialties.ogu_description }}</p>
                     </div>
                 </div></a>
                 <a href="/spec/do" style="text-decoration: none;"><div class="specialty-card">
@@ -146,12 +146,12 @@
                         <i class="fas fa-folder"></i>
                     </div>
                     <div class="specialty-info">
-                        <h3>Документационное обеспечение управления</h3>
+                        <h3>{{ t.specialties.do_title }}</h3>
                         <div class="specialty-meta">
-                            <span class="specialty-item"><i class="fas fa-clock"></i><p>2 года 10 мес.</p></span>
-                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>Секретарь</p></span>
+                            <span class="specialty-item"><i class="fas fa-clock"></i><p>{{ t.specialties.do_duration }}</p></span>
+                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>{{ t.specialties.do_qualification }}</p></span>
                         </div>
-                        <p>Подготовка специалистов по чему то</p>
+                        <p>{{ t.specialties.do_description }}</p>
                     </div>
                 </div></a>
                 <a href="/spec/soc_rab" style="text-decoration: none;"><div class="specialty-card">
@@ -159,12 +159,12 @@
                         <i class="fas fa-person-chalkboard"></i>
                     </div>
                     <div class="specialty-info">
-                        <h3>Социальная работа</h3>
+                        <h3>{{ t.specialties.soc_rab_title }}</h3>
                         <div class="specialty-meta">
-                            <span class="specialty-item"><i class="fas fa-clock"></i><p>2 года 10 мес.</p></span>
-                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>Социальный работник</p></span>
+                            <span class="specialty-item"><i class="fas fa-clock"></i><p>{{ t.specialties.soc_rab_duration }}</p></span>
+                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>{{ t.specialties.soc_rab_qualification }}</p></span>
                         </div>
-                        <p>Подготовка специалистов по чему то</p>
+                        <p>{{ t.specialties.soc_rab_description }}</p>
                     </div>
                 </div></a>
             </div>
@@ -174,32 +174,32 @@
     <section class="section">
         <div class="container">
             <div class="section-title">
-                <h2>Галерея</h2>
+                <h2>{{ t.gallery.title }}</h2>
             </div>
             <div class="gallery-container">
                 <div class="gallery-slider" id="gallerySlider">
                     <div class="slide">
-                        <img src="../static/images/uR7ulbeVu-8.jpg" alt="Фото колледжа 1">
+                        <img src="../static/images/uR7ulbeVu-8.jpg" alt="{{ t.gallery.photo_alt }} 1">
                         <div class="slide-caption">
-                            <h3>Главный корпус колледжа</h3>
+                            <h3>{{ t.gallery.slide1_caption }}</h3>
                         </div>
                     </div>
                     <div class="slide">
-                        <img src="../static/images/galery/auditory.jpg" alt="Фото колледжа 2">
+                        <img src="../static/images/galery/auditory.jpg" alt="{{ t.gallery.photo_alt }} 2">
                         <div class="slide-caption">
-                            <h3>Учебные лаборатории</h3>
+                            <h3>{{ t.gallery.slide2_caption }}</h3>
                         </div>
                     </div>
                     <div class="slide">
-                        <img src="../static/images/galery/sport.jpg" alt="Фото колледжа 3">
+                        <img src="../static/images/galery/sport.jpg" alt="{{ t.gallery.photo_alt }} 3">
                         <div class="slide-caption">
-                            <h3>Спортивные мероприятия</h3>
+                            <h3>{{ t.gallery.slide3_caption }}</h3>
                         </div>
                     </div>
                     <div class="slide">
-                        <img src="../static/images/galery/maxresdefault.jpg" alt="Фото колледжа 4">
+                        <img src="../static/images/galery/maxresdefault.jpg" alt="{{ t.gallery.photo_alt }} 4">
                         <div class="slide-caption">
-                            <h3>Творческие выступления</h3>
+                            <h3>{{ t.gallery.slide4_caption }}</h3>
                         </div>
                     </div>
                 </div>
@@ -217,16 +217,16 @@
     <section class="section bg-light">
         <div class="container">
             <div class="section-title">
-                <h2>Наша администрация</h2>
+                <h2>{{ t.teachers.title }}</h2>
             </div>
             <div class="teachers-grid">
                 <div class="teacher-card">
                     <div class="teacher-img">
-                        <img src="../static/images/administration_images/unnamed.jpg" alt="Админ 1">
+                        <img src="../static/images/administration_images/unnamed.jpg" alt="{{ t.teachers.admin_alt }} 1">
                     </div>
                     <div class="teacher-info">
-                        <h3 class="teacher-name">Трус Николай Николаевич</h3>
-                        <p class="teacher-position">Директор колледжа</p>
+                        <h3 class="teacher-name">{{ t.teachers.director_name }}</h3>
+                        <p class="teacher-position">{{ t.teachers.director_position }}</p>
                         <p class="teacher-bio">+375-29-123-45-67 <br> +375-29-123-45-67<div class="social-links">
                             <a href="#"><i class="fab fa-vk"></i></a>
                             <a href="#"><i class="fas fa-envelope"></i></a>
@@ -235,11 +235,11 @@
                 </div>
                 <div class="teacher-card">
                     <div class="teacher-img">
-                        <img src="../static/images/administration_images/003_sm.jpg.crdownload" alt="Админ 2">
+                        <img src="../static/images/administration_images/003_sm.jpg.crdownload" alt="{{ t.teachers.admin_alt }} 2">
                     </div>
                     <div class="teacher-info">
-                        <h3 class="teacher-name">Крумкач Тамара Николаевна</h3>
-                        <p class="teacher-position">Заместитель директора по учебной работе</p>
+                        <h3 class="teacher-name">{{ t.teachers.deputy_edu_name }}</h3>
+                        <p class="teacher-position">{{ t.teachers.deputy_edu_position }}</p>
                         <p class="teacher-bio">+375-29-123-45-67 <br> +375-29-123-45-67</p><div class="social-links">
                             <a href="#"><i class="fab fa-vk"></i></a>
                             <a href="#"><i class="fas fa-envelope"></i></a>
@@ -248,11 +248,11 @@
                 </div>
                 <div class="teacher-card">
                     <div class="teacher-img">
-                        <img src="https://via.placeholder.com/400x500" alt="Админ 3">
+                        <img src="https://via.placeholder.com/400x500" alt="{{ t.teachers.admin_alt }} 3">
                     </div>
                     <div class="teacher-info">
-                        <h3 class="teacher-name">Бегун Лолита Михайловна</h3>
-                        <p class="teacher-position">Заместитель директора по воспитательной работе</p>
+                        <h3 class="teacher-name">{{ t.teachers.deputy_vosp_name }}</h3>
+                        <p class="teacher-position">{{ t.teachers.deputy_vosp_position }}</p>
                         <p class="teacher-bio">+375-29-123-45-67 <br> +375-29-123-45-67</p><div class="social-links">
                             <a href="#"><i class="fab fa-vk"></i></a>
                             <a href="#"><i class="fas fa-envelope"></i></a>
@@ -261,11 +261,11 @@
                 </div>
                 <div class="teacher-card">
                     <div class="teacher-img">
-                        <img src="https://via.placeholder.com/400x500" alt="Админ 4">
+                        <img src="https://via.placeholder.com/400x500" alt="{{ t.teachers.admin_alt }} 4">
                     </div>
                     <div class="teacher-info">
-                        <h3 class="teacher-name">Терешко Светлана Леонидовна</h3>
-                        <p class="teacher-position">че то там</p>
+                        <h3 class="teacher-name">{{ t.teachers.deputy_other_name }}</h3>
+                        <p class="teacher-position">{{ t.teachers.deputy_other_position }}</p>
                         <p class="teacher-bio">+375-29-123-45-67 <br> +375-29-123-45-67</p>
                         <div class="social-links">
                             <a href="#"><i class="fab fa-vk"></i></a>
@@ -281,7 +281,7 @@
 <section class="section">
     <div class="container">
         <div class="section-title">
-            <h2>Наши достижения</h2>
+            <h2>{{ t.achievements.title }}</h2>
         </div>
         <div class="achievements-grid">
             <div class="achievement-item">
@@ -289,28 +289,28 @@
                     <i class="fas fa-trophy"></i>
                 </div>
                 <div class="achievement-number">25+</div>
-                <div class="achievement-text">Побед в конкурсах профмастерства</div>
+                <div class="achievement-text">{{ t.achievements.wins }}</div>
             </div>
             <div class="achievement-item">
                 <div class="achievement-icon">
                     <i class="fas fa-user-graduate"></i>
                 </div>
                 <div class="achievement-number">95%</div>
-                <div class="achievement-text">Трудоустройство выпускников</div>
+                <div class="achievement-text">{{ t.achievements.employment }}</div>
             </div>
             <div class="achievement-item">
                 <div class="achievement-icon">
                     <i class="fas fa-chalkboard-teacher"></i>
                 </div>
                 <div class="achievement-number">50+</div>
-                <div class="achievement-text">Квалифицированных преподавателей</div>
+                <div class="achievement-text">{{ t.achievements.teachers_count }}</div>
             </div>
             <div class="achievement-item">
                 <div class="achievement-icon">
                     <i class="fas fa-building"></i>
                 </div>
                 <div class="achievement-number">15</div>
-                <div class="achievement-text">Лет успешной работы</div>
+                <div class="achievement-text">{{ t.achievements.years_work }}</div>
             </div>
         </div>
     </div>
@@ -318,7 +318,7 @@
 <section class="section bg-light">
     <div class="container">
         <div class="section-title">
-            <h2>Контакты</h2>
+            <h2>{{ t.contact.title }}</h2>
         </div>
         <div class="contact-container">
             <div class="contact-info">
@@ -327,8 +327,8 @@
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
                     <div class="contact-text">
-                        <h3>Адрес</h3>
-                        <p>220005, г. Минск, ул. Свердлова, 15</p>
+                        <h3>{{ t.contact.address_title }}</h3>
+                        <p>{{ t.contact.address_value }}</p>
                     </div>
                 </div>
                 <div class="contact-item">
@@ -336,9 +336,9 @@
                         <i class="fas fa-phone"></i>
                     </div>
                     <div class="contact-text">
-                        <h3>Телефоны</h3>
-                        <p>Приемная: +375 (17) 123-45-67</p>
-                        <p>Приемная комиссия: +375 (17) 123-45-68</p>
+                        <h3>{{ t.contact.phones_title }}</h3>
+                        <p>{{ t.contact.phone_reception }}</p>
+                        <p>{{ t.contact.phone_admission }}</p>
                     </div>
                 </div>
                 <div class="contact-item">
@@ -346,7 +346,7 @@
                         <i class="fas fa-envelope"></i>
                     </div>
                     <div class="contact-text">
-                        <h3>Email</h3>
+                        <h3>{{ t.contact.email_title }}</h3>
                         <p>info@mgptk.by</p>
                         <p>priem@mgptk.by</p>
                     </div>
@@ -356,10 +356,10 @@
                         <i class="fas fa-clock"></i>
                     </div>
                     <div class="contact-text">
-                        <h3>Режим работы</h3>
-                        <p>Пн-Пт: 8:30 - 17:30</p>
-                        <p>Сб: 9:00 - 14:00</p>
-                        <p>Вс: выходной</p>
+                        <h3>{{ t.contact.schedule_title }}</h3>
+                        <p>{{ t.contact.schedule_week }}</p>
+                        <p>{{ t.contact.schedule_sat }}</p>
+                        <p>{{ t.contact.schedule_sun }}</p>
                     </div>
                 </div>
             </div>
@@ -368,25 +368,25 @@
             </div>
         </div>
         <div class="contact-form" style="margin-top: 40px;">
-            <h3 style="margin-bottom: 20px; color: var(--primary-color);">Обратная связь</h3>
+            <h3 style="margin-bottom: 20px; color: var(--primary-color);">{{ t.contact.feedback_title }}</h3>
             <form>
                 <div class="form-group">
-                    <label for="name" class="form-label">Ваше имя</label>
+                    <label for="name" class="form-label">{{ t.contact.your_name }}</label>
                     <input type="text" id="name" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="email" class="form-label">Email</label>
+                    <label for="email" class="form-label">{{ t.contact.email_title }}</label>
                     <input type="email" id="email" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="subject" class="form-label">Тема</label>
+                    <label for="subject" class="form-label">{{ t.contact.topic }}</label>
                     <input type="text" id="subject" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="message" class="form-label">Сообщение</label>
+                    <label for="message" class="form-label">{{ t.contact.message }}</label>
                     <textarea id="message" class="form-control" required></textarea>
                 </div>
-                <button type="submit" class="submit-btn">Отправить сообщение</button>
+                <button type="submit" class="submit-btn">{{ t.contact.send }}</button>
             </form>
         </div>
     </div>

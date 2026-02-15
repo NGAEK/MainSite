@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Новопольский государственный аграрно-экономический колледж </title>
+    <title>{{ t.common.site_title }}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="shortcut icon" href="/static/images/favicon_focused_64x64.ico" />
@@ -13,32 +13,33 @@
 <header>
     <div class="container header-container">
         <div class="logo">
-            <img src="../static/images/istockphoto-2119394587-1024x1024-removebg-preview.png" alt="Логотип колледжа">
+            <img src="../static/images/istockphoto-2119394587-1024x1024-removebg-preview.png" alt="{{ t.common.logo_alt }}">
             <div class="logo-text">
-                <h1>Новопольский государственный аграрно-экономический колледж</h1>
-                <p>учреждение среднего специального образования</p>
+                <h1>{{ t.header.title }}</h1>
+                <p>{{ t.header.subtitle }}</p>
             </div>
         </div>
         <div class="header-actions">
             <!-- Search Form -->
             <form class="search-form" action="/search" method="GET">
-                <input type="text" name="q" placeholder="Поиск новостей..." aria-label="Поиск по новостям"
+                <input type="hidden" name="lang" value="{{ current_lang }}">
+                <input type="text" name="q" placeholder="{{ t.header.search_placeholder }}" aria-label="{{ t.header.search_aria }}"
                        value="{{ query if query else '' }}">
-                <button type="submit" aria-label="Искать">
+                <button type="submit" aria-label="{{ t.header.search_btn_aria }}">
                     <div class="search-icon"><i class="fas fa-search"></i></div>
                 </button>
             </form>
             
             <!-- Language Switcher -->
             <div class="language-switcher">
-                <button class="lang-btn" data-lang="be" aria-label="Беларуская мова"><img src="/static/images/flags/be.gif"></button>
-                <button class="lang-btn" data-lang="ru" aria-label="Русский язык"><img src="/static/images/flags/ru.gif"></button>
+                <button class="lang-btn" data-lang="be" aria-label="{{ t.header.lang_be_aria }}"><img src="/static/images/flags/be.gif"></button>
+                <button class="lang-btn" data-lang="ru" aria-label="{{ t.header.lang_ru_aria }}"><img src="/static/images/flags/ru.gif"></button>
             </div>
             
-            <button class="accessibility-btn" id="accessibilityBtn" aria-label="Настройки доступности">
+            <button class="accessibility-btn" id="accessibilityBtn" aria-label="{{ t.header.accessibility_aria }}">
                 <i class="fas fa-universal-access"></i>
             </button>
-            <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
+            <button class="theme-toggle" id="themeToggle" aria-label="{{ t.header.theme_aria }}">
                 <i class="fas fa-moon"></i>
             </button>
         </div>
@@ -52,37 +53,37 @@
             <i class="fas fa-bars"></i>
         </button>
         <ul class="main-nav" id="mainNav">
-            <li><a href="/">Главная</a></li>
+            <li><a href="/">{{ t.nav.home }}</a></li>
             <li>
-                <a href="#">О колледже <i class="fas fa-chevron-down"></i></a>
+                <a href="#">{{ t.nav.about_college }} <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">История</a></li>
-                    <li><a href="#">Администрация</a></li>
-                    <li><a href="#">Документы</a></li>
-                    <li><a href="#">Вакансии</a></li>
+                    <li><a href="#">{{ t.nav.history }}</a></li>
+                    <li><a href="#">{{ t.nav.administration }}</a></li>
+                    <li><a href="#">{{ t.nav.documents }}</a></li>
+                    <li><a href="#">{{ t.nav.vacancies }}</a></li>
                 </ul>
             </li>
             <li>
-                <a href="#">Абитуриенту <i class="fas fa-chevron-down"></i></a>
+                <a href="#">{{ t.nav.enrollee }} <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Специальности</a></li>
-                    <li><a href="#">Правила приема</a></li>
-                    <li><a href="#">День открытых дверей</a></li>
-                    <li><a href="#">Вопрос-ответ</a></li>
+                    <li><a href="#">{{ t.nav.specialties }}</a></li>
+                    <li><a href="#">{{ t.nav.admission_rules }}</a></li>
+                    <li><a href="#">{{ t.nav.open_doors }}</a></li>
+                    <li><a href="#">{{ t.nav.faq }}</a></li>
                 </ul>
             </li>
             <li>
-                <a href="#">Обучение <i class="fas fa-chevron-down"></i></a>
+                <a href="#">{{ t.nav.study }} <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Расписание</a></li>
-                    <li><a href="#">Электронное обучение</a></li>
-                    <li><a href="#">Библиотека</a></li>
-                    <li><a href="#">Практика</a></li>
+                    <li><a href="#">{{ t.nav.schedule }}</a></li>
+                    <li><a href="#">{{ t.nav.e_learning }}</a></li>
+                    <li><a href="#">{{ t.nav.library }}</a></li>
+                    <li><a href="#">{{ t.nav.practice }}</a></li>
                 </ul>
             </li>
-            <li><a href="#">Новости</a></li>
-            <li><a href="#">Галерея</a></li>
-            <li><a href="#">Контакты</a></li>
+            <li><a href="#">{{ t.nav.news }}</a></li>
+            <li><a href="#">{{ t.nav.gallery }}</a></li>
+            <li><a href="#">{{ t.nav.contacts }}</a></li>
         </ul>
     </div>
 </nav>

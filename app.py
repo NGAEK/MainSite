@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, abort, send_from_directory
 import logging
+import json
+import os
 from config.config import load_config
 from db.connection import init_db
 from page import main_page, news_detail_page, search_page, spec_page, notfound_page
@@ -10,10 +12,56 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-# Контекстный процессор для передачи query во все шаблоны
+LOCALES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'locales')
+MESSAGES_FILE = os.path.join(LOCALES_DIR, 'messages.json')
+SUPPORTED_LANGS = ('ru', 'be')
+DEFAULT_LANG = 'ru'
+LANG_KEY_MAP = {'ru': 'RU', 'be': 'BY'}  # код языка -> ключ в JSON
+
+
+def get_locale():
+    """Язык из query ?lang= или cookie locale, по умолчанию русский."""
+    lang = request.args.get('lang') or request.cookies.get('locale', DEFAULT_LANG)
+    return lang if lang in SUPPORTED_LANGS else DEFAULT_LANG
+
+
+def _resolve_messages(obj, lang_key):
+    """Рекурсивно подставить строку языка: каждый { RU, BY } -> значение для lang_key."""
+    if isinstance(obj, dict):
+        if 'RU' in obj and 'BY' in obj:
+            return obj.get(lang_key) or obj.get('RU')
+        return {k: _resolve_messages(v, lang_key) for k, v in obj.items()}
+    return obj
+
+
+def get_translations():
+    """Загрузка строк из одного файла messages.json и выбор языка RU/BY."""
+    lang_key = LANG_KEY_MAP.get(get_locale(), 'RU')
+    try:
+        with open(MESSAGES_FILE, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return _resolve_messages(data, lang_key)
+    except Exception as e:
+        logger.warning(f"Не удалось загрузить локализацию {MESSAGES_FILE}: {e}")
+        return {}
+
+
 @app.context_processor
-def inject_query():
-    return dict(query=request.args.get('q', ''))
+def inject_locale_and_query():
+    """Передача переводов (t), текущего языка и query во все шаблоны."""
+    return dict(
+        t=get_translations(),
+        current_lang=get_locale(),
+        query=request.args.get('q', '')
+    )
+
+@app.after_request
+def set_locale_cookie(response):
+    """Сохраняем выбранный язык в cookie при ?lang=."""
+    if request.args.get('lang') in SUPPORTED_LANGS:
+        response.set_cookie('locale', request.args.get('lang'), max_age=365 * 24 * 3600)
+    return response
+
 
 # Регистрация фильтров для шаблонов
 @app.template_filter('date_format')

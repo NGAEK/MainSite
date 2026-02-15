@@ -5,16 +5,16 @@
 {% block content %}
 <div class="search-results-container">
   <div class="search-header">
-    <h1 class="search-title">Результаты поиска: <span class="search-query">"{{ query }}"</span></h1>
+    <h1 class="search-title">{{ t.search.results_title }}: <span class="search-query">"{{ query }}"</span></h1>
     <a href="/" class="btn-back">
-      <i class="fas fa-arrow-left"></i> Вернуться на главную
+      <i class="fas fa-arrow-left"></i> {{ t.search.back_home }}
     </a>
   </div>
 
   {% if results %}
   <div class="search-meta">
     <div class="search-results-count">
-      <div class="txtcolor"><i class="fas fa-newspaper"></i> Найдено новостей: {{ results|length }}</div>
+      <div class="txtcolor"><i class="fas fa-newspaper"></i> {{ t.search.found_news }}: {{ results|length }}</div>
     </div>
   </div>
 
@@ -25,7 +25,7 @@
         {% if news.image_path %}
         <img src="{{ news.image_path }}" alt="{{ news.name }}" class="news-image">
         {% else %}
-        <img src="/static/images/news-placeholder.jpg" alt="Новость" class="news-image">
+        <img src="/static/images/news-placeholder.jpg" alt="{{ t.search.news_alt }}" class="news-image">
         {% endif %}
       </div>
       <div class="news-content">
@@ -35,7 +35,7 @@
         <h3 class="news-title">{{ news.name }}</h3>
         <p class="news-excerpt">{{ news.description }}</p>
         <a href="/news/{{ news.id }}" class="read-more">
-          Читать далее <i class="fas fa-arrow-right"></i>
+          {{ t.search.read_more }} <i class="fas fa-arrow-right"></i>
         </a>
       </div>
     </div>
@@ -46,10 +46,10 @@
     <div class="no-results-icon">
       <i class="fas fa-search fa-3x"></i>
     </div>
-    <h3 class="no-results-title">Ничего не найдено</h3>
-    <p class="no-results-text">По запросу "{{ query }}" не найдено ни одной новости.</p>
+    <h3 class="no-results-title">{{ t.search.no_results_title }}</h3>
+    <p class="no-results-text">«{{ query }}» — {{ t.search.no_results_text }}</p>
     <a href="/" class="btn btn-primary">
-      <div class="txtcolor"><i class="fas fa-newspaper"></i> Показать все новости</div>
+      <div class="txtcolor"><i class="fas fa-newspaper"></i> {{ t.search.show_all_news }}</div>
     </a>
   </div>
   {% endif %}

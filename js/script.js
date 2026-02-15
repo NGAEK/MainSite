@@ -241,14 +241,9 @@ langButtons.forEach(button => {
 });
 
 function changeLanguage(lang) {
-
-    if (lang === 'ru') {
-        alert('Язык изменен на русский');
-    } else if (lang === 'be') {
-        alert('Мова зменена на беларускую');
-    }
-    
-
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', lang);
+    window.location.href = url.toString();
 }
 
 
@@ -256,9 +251,13 @@ const searchForm = document.querySelector('.search-form');
 if (searchForm) {
     searchForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const query = searchForm.querySelector('input').value;
-        if (query.trim()) {
-            window.location.href = `/search?q=${encodeURIComponent(query)}`;
+        const queryInput = searchForm.querySelector('input[name="q"]');
+        const langInput = searchForm.querySelector('input[name="lang"]');
+        const query = queryInput ? queryInput.value.trim() : '';
+        const lang = langInput ? langInput.value : (new URL(window.location.href).searchParams.get('lang') || 'ru');
+        if (query) {
+            const url = `/search?q=${encodeURIComponent(query)}&lang=${encodeURIComponent(lang)}`;
+            window.location.href = url;
         }
     });
 }

@@ -20,17 +20,17 @@
 
                 <div class="gallery-grid">
                     <div class="gallery-item">
-                        <img src="https://picsum.photos/400/300?random=1" alt="Gallery image 1">
+                        <img src="https://picsum.photos/400/300?random=1" alt="{{ t.news_detail.gallery_alt }} 1">
                     </div>
                     <div class="gallery-item">
-                        <img src="https://picsum.photos/400/300?random=2" alt="Gallery image 2">
+                        <img src="https://picsum.photos/400/300?random=2" alt="{{ t.news_detail.gallery_alt }} 2">
                     </div>
                     <div class="gallery-item">
-                        <img src="https://picsum.photos/400/300?random=3" alt="Gallery image 3">
+                        <img src="https://picsum.photos/400/300?random=3" alt="{{ t.news_detail.gallery_alt }} 3">
                     </div>
                 </div>
             </div>
-            <a href="/" class="back-link">← Вернуться к списку новостей</a>
+            <a href="/" class="back-link">← {{ t.news_detail.back_to_list }}</a>
         </div>
     </div>
 </section>
