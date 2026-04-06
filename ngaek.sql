@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `news`
+-- Структура таблицы `news` (name/description — русский; *_be / *_en — белорусский и английский)
 --
 
 CREATE TABLE `news` (
@@ -32,6 +32,10 @@ CREATE TABLE `news` (
                         `name` varchar(255) NOT NULL,
                         `date` date NOT NULL,
                         `description` text NOT NULL,
+                        `name_be` varchar(255) DEFAULT NULL,
+                        `name_en` varchar(255) DEFAULT NULL,
+                        `description_be` text DEFAULT NULL,
+                        `description_en` text DEFAULT NULL,
                         `image_path` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -39,9 +43,25 @@ CREATE TABLE `news` (
 -- Дамп данных таблицы `news`
 --
 
-INSERT INTO `news` (`id`, `name`, `date`, `description`, `image_path`) VALUES
-                                                                           (1, 'День открытых дверей', '2025-05-15', 'Приглашаем всех желающих на день открытых дверей, который состоится 25 мая в 15:00 в главном корпусе колледжа.', '/static/images/news_images/1655471619_4-kartinkof-club-p-kartinki-na-den-otkritikh-dverei-4.jpg'),
-                                                                           (2, 'Победа в конкурсе профмастерства', '2025-05-16', 'Наши студенты заняли первое место в республиканском конкурсе профессионального мастерства по специальности \"Программное обеспечение\".', '/static/images/news_images/images.png');
+INSERT INTO `news` (`id`, `name`, `date`, `description`, `name_be`, `name_en`, `description_be`, `description_en`, `image_path`) VALUES
+(1,
+ 'День открытых дверей',
+ '2025-05-15',
+ 'Приглашаем всех желающих на день открытых дверей, который состоится 25 мая в 15:00 в главном корпусе колледжа.',
+ 'Дзень адкрытых дзвярэй',
+ 'Open Day',
+ 'Запрашаем усіх жадаючых на дзень адкрытых дзвярэй, які адбудзецца 25 мая а 15:00 у галоўным корпусе каледжа.',
+ 'We invite everyone to the open day on 25 May at 15:00 in the main college building.',
+ '/static/images/news_images/1655471619_4-kartinkof-club-p-kartinki-na-den-otkritikh-dverei-4.jpg'),
+(2,
+ 'Победа в конкурсе профмастерства',
+ '2025-05-16',
+ 'Наши студенты заняли первое место в республиканском конкурсе профессионального мастерства по специальности \"Программное обеспечение\".',
+ 'Перамога ў конкурсе прафесійнага майстэрства',
+ 'Victory in the professional skills competition',
+ 'Нашы студэнты занялі першае месца ў рэспубліканскім конкурсе прафесійнага майстэрства па спецыяльнасці «Праграмнае забеспячэнне».',
+ 'Our students won first place in the national professional skills competition in the Software specialty.',
+ '/static/images/news_images/images.png');
 
 --
 -- Индексы сохранённых таблиц

@@ -29,9 +29,18 @@ def home_handler(request):
             logger.error(f"Ошибка поиска в БД: {e}")
             # Если ошибка в БД, фильтруем локально
             query_lower = query.lower()
+
+            def _texts(n):
+                for attr in (
+                    "name", "description", "name_be", "name_en",
+                    "description_be", "description_en",
+                ):
+                    val = getattr(n, attr, None)
+                    if val:
+                        yield val.lower()
+
             for news in all_news:
-                if (query_lower in news.name.lower() if news.name else False) or \
-                   (query_lower in news.description.lower() if news.description else False):
+                if any(query_lower in t for t in _texts(news)):
                     filtered_news.append(news)
         
         logger.info(f"Found {len(filtered_news)} results for query '{query}'")

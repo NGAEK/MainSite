@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ t.common.site_title }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="shortcut icon" href="/static/images/favicon_focused_64x64.ico" />
-</head>
-<body>
-<!-- Header -->
+<!-- Fragment: включается в base.html (единый <html lang="{{ current_lang }}"> в base) -->
 <header>
     <div class="container header-container">
         <div class="logo">
@@ -29,27 +18,26 @@
                     <div class="search-icon"><i class="fas fa-search"></i></div>
                 </button>
             </form>
-            
-            <!-- Language Switcher -->
+
             <div class="language-switcher">
-                <button class="lang-btn" data-lang="be" aria-label="{{ t.header.lang_be_aria }}"><img src="/static/images/flags/be.gif"></button>
-                <button class="lang-btn" data-lang="ru" aria-label="{{ t.header.lang_ru_aria }}"><img src="/static/images/flags/ru.gif"></button>
+                <button type="button" class="lang-btn" data-lang="be" aria-label="{{ t.header.lang_be_aria }}"><img src="/static/images/flags/be.gif" alt=""></button>
+                <button type="button" class="lang-btn" data-lang="ru" aria-label="{{ t.header.lang_ru_aria }}"><img src="/static/images/flags/ru.gif" alt=""></button>
+                <button type="button" class="lang-btn lang-btn-en" data-lang="en" aria-label="{{ t.header.lang_en_aria }}"><span class="lang-btn-en-text">EN</span></button>
             </div>
-            
-            <button class="accessibility-btn" id="accessibilityBtn" aria-label="{{ t.header.accessibility_aria }}">
+
+            <button type="button" class="accessibility-btn" id="accessibilityBtn" aria-label="{{ t.header.accessibility_aria }}">
                 <i class="fas fa-universal-access"></i>
             </button>
-            <button class="theme-toggle" id="themeToggle" aria-label="{{ t.header.theme_aria }}">
+            <button type="button" class="theme-toggle" id="themeToggle" aria-label="{{ t.header.theme_aria }}">
                 <i class="fas fa-moon"></i>
             </button>
         </div>
     </div>
 </header>
 
-<!-- Navigation -->
 <nav>
     <div class="container nav-container">
-        <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn">
             <i class="fas fa-bars"></i>
         </button>
         <ul class="main-nav" id="mainNav">

@@ -6,3 +6,7 @@ database:
   name: "ngaek"
 server:
   port: ":8080"
+# Ключ для POST/PUT/PATCH/DELETE и чтения /api/v1/news* (заголовок X-API-Key).
+# В продакшене задайте переменную окружения NGAEK_ADMIN_API_KEY — она имеет приоритет.
+admin_api:
+  key: ""

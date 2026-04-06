@@ -1,5 +1,6 @@
 import yaml
 import os
+from dotenv import load_dotenv
 
 
 class DatabaseConfig:
@@ -17,13 +18,15 @@ class ServerConfig:
 
 
 class Config:
-    def __init__(self, database, server):
+    def __init__(self, database, server, admin_api_key: str = ""):
         self.database = database
         self.server = server
+        self.admin_api_key = admin_api_key or ""
 
 
 def load_config(path="config.yml"):
     """Загружает конфигурацию из YAML файла"""
+    load_dotenv()
     with open(path, 'r', encoding='utf-8') as file:
         data = yaml.safe_load(file)
     
@@ -38,8 +41,13 @@ def load_config(path="config.yml"):
     server_config = ServerConfig(
         port=data['server']['port']
     )
-    
-    config = Config(db_config, server_config)
+
+    admin_key = ""
+    if isinstance(data.get("admin_api"), dict):
+        admin_key = str(data["admin_api"].get("key") or "")
+    admin_key = os.environ.get("NGAEK_ADMIN_API_KEY", "").strip() or admin_key
+
+    config = Config(db_config, server_config, admin_key)
     
     if not config.database.password:
         print("Внимание: используется пустой пароль для базы данных")

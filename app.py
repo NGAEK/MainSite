@@ -5,6 +5,8 @@ import os
 from config.config import load_config
 from db.connection import init_db
 from page import main_page, news_detail_page, search_page, spec_page, notfound_page
+from api import api_bp
+from util.i18n_url import build_hreflang_url
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
@@ -14,9 +16,9 @@ app = Flask(__name__)
 
 LOCALES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'locales')
 MESSAGES_FILE = os.path.join(LOCALES_DIR, 'messages.json')
-SUPPORTED_LANGS = ('ru', 'be')
+SUPPORTED_LANGS = ('ru', 'be', 'en')
 DEFAULT_LANG = 'ru'
-LANG_KEY_MAP = {'ru': 'RU', 'be': 'BY'}  # код языка -> ключ в JSON
+LANG_KEY_MAP = {'ru': 'RU', 'be': 'BY', 'en': 'EN'}  # код языка -> ключ в JSON
 
 
 def get_locale():
@@ -26,7 +28,7 @@ def get_locale():
 
 
 def _resolve_messages(obj, lang_key):
-    """Рекурсивно подставить строку языка: каждый { RU, BY } -> значение для lang_key."""
+    """Рекурсивно подставить строку языка: каждый { RU, BY [, EN] } -> значение для lang_key."""
     if isinstance(obj, dict):
         if 'RU' in obj and 'BY' in obj:
             return obj.get(lang_key) or obj.get('RU')
@@ -54,6 +56,19 @@ def inject_locale_and_query():
         current_lang=get_locale(),
         query=request.args.get('q', '')
     )
+
+
+@app.context_processor
+def inject_hreflang():
+    def hreflang_url(lang_code: str) -> str:
+        return build_hreflang_url(
+            request.url_root,
+            request.path,
+            request.args.to_dict(flat=True),
+            lang_code,
+        )
+
+    return dict(hreflang_url=hreflang_url)
 
 @app.after_request
 def set_locale_cookie(response):
@@ -86,6 +101,7 @@ def date_format_filter(date, format_str='%Y-%m-%d'):
 
 # Загрузка конфигурации
 config = load_config("config.yml")
+app.config["ADMIN_API_KEY"] = config.admin_api_key
 
 # Инициализация базы данных
 init_db(
@@ -95,6 +111,8 @@ init_db(
     config.database.port,
     config.database.name
 )
+
+app.register_blueprint(api_bp)
 
 
 # Регистрация обработчиков ошибок

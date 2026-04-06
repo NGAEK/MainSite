@@ -10,8 +10,9 @@
 
 - Современный интерфейс с адаптивным дизайном
 - Новостная система колледжа
-- **Локализация RU/BY** — один файл `static/locales/messages.json` с переводами (русский по умолчанию)
-- Переключение языка через cookie и параметр `?lang=ru` / `?lang=be`
+- **Локализация RU/BY/EN** — файл `static/locales/messages.json` (ключи `RU`, `BY`, `EN`; русский по умолчанию). Скрипт дополнения EN: `python tools/fill_messages_en.py`
+- Переключение языка через cookie и параметр `?lang=ru` / `?lang=be` / `?lang=en`
+- **Новости** хранят тексты на трёх языках: поля `name`/`description` (RU), `name_be`/`description_be`, `name_en`/`description_en` в таблице `news`. Для существующей БД выполните `migrations/001_news_i18n.sql`
 - Страницы специальностей (ПО, бухучёт, гостиничный сервис, документоведение, социальная работа)
 - Поиск по новостям
 - Настройки доступности (контраст, шрифт, тёмная тема)
@@ -120,13 +121,43 @@ python app.py
 
 Откройте в браузере: **http://localhost:8080**
 
+### API для внешней админки
+
+Префикс **`/api/v1`**. Проверка без БД: **`GET /api/v1/health`**.
+
+Остальные методы новостей требуют заголовок **`X-API-Key`** с секретом из `config.yml` → `admin_api.key` или переменной окружения **`NGAEK_ADMIN_API_KEY`** (имеет приоритет). Если ключ не задан, ответ **503** с текстом `api_not_configured`.
+
+| Метод | Путь | Назначение |
+|--------|------|------------|
+| `GET` | `/api/v1/news` | Список новостей (все поля, включая переводы) |
+| `GET` | `/api/v1/news/<id>` | Одна новость |
+| `POST` | `/api/v1/news` | Создание: JSON с обязательными `name`, `description`, `date` (YYYY-MM-DD); опционально `name_be`, `name_en`, `description_be`, `description_en`, `image_path` |
+| `PUT` | `/api/v1/news/<id>` | Полная замена (те же поля, что POST) |
+| `PATCH` | `/api/v1/news/<id>` | Частичное обновление допустимых полей |
+| `DELETE` | `/api/v1/news/<id>` | Удаление (**204** при успехе) |
+
+Пример создания:
+
+```bash
+curl -s -X POST "http://localhost:8080/api/v1/news" \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: ВАШ_КЛЮЧ" \
+  -d "{\"name\":\"Заголовок\",\"description\":\"Текст\",\"date\":\"2025-06-01\",\"name_en\":\"Title\",\"description_en\":\"Text\"}"
+```
+
+Ответы об ошибках в JSON: `{"error": {"code": "...", "message": "..."}}`.
+
+Тесты без поднятого MySQL: `python -m pytest tests/ -q`
+
 ## 📁 Структура проекта
 
-- `app.py` — точка входа, маршруты, локализация (загрузка `messages.json`)
+- `app.py` — точка входа, маршруты, локализация (`messages.json`), `hreflang`, регистрация API
+- `api/` — JSON API для админ-сервиса (`X-API-Key`)
 - `page/` — обработчики страниц (главная, новости, поиск, специальности, 404)
 - `templates/` — Jinja2-шаблоны с переменной `t` (переводы)
-- `static/locales/messages.json` — все тексты в формате `"ключ": { "RU": "...", "BY": "..." }`
-- `config.yml` — настройки БД и порта
+- `static/locales/messages.json` — тексты `RU` / `BY` / `EN`
+- `config.yml` — БД, порт, опционально `admin_api.key`
+- `tests/` — pytest (локализация новостей, hreflang URL, API-ключ)
 
 ## 📝 Лицензия
 

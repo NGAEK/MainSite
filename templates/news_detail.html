@@ -6,15 +6,15 @@
 <section class="section news-detail-section">
     <div class="news-detail">
         <div class="news-img">
-            <img src="{{ news.image_path }}" alt="{{ news.name }}">
+            <img src="{{ news.image_path }}" alt="{{ news.localized_name(current_lang) }}">
         </div>
         <div class="article-content">
             <span class="news-date"><time datetime="{{ news.date | date_format('%Y-%m-%d') }}" class="news-date">
-                {{ news.formatted_date() }}
+                {{ news.formatted_date(current_lang) }}
                 </time></span>
-            <h1 class="news-title">{{ news.name }}</h1>
+            <h1 class="news-title">{{ news.localized_name(current_lang) }}</h1>
             <div class="article-body">
-                {{ news.description | safe }}
+                {{ news.localized_description(current_lang) | safe }}
             </div>
             <div class="image-gallery">
 
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <a href="/" class="back-link">← {{ t.news_detail.back_to_list }}</a>
+            <a href="/{% if current_lang != 'ru' %}?lang={{ current_lang }}{% endif %}" class="back-link">← {{ t.news_detail.back_to_list }}</a>
         </div>
     </div>
 </section>

@@ -4,13 +4,20 @@ from db import news_repository
 
 logger = logging.getLogger(__name__)
 
+_SUPPORTED = frozenset({'ru', 'be', 'en'})
+
 
 def search_handler(request):
     """Обработчик страницы поиска"""
     query = request.args.get('q', '').strip()
-    
+    lang = request.args.get('lang') or request.cookies.get('locale', 'ru')
+    if lang not in _SUPPORTED:
+        lang = 'ru'
+
     if not query:
-        return redirect('/')
+        if lang == 'ru':
+            return redirect('/')
+        return redirect(f'/?lang={lang}')
     
     try:
         results = news_repository.search_news(query)

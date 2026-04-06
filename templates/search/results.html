@@ -6,7 +6,7 @@
 <div class="search-results-container">
   <div class="search-header">
     <h1 class="search-title">{{ t.search.results_title }}: <span class="search-query">"{{ query }}"</span></h1>
-    <a href="/" class="btn-back">
+    <a href="/{% if current_lang and current_lang != 'ru' %}?lang={{ current_lang }}{% endif %}" class="btn-back">
       <i class="fas fa-arrow-left"></i> {{ t.search.back_home }}
     </a>
   </div>
@@ -23,18 +23,18 @@
     <div class="news-card">
       <div class="news-img">
         {% if news.image_path %}
-        <img src="{{ news.image_path }}" alt="{{ news.name }}" class="news-image">
+        <img src="{{ news.image_path }}" alt="{{ news.localized_name(current_lang) }}" class="news-image">
         {% else %}
         <img src="/static/images/news-placeholder.jpg" alt="{{ t.search.news_alt }}" class="news-image">
         {% endif %}
       </div>
       <div class="news-content">
         <span class="news-date">
-          <i class="far fa-calendar-alt"></i>{{ news.formatted_date() }}
+          <i class="far fa-calendar-alt"></i>{{ news.formatted_date(current_lang) }}
         </span>
-        <h3 class="news-title">{{ news.name }}</h3>
-        <p class="news-excerpt">{{ news.description }}</p>
-        <a href="/news/{{ news.id }}" class="read-more">
+        <h3 class="news-title">{{ news.localized_name(current_lang) }}</h3>
+        <p class="news-excerpt">{{ news.localized_description(current_lang) }}</p>
+        <a href="/news/{{ news.id }}{% if current_lang != 'ru' %}?lang={{ current_lang }}{% endif %}" class="read-more">
           {{ t.search.read_more }} <i class="fas fa-arrow-right"></i>
         </a>
       </div>
@@ -48,7 +48,7 @@
     </div>
     <h3 class="no-results-title">{{ t.search.no_results_title }}</h3>
     <p class="no-results-text">«{{ query }}» — {{ t.search.no_results_text }}</p>
-    <a href="/" class="btn btn-primary">
+    <a href="/{% if current_lang and current_lang != 'ru' %}?lang={{ current_lang }}{% endif %}" class="btn btn-primary">
       <div class="txtcolor"><i class="fas fa-newspaper"></i> {{ t.search.show_all_news }}</div>
     </a>
   </div>

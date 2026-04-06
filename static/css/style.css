@@ -168,6 +168,13 @@ header {
     color: var(--secondary-color);
 }
 
+.lang-btn-en-text {
+    display: inline-block;
+    min-width: 2rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+}
+
 .lang-separator {
     color: var(--nav-link-color);
     margin: 0 5px;

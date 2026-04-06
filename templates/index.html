@@ -61,7 +61,7 @@
 
         {% if is_search_results %}
         <div class="search-actions">
-            <a href="/" class="btn btn-outline">
+            <a href="/{% if current_lang != 'ru' %}?lang={{ current_lang }}{% endif %}" class="btn btn-outline">
                 <i class="fas fa-arrow-left"></i> {{ t.news.back_to_news }}
             </a>
         </div>
@@ -72,13 +72,13 @@
             {% for news in news_list %}
             <div class="news-card">
                 <div class="news-img">
-                    <img src="{{ news.image_path }}" alt="{{ news.name }}">
+                    <img src="{{ news.image_path }}" alt="{{ news.localized_name(current_lang) }}">
                 </div>
                 <div class="news-content">
-                    <span class="news-date">{{ news.formatted_date() }}</span>
-                    <h3 class="news-title">{{ news.name }}</h3>
-                    <p class="news-excerpt">{{ news.description }}</p>
-                    <a href="/news/{{ news.id }}" class="read-more">{{ t.news.read_more }} <i class="fas fa-arrow-right"></i></a>
+                    <span class="news-date">{{ news.formatted_date(current_lang) }}</span>
+                    <h3 class="news-title">{{ news.localized_name(current_lang) }}</h3>
+                    <p class="news-excerpt">{{ news.localized_description(current_lang) }}</p>
+                    <a href="/news/{{ news.id }}{% if current_lang != 'ru' %}?lang={{ current_lang }}{% endif %}" class="read-more">{{ t.news.read_more }} <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
             {% endfor %}
@@ -90,7 +90,7 @@
             </div>
             <h3>{{ t.news.no_results_title }}</h3>
             <p>«{{ query }}» — {{ t.news.no_results_text }}</p>
-            <a href="/" class="btn">{{ t.news.show_all }}</a>
+            <a href="/{% if current_lang != 'ru' %}?lang={{ current_lang }}{% endif %}" class="btn">{{ t.news.show_all }}</a>
         </div>
         {% endif %}
     </div>

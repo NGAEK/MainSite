@@ -3,4 +3,5 @@ PyMySQL==1.1.0
 cryptography>=41.0.0
 PyYAML==6.0.1
 python-dotenv==1.0.0
+pytest==8.0.0
 
