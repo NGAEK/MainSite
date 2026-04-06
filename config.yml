@@ -6,7 +6,15 @@ database:
   name: "ngaek"
 server:
   port: ":8080"
-# Ключ для POST/PUT/PATCH/DELETE и чтения /api/v1/news* (заголовок X-API-Key).
-# В продакшене задайте переменную окружения NGAEK_ADMIN_API_KEY — она имеет приоритет.
+
 admin_api:
-  key: ""
+  key: "JDFKEinDIE@DWNSbhdcUY2982e"
+
+site:
+  gris:
+    number: "6141303612"
+    registration_date: "19.09.2013"
+    show_placeholder_if_empty: true
+  admin_email: "info@ngaek.by"
+  phone: "+375 (17) 123-45-67"
+  one_window_external_url: "https://minsk.gov.by/ru/services/okno/"

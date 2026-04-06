@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, abort, send_from_directory
+from flask import Flask, render_template, request, abort, send_from_directory, current_app
 import logging
 import json
 import os
 from config.config import load_config
 from db.connection import init_db
-from page import main_page, news_detail_page, search_page, spec_page, notfound_page
+from page import main_page, news_detail_page, search_page, spec_page, notfound_page, site_pages
 from api import api_bp
 from util.i18n_url import build_hreflang_url
 
@@ -70,6 +70,33 @@ def inject_hreflang():
 
     return dict(hreflang_url=hreflang_url)
 
+
+@app.context_processor
+def inject_site_public():
+    """Реквизиты из config.yml (site) для футера и страниц."""
+    s = current_app.config.get("SITE") or {}
+    gris = s.get("gris") if isinstance(s.get("gris"), dict) else {}
+    num = str(gris.get("number") or "").strip()
+    reg_date = str(gris.get("registration_date") or "").strip()
+    show_ph = gris.get("show_placeholder_if_empty", True)
+    if isinstance(show_ph, str):
+        show_ph = show_ph.lower() in ("1", "true", "yes", "on")
+    phone_display = str(s.get("phone") or "").strip() or "+375 (17) 123-45-67"
+    phone_tel = str(s.get("phone_tel") or "").strip()
+    if not phone_tel:
+        digits = "".join(c for c in phone_display if c.isdigit())
+        phone_tel = ("+" + digits) if digits else ""
+    return dict(
+        site_gris_number=num,
+        site_gris_date=reg_date,
+        site_gris_show_placeholder=bool(show_ph),
+        site_admin_email=str(s.get("admin_email") or "info@ngaek.by").strip(),
+        site_one_window_url=str(s.get("one_window_external_url") or "").strip(),
+        site_phone=phone_display,
+        site_phone_tel=phone_tel,
+    )
+
+
 @app.after_request
 def set_locale_cookie(response):
     """Сохраняем выбранный язык в cookie при ?lang=."""
@@ -102,6 +129,7 @@ def date_format_filter(date, format_str='%Y-%m-%d'):
 # Загрузка конфигурации
 config = load_config("config.yml")
 app.config["ADMIN_API_KEY"] = config.admin_api_key
+app.config["SITE"] = config.site or {}
 
 # Инициализация базы данных
 init_db(
@@ -121,16 +149,10 @@ def not_found_handler(e):
     return notfound_page.not_found_handler(request)
 
 
-# Статические файлы
+# Статические файлы (включая static/js/*.js)
 @app.route('/static/<path:filename>')
 def static_files(filename):
     return send_from_directory('static', filename)
-
-
-# JavaScript файлы
-@app.route('/js/<path:filename>')
-def js_files(filename):
-    return send_from_directory('js', filename)
 
 
 # Маршруты
@@ -172,6 +194,31 @@ def spec_po():
 @app.route('/spec/soc_rab')
 def spec_soc_rab():
     return spec_page.spec_soc_rab()
+
+
+@app.route("/privacy")
+def privacy():
+    return site_pages.privacy_handler(request)
+
+
+@app.route("/one-window")
+def one_window():
+    return site_pages.one_window_handler(request)
+
+
+@app.route("/sitemap")
+def sitemap():
+    return site_pages.sitemap_handler(request)
+
+
+@app.route("/contacts")
+def contacts():
+    return site_pages.contacts_handler(request)
+
+
+@app.route("/cookies")
+def cookies_page():
+    return site_pages.cookies_handler(request)
 
 
 if __name__ == '__main__':

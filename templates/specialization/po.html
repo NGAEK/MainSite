@@ -1,6 +1,15 @@
 {% extends "base.html" %}
+{% from 'macros/url.html' import u %}
 {% block extra_css %}
 <link rel="stylesheet" href="/static/css/style_specialization.css">
+{% endblock %}
+{% block breadcrumbs %}
+{% set breadcrumbs = [
+  {'label': t.nav.home, 'url': u('/')},
+  {'label': t.specialties.title, 'url': u('/') ~ '#specialties'},
+  {'label': t.specialties.po_title, 'url': None}
+] %}
+{% include 'partials/breadcrumbs.html' %}
 {% endblock %}
 {% block content %}
 <section class="section bg-light">

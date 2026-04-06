@@ -1007,11 +1007,127 @@ footer {
     color: var(--secondary-color);
 }
 
+.footer-meta {
+    padding: 1.25rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    color: #bdc3c7;
+}
+
+.footer-meta-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.5rem;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+}
+
+.footer-meta-label {
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+    color: #ecf0f1;
+    margin-bottom: 0.25rem;
+}
+
+@media (min-width: 600px) {
+    .footer-meta-label {
+        width: auto;
+        margin-bottom: 0;
+        margin-right: 0.5rem;
+    }
+}
+
+.footer-meta-links a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.footer-meta-links a:hover {
+    text-decoration: underline;
+}
+
+.footer-meta-sep {
+    opacity: 0.5;
+    user-select: none;
+}
+
+.footer-gris {
+    text-align: center;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.footer-gris p {
+    margin: 0;
+}
+
 .footer-bottom {
     text-align: center;
     padding-top: 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     
+}
+
+/* Статические страницы (политика, карта сайта) */
+.static-page {
+    padding: 2.5rem 0 3rem;
+}
+
+.static-page-inner {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.static-page-title {
+    margin-bottom: 1.25rem;
+    font-size: 1.75rem;
+}
+
+.static-page-subtitle {
+    margin: 2rem 0 0.75rem;
+    font-size: 1.2rem;
+}
+
+.static-page-intro {
+    margin-bottom: 1.5rem;
+    color: var(--text-muted, #666);
+}
+
+.static-page-body p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.sitemap-list {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.sitemap-list li {
+    margin-bottom: 0.35rem;
+}
+
+.sitemap-list a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.sitemap-list a:hover {
+    text-decoration: underline;
+}
+
+.sitemap-grid {
+    list-style: none;
+    padding-left: 0;
+}
+
+.sitemap-grid li {
+    margin-bottom: 0.5rem;
 }
 
 /* Accessibility Modal */
@@ -1446,4 +1562,102 @@ footer {
         font-size: 0.9rem;
     }
 
+}
+
+/* Хлебные крошки */
+.breadcrumbs-wrap {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.65rem 0;
+    font-size: 0.9rem;
+}
+
+.breadcrumbs {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.5rem;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumbs li {
+    display: inline-flex;
+    align-items: center;
+    color: var(--text-color);
+}
+
+.breadcrumbs li + li::before {
+    content: "/";
+    margin-right: 0.5rem;
+    color: var(--text-muted, #888);
+    font-weight: normal;
+}
+
+.breadcrumbs a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumbs [aria-current="page"] {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* Баннер cookie */
+.cookie-banner {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1900;
+    padding: 1rem;
+    background: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -4px 20px var(--shadow-color);
+}
+
+.cookie-banner--hidden {
+    display: none !important;
+}
+
+.cookie-banner-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.cookie-banner-text {
+    flex: 1 1 280px;
+    margin: 0;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.cookie-banner-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.cookie-banner-link.btn {
+    padding: 0.45rem 1rem;
+    font-size: 0.9rem;
+}
+
+.footer-contact-link {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.footer-contact-link:hover {
+    color: var(--secondary-color, #3498db);
 }

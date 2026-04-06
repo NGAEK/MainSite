@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% from 'macros/url.html' import u %}
+{% block breadcrumbs %}
+{% set breadcrumbs = [
+  {'label': t.nav.home, 'url': u('/')},
+  {'label': t.pages.sitemap_title, 'url': None}
+] %}
+{% include 'partials/breadcrumbs.html' %}
+{% endblock %}
+{% block content %}
+<section class="section static-page">
+    <div class="container static-page-inner">
+        <h1 class="static-page-title">{{ t.pages.sitemap_title }}</h1>
+        <p class="static-page-intro">{{ t.pages.sitemap_intro }}</p>
+
+        <ul class="sitemap-list">
+            <li><a href="{{ u('/') }}">{{ t.pages.sitemap_main }}</a></li>
+            <li><a href="{{ u('/search') }}">{{ t.pages.sitemap_search }}</a></li>
+            <li><a href="{{ u('/contacts') }}">{{ t.pages.sitemap_contacts }}</a></li>
+            <li><a href="{{ u('/privacy') }}">{{ t.footer.link_privacy }}</a></li>
+            <li><a href="{{ u('/one-window') }}">{{ t.footer.link_one_window }}</a></li>
+            <li><a href="{{ u('/cookies') }}">{{ t.pages.sitemap_cookies }}</a></li>
+            <li><a href="{{ u('/sitemap') }}">{{ t.footer.link_sitemap }}</a></li>
+        </ul>
+
+        <h2 class="static-page-subtitle">{{ t.pages.sitemap_news_section }}</h2>
+        <ul class="sitemap-list">
+            {% for news in news_list %}
+            <li>
+                <a href="{{ u('/news/' ~ news.id) }}">{{ news.localized_name(current_lang) }}</a>
+            </li>
+            {% else %}
+            <li><span class="sitemap-empty">—</span></li>
+            {% endfor %}
+        </ul>
+
+        <h2 class="static-page-subtitle">{{ t.pages.sitemap_specialties }}</h2>
+        <ul class="sitemap-list sitemap-grid">
+            <li><a href="{{ u('/spec/po') }}">{{ t.specialties.po_title }}</a></li>
+            <li><a href="{{ u('/spec/byx') }}">{{ t.specialties.byx_title }}</a></li>
+            <li><a href="{{ u('/spec/ogu') }}">{{ t.specialties.ogu_title }}</a></li>
+            <li><a href="{{ u('/spec/do') }}">{{ t.specialties.do_title }}</a></li>
+            <li><a href="{{ u('/spec/soc_rab') }}">{{ t.specialties.soc_rab_title }}</a></li>
+        </ul>
+
+        <p><a href="{{ u('/') }}" class="btn btn-outline">{{ t.pages.back_home }}</a></p>
+    </div>
+</section>
+{% endblock %}

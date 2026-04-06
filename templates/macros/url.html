@@ -1,0 +1,7 @@
+{# Добавление ?lang= к пути (current_lang из контекста). Путь без собственных query — для путей с ? используйте u_q. #}
+{% macro u(path) -%}
+{%- if current_lang == 'ru' -%}{{ path }}
+{%- elif '?' in path -%}{{ path }}&lang={{ current_lang }}
+{%- else -%}{{ path }}?lang={{ current_lang }}
+{%- endif -%}
+{%- endmacro %}

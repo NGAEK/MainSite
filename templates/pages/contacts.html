@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from 'macros/url.html' import u %}
+{% block breadcrumbs %}
+{% set breadcrumbs = [
+  {'label': t.nav.home, 'url': u('/')},
+  {'label': t.pages.contacts_title, 'url': None}
+] %}
+{% include 'partials/breadcrumbs.html' %}
+{% endblock %}
+{% block content %}
+<section class="section static-page">
+    <div class="container static-page-inner">
+        <h1 class="static-page-title">{{ t.pages.contacts_title }}</h1>
+        <p class="static-page-intro">{{ t.pages.contacts_lead }}</p>
+        <div class="static-page-body contacts-page">
+            <p><strong>{{ t.pages.contacts_address_label }}:</strong> {{ t.footer.address }}</p>
+            <p><strong>{{ t.pages.contacts_phone_label }}:</strong>
+                {% if site_phone_tel %}<a href="tel:{{ site_phone_tel }}">{{ site_phone }}</a>{% else %}{{ site_phone }}{% endif %}
+            </p>
+            <p><strong>{{ t.pages.contacts_email_label }}:</strong>
+                <a href="mailto:{{ site_admin_email }}">{{ site_admin_email }}</a>
+            </p>
+            <p><strong>{{ t.pages.contacts_hours_label }}:</strong> {{ t.footer.work_hours }}</p>
+        </div>
+        <p><a href="{{ u('/') }}" class="btn btn-outline">{{ t.pages.back_home }}</a></p>
+    </div>
+</section>
+{% endblock %}

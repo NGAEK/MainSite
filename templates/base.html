@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ current_lang }}">
 <head>
+{% from 'macros/url.html' import u %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ t.common.site_title }}</title>
@@ -15,8 +16,19 @@
 </head>
 <body>
 {% include "header.html" %}
+{% block breadcrumbs %}{% endblock %}
 {% block content %}{% endblock %}
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="{{ t.cookies.banner_aria }}" aria-hidden="false">
+    <div class="cookie-banner-inner container">
+        <p class="cookie-banner-text">{{ t.cookies.banner_text }}</p>
+        <div class="cookie-banner-actions">
+            <a href="{{ u('/cookies') }}" class="btn btn-outline cookie-banner-link">{{ t.cookies.learn_more }}</a>
+            <button type="button" class="btn btn-primary" id="cookie-accept">{{ t.cookies.accept }}</button>
+        </div>
+    </div>
+</div>
 {% include "footer.html" %}
+<script src="/static/js/cookies.js"></script>
 </body>
 </html>
 

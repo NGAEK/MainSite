@@ -18,10 +18,11 @@ class ServerConfig:
 
 
 class Config:
-    def __init__(self, database, server, admin_api_key: str = ""):
+    def __init__(self, database, server, admin_api_key: str = "", site=None):
         self.database = database
         self.server = server
         self.admin_api_key = admin_api_key or ""
+        self.site = site if isinstance(site, dict) else {}
 
 
 def load_config(path="config.yml"):
@@ -47,7 +48,11 @@ def load_config(path="config.yml"):
         admin_key = str(data["admin_api"].get("key") or "")
     admin_key = os.environ.get("NGAEK_ADMIN_API_KEY", "").strip() or admin_key
 
-    config = Config(db_config, server_config, admin_key)
+    site = {}
+    if isinstance(data.get("site"), dict):
+        site = data["site"]
+
+    config = Config(db_config, server_config, admin_key, site)
     
     if not config.database.password:
         print("Внимание: используется пустой пароль для базы данных")

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from 'macros/url.html' import u %}
 {% block extra_css %}
 <link rel="stylesheet" href="/static/css/style_error.css">
 {% endblock %}
@@ -10,132 +11,9 @@
             <h1 class="error-title">{{ t.errors.page_not_found }}</h1>
             <p>{{ t.errors.page_not_found_text }} <code>{{ path }}</code></p>
         </div>
-    <div class="error-actions">
-        <a href="/" class="btn btn-primary">{{ t.errors.back_home }}</a>
-    </div>
-</div>
-</div>
-</section>
-<section class="section bg-light">
-    <hr class="hr-shadow">
-    <div class="container">
-        <div class="partners-container">
-            <div class="partners-scroll">
-                <a href="https://brsm.by/ru" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/brsm.jpg" alt="{{ t.common.partner_alt }} 1"></a>
-                <a href="https://edu.gov.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/images.jpg" alt="{{ t.common.partner_alt }} 2"></a>
-                <a href="https://minsk-roo.gov.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/images1.jpg" alt="{{ t.common.partner_alt }} 3"></a>
-                <a href="https://uomoik.gov.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/mo1.jpg" alt="{{ t.common.partner_alt }} 4"></a>
-                <a href="https://1br.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/belrus.jpg" alt="{{ t.common.partner_alt }} 5"></a>
-                <a href="https://pomogut.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/imvd_banner_170_60.jpg" alt="{{ t.common.partner_alt }} 6"></a>
-                <a href="https://profitest.ripo.by/public/main" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/social-image.jpg" alt="{{ t.common.partner_alt }} 7"></a>
-                <a href="https://xn----7sbgfh2alwzdhpc0c.xn--90ais/organization/23563/org-page" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/изображение_2022-02-10_165646.png" alt="{{ t.common.partner_alt }} 8"></a>
-                <a href="https://president.gov.by/ru" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/president.gif" alt="{{ t.common.partner_alt }} 9"></a>
-                <a href="https://ripo.by/index.php?id=1648" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/ripo.png" alt="{{ t.common.partner_alt }} 10"></a>
-                <a href="https://xn--d1acdremb9i.xn--90ais/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/Banner-molodezh-bel-2.jpg" alt="{{ t.common.partner_alt }} 11"></a>
-                <a href="https://beldosaaf.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/dosaaf.jpg" alt="{{ t.common.partner_alt }} 12"></a>
-                <a href="https://pravo.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/minselxoz.jpg" alt="{{ t.common.partner_alt }} 13"></a>
-                <a href="https://www.mintrud.gov.by/ru/trud-molodezh-ru" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/Banner_zanyatost20molodezhi.png" alt="{{ t.common.partner_alt }} 14"></a>
-            </div>
+        <div class="error-actions">
+            <a href="{{ u('/') }}" class="btn btn-primary">{{ t.errors.back_home }}</a>
         </div>
     </div>
 </section>
-<!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="footer-container">
-            <div class="footer-col">
-                <h3>{{ t.footer.about_college }}</h3>
-                <ul class="footer-links">
-                    <li><a href="#">{{ t.footer.history }}</a></li>
-                    <li><a href="#">{{ t.footer.administration }}</a></li>
-                    <li><a href="#">{{ t.footer.documents }}</a></li>
-                    <li><a href="#">{{ t.footer.vacancies }}</a></li>
-                    <li><a href="#">{{ t.footer.photo_gallery }}</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h3>{{ t.footer.enrollee }}</h3>
-                <ul class="footer-links">
-                    <li><a href="#">{{ t.footer.specialties }}</a></li>
-                    <li><a href="#">{{ t.footer.admission_rules }}</a></li>
-                    <li><a href="#">{{ t.footer.open_doors }}</a></li>
-                    <li><a href="#">{{ t.footer.prep_courses }}</a></li>
-                    <li><a href="#">{{ t.footer.faq }}</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h3>{{ t.footer.student }}</h3>
-                <ul class="footer-links">
-                    <li><a href="#">{{ t.footer.schedule }}</a></li>
-                    <li><a href="#">{{ t.footer.e_learning }}</a></li>
-                    <li><a href="#">{{ t.footer.library }}</a></li>
-                    <li><a href="#">{{ t.footer.student_council }}</a></li>
-                    <li><a href="#">{{ t.footer.sport_sections }}</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h3>{{ t.footer.contacts }}</h3>
-                <div class="footer-contact-item">
-                    <i class="fas fa-map-marker-alt footer-contact-icon"></i>
-                    <span>{{ t.footer.address }}</span>
-                </div>
-                <div class="footer-contact-item">
-                    <i class="fas fa-phone footer-contact-icon"></i>
-                    <span>+375 (17) 123-45-67</span>
-                </div>
-                <div class="footer-contact-item">
-                    <i class="fas fa-envelope footer-contact-icon"></i>
-                    <span>info@ngaek.by</span>
-                </div>
-                <div class="footer-contact-item">
-                    <i class="fas fa-clock footer-contact-icon"></i>
-                    <span>{{ t.footer.work_hours }}</span>
-                </div>
-                <div class="social-links" style="margin-top: 15px;">
-                    <a href="#"><i class="fab fa-vk"></i></a>
-                    <a href="#"><i class="fab fa-telegram"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 {{ t.footer.copyright }}</p>
-        </div>
-    </div>
-</footer>
-
-<!-- Accessibility Modal -->
-<div class="modal" id="accessibilityModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">{{ t.accessibility.title }}</h3>
-            <button class="close-modal" id="closeModal">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="accessibility-option">
-                <label>
-                    <input type="checkbox" id="highContrastToggle">
-                    {{ t.accessibility.high_contrast }}
-                </label>
-            </div>
-            <div class="accessibility-option">
-                <label>
-                    <input type="checkbox" id="largeTextToggle">
-                    {{ t.accessibility.large_text }}
-                </label>
-            </div>
-            <div class="accessibility-option">
-                <label>
-                    <input type="checkbox" id="darkModeToggle">
-                    {{ t.accessibility.dark_mode }}
-                </label>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn" id="resetAccessibility">{{ t.accessibility.reset }}</button>
-            <button class="btn" id="saveAccessibility">{{ t.accessibility.save }}</button>
-        </div>
-    </div>
-</div>
 {% endblock %}

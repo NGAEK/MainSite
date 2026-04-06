@@ -155,8 +155,9 @@ curl -s -X POST "http://localhost:8080/api/v1/news" \
 - `api/` — JSON API для админ-сервиса (`X-API-Key`)
 - `page/` — обработчики страниц (главная, новости, поиск, специальности, 404)
 - `templates/` — Jinja2-шаблоны с переменной `t` (переводы)
+- `static/` — CSS, изображения, **`static/js/`** (`script.js`, `search.js`; URL `/static/js/...`)
 - `static/locales/messages.json` — тексты `RU` / `BY` / `EN`
-- `config.yml` — БД, порт, опционально `admin_api.key`
+- `config.yml` — БД, порт, `admin_api.key`, блок **`site`** (ГРИС, `admin_email`, ссылка «Одно окно»). Публичные страницы: **`/privacy`**, **`/one-window`**, **`/sitemap`**
 - `tests/` — pytest (локализация новостей, hreflang URL, API-ключ)
 
 ## 📝 Лицензия

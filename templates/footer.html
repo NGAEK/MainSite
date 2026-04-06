@@ -1,3 +1,4 @@
+{% from 'macros/url.html' import u %}
 
 <!-- partners -->
 <section class="section bg-light">
@@ -65,11 +66,11 @@
                 </div>
                 <div class="footer-contact-item">
                     <i class="fas fa-phone footer-contact-icon"></i>
-                    <span>+375 (17) 123-45-67</span>
+                    <span>{% if site_phone_tel %}<a href="tel:{{ site_phone_tel }}" class="footer-contact-link">{{ site_phone }}</a>{% else %}{{ site_phone }}{% endif %}</span>
                 </div>
                 <div class="footer-contact-item">
                     <i class="fas fa-envelope footer-contact-icon"></i>
-                    <span>info@ngaek.by</span>
+                    <span><a href="mailto:{{ site_admin_email }}" class="footer-contact-link">{{ site_admin_email }}</a></span>
                 </div>
                 <div class="footer-contact-item">
                     <i class="fas fa-clock footer-contact-icon"></i>
@@ -80,6 +81,27 @@
                     <a href="https://t.me/ngaekby" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram"></i></a>
                     <a href="https://instagram.com/uo_ngaek" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
                 </div>
+            </div>
+        </div>
+        <div class="footer-meta">
+            <div class="footer-meta-links">
+                <span class="footer-meta-label">{{ t.footer.legal_links_title }}</span>
+                <a href="{{ u('/privacy') }}">{{ t.footer.link_privacy }}</a>
+                <span class="footer-meta-sep">·</span>
+                <a href="{{ u('/one-window') }}">{{ t.footer.link_one_window }}</a>
+                <span class="footer-meta-sep">·</span>
+                <a href="{{ u('/cookies') }}">{{ t.footer.link_cookies }}</a>
+                <span class="footer-meta-sep">·</span>
+                <a href="{{ u('/sitemap') }}">{{ t.footer.link_sitemap }}</a>
+                <span class="footer-meta-sep">·</span>
+                <a href="mailto:{{ site_admin_email }}">{{ t.footer.link_admin_site }}</a>
+            </div>
+            <div class="footer-gris">
+                {% if site_gris_number and site_gris_date %}
+                <p>{{ t.legal.gris_prefix }} № {{ site_gris_number }}, {{ t.legal.gris_dated }} {{ site_gris_date }}</p>
+                {% elif site_gris_show_placeholder %}
+                <p>{{ t.legal.gris_placeholder }}</p>
+                {% endif %}
             </div>
         </div>
         <div class="footer-bottom">
@@ -121,7 +143,5 @@
         </div>
     </div>
 </div>
-<script src="../js/script.js"></script>
-<script src="../js/search.js"></script>
-</body>
-</html>
+<script src="/static/js/script.js"></script>
+<script src="/static/js/search.js"></script>

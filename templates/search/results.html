@@ -1,6 +1,14 @@
 {% extends "base.html" %}
+{% from 'macros/url.html' import u %}
 {% block extra_css %}
 <link rel="stylesheet" href="/static/css/search.css">
+{% endblock %}
+{% block breadcrumbs %}
+{% set breadcrumbs = [
+  {'label': t.nav.home, 'url': u('/')},
+  {'label': t.search.results_title, 'url': None}
+] %}
+{% include 'partials/breadcrumbs.html' %}
 {% endblock %}
 {% block content %}
 <div class="search-results-container">

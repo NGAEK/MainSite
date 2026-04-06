@@ -1,6 +1,15 @@
 {% extends "base.html" %}
+{% from 'macros/url.html' import u %}
 {% block extra_css %}
 <link rel="stylesheet" href="/static/css/news_detail.css">
+{% endblock %}
+{% block breadcrumbs %}
+{% set breadcrumbs = [
+  {'label': t.nav.home, 'url': u('/')},
+  {'label': t.news.title, 'url': u('/') ~ '#news'},
+  {'label': news.localized_name(current_lang), 'url': None}
+] %}
+{% include 'partials/breadcrumbs.html' %}
 {% endblock %}
 {% block content %}
 <section class="section news-detail-section">

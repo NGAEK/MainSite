@@ -4,6 +4,55 @@
     "BY": "Старонка не знойдзена",
     "EN": "Page not found"
   },
+  "breadcrumbs": {
+    "aria": {
+      "RU": "Навигационная цепочка",
+      "BY": "Навігацыйная ланцужок",
+      "EN": "Breadcrumb navigation"
+    }
+  },
+  "cookies": {
+    "banner_aria": {
+      "RU": "Уведомление об использовании файлов cookie",
+      "BY": "Паведамленне аб выкарыстанні cookie",
+      "EN": "Cookie notice"
+    },
+    "banner_text": {
+      "RU": "Мы используем файлы cookie для удобства работы с сайтом. Продолжая просмотр, вы соглашаетесь с политикой их использования.",
+      "BY": "Мы выкарыстоўваем файлы cookie для зручнасці працы з сайтам. Працягваючы прагляд, вы згаджаецеся з палітыкай іх выкарыстання.",
+      "EN": "We use cookies to make the site work smoothly. By continuing, you agree to our cookie policy."
+    },
+    "accept": {
+      "RU": "Принять",
+      "BY": "Прыняць",
+      "EN": "Accept"
+    },
+    "learn_more": {
+      "RU": "Подробнее",
+      "BY": "Падрабязней",
+      "EN": "Learn more"
+    },
+    "page_title": {
+      "RU": "Политика использования файлов cookie",
+      "BY": "Палітыка выкарыстання файлаў cookie",
+      "EN": "Cookie policy"
+    },
+    "page_lead": {
+      "RU": "Настоящая страница описывает принципы использования файлов cookie на сайте учреждения. Текст является информационной заготовкой; при подключении аналитики или сторонних виджетов дополните перечень используемых технологий и сроков хранения.",
+      "BY": "Гэтая старонка апсоўвае прынцыпы выкарыстання cookie на сайце установы. Тэкст з'яўляецца інфармацыйнай загатоўкай; пры падключэнні аналітыкі або старонніх віджэтаў дапоўніце пералік тэхналогій і тэрмінаў захоўвання.",
+      "EN": "This page describes how this site uses cookies. It is a placeholder; when you add analytics or third-party widgets, list the technologies used and retention periods."
+    },
+    "page_p1": {
+      "RU": "Необходимые cookie могут применяться для сохранения настроек языка и сеанса. Функциональные и аналитические — только после вашего согласия, если это предусмотрено настройками сайта.",
+      "BY": "Неабходныя cookie могуць ужывацца для захавання налад мовы і сеанса. Функцыянальныя і аналітычныя — толькі пасля вашай згоды, калі гэта прадугледжана наладамі сайта.",
+      "EN": "Strictly necessary cookies may store language and session preferences. Functional and analytics cookies would only be used after consent where the site is configured that way."
+    },
+    "page_p2": {
+      "RU": "Вы можете удалить сохранённые cookie в настройках браузера. Вопросы по обработке данных см. в разделе о персональных данных.",
+      "BY": "Вы можаце выдаліць захаваныя cookie ў наладах браўзера. Пытанні па апрацоўцы даных глядзіце ў раздзеле аб персанальных даных.",
+      "EN": "You can clear cookies in your browser settings. For personal data processing, see the personal data policy section."
+    }
+  },
   "common": {
     "site_title": {
       "RU": "Новопольский государственный аграрно-экономический колледж",
@@ -781,6 +830,170 @@
       "RU": "Новопольский Государственный Аграрно Экономический Колледж. Все права защищены.",
       "BY": "Навапольскі Дзяржаўны Аграрна-Эканамічны Каледж. Усе правы абаронены.",
       "EN": "Novopolsky State Agrarian and Economic College. All rights reserved."
+    },
+    "legal_links_title": {
+      "RU": "Документы и сервисы",
+      "BY": "Дакументы і сэрвісы",
+      "EN": "Documents and services"
+    },
+    "link_privacy": {
+      "RU": "Персональные данные",
+      "BY": "Персанальныя даныя",
+      "EN": "Personal data policy"
+    },
+    "link_one_window": {
+      "RU": "Одно окно",
+      "BY": "Адно акно",
+      "EN": "One-stop shop"
+    },
+    "link_sitemap": {
+      "RU": "Карта сайта",
+      "BY": "Карта сайта",
+      "EN": "Site map"
+    },
+    "link_admin_site": {
+      "RU": "Администратору сайта",
+      "BY": "Адміністратару сайта",
+      "EN": "Website administrator"
+    },
+    "link_cookies": {
+      "RU": "Политика cookie",
+      "BY": "Палітыка cookie",
+      "EN": "Cookie policy"
+    }
+  },
+  "legal": {
+    "gris_prefix": {
+      "RU": "Сайт зарегистрирован в ГРИС, свидетельство",
+      "BY": "Сайт зарэгістраваны ў ДРДІ, сведчанне",
+      "EN": "Site registered in the national register, certificate"
+    },
+    "gris_dated": {
+      "RU": "от",
+      "BY": "ад",
+      "EN": "dated"
+    },
+    "gris_placeholder": {
+      "RU": "Сведения о регистрации сайта в Государственном реестре информационных ресурсов (ГРИС) готовятся к публикации. После получения свидетельства укажите номер и дату в config.yml (раздел site.gris).",
+      "BY": "Звесткі аб рэгістрацыі сайта ў Дзяржаўным рэестры інфармацыйных рэсурсаў (ДРДІ) рыхтуюцца да публікацыі. Пасля атрымання сведчання ўкажыце нумар і дату ў config.yml (раздзел site.gris).",
+      "EN": "Information on site registration in the State Register of Information Resources will be published once the certificate is available. Add the number and date in config.yml (site.gris) when ready."
+    }
+  },
+  "pages": {
+    "privacy_title": {
+      "RU": "Политика в отношении обработки персональных данных",
+      "BY": "Палітыка ў дачыненні апрацоўкі персанальных даных",
+      "EN": "Policy on the processing of personal data"
+    },
+    "privacy_lead": {
+      "RU": "Настоящая страница — информационная заготовка. Разместите утверждённый колледжем локальный нормативный акт, соответствующий Закону Республики Беларусь от 7 мая 2021 г. № 99-З «О защите персональных данных».",
+      "BY": "Гэтая старонка — інфармацыйная загатоўка. Размясціце зацверджаны каледжам лакальны нарматыўны акт ў адпаведнасці з Законам Рэспублікі Беларусь ад 7 мая 2021 г. № 99-З «Аб абароне персанальных даных».",
+      "EN": "This is an informational placeholder. Publish the college’s approved local policy in line with the Law of the Republic of Belarus of 7 May 2021 No. 99-3 “On Personal Data Protection”."
+    },
+    "privacy_p1": {
+      "RU": "В политике следует определить цели обработки персональных данных, состав данных, права субъектов, порядок обращений и меры по обеспечению безопасности.",
+      "BY": "У палітыцы неабходна вызначыць мэты апрацоўкі персанальных даных, склад даных, правы суб'ектаў, парадак зверанняў і меры па забеспячэнні бяспекі.",
+      "EN": "The policy should define processing purposes, categories of data, data subjects’ rights, procedures for requests, and security measures."
+    },
+    "privacy_p2": {
+      "RU": "Текст подготавливается юридической службой или оргуправлением учреждения и утверждается руководителем.",
+      "BY": "Тэкст рыхтуецца юрыдычнай службай або кіраўніцтвам установы і зацвярджаецца кіраўніком.",
+      "EN": "The text should be prepared by legal or management staff and approved by the head of the institution."
+    },
+    "one_window_title": {
+      "RU": "Одно окно",
+      "BY": "Адно акно",
+      "EN": "One-stop shop"
+    },
+    "one_window_lead": {
+      "RU": "Рубрика оформляется в соответствии с законодательством Республики Беларусь об административных процедурах. Здесь размещаются сведения о приёме обращений граждан и порядке предоставления услуг.",
+      "BY": "Рубрыка афармляецца ў адпаведнасці з заканадаўствам Рэспублікі Беларусь аб адміністрацыйных працэдурах. Тут размяшчаюцца звесткі аб прыёме зваротаў грамадзян і парадку аказання паслуг.",
+      "EN": "This section follows Belarusian legislation on administrative procedures and describes how citizens are received and how services are provided."
+    },
+    "one_window_external_hint": {
+      "RU": "Дополнительные материалы и формы могут быть размещены на ресурсе вышестоящей организации — воспользуйтесь ссылкой ниже, если она настроена администратором.",
+      "BY": "Дадатковыя матэрыялы і формы могуць быць размешчаны на рэсурсе вышэйстаячай арганізацыі — скарыстайцеся спасылкай ніжэй, калі яна наладжана адміністратарам.",
+      "EN": "Further materials and forms may appear on the superior organisation’s website — use the link below if configured."
+    },
+    "one_window_link_text": {
+      "RU": "Перейти к информации «Одно окно» (внешний ресурс)",
+      "BY": "Перайсці да інфармацыі «Адно акно» (знешні рэсурс)",
+      "EN": "Open one-stop shop information (external site)"
+    },
+    "sitemap_title": {
+      "RU": "Карта сайта",
+      "BY": "Карта сайта",
+      "EN": "Site map"
+    },
+    "sitemap_intro": {
+      "RU": "Основные разделы и материалы сайта.",
+      "BY": "Асноўныя раздзелы і матэрыялы сайта.",
+      "EN": "Main sections and materials on this site."
+    },
+    "sitemap_main": {
+      "RU": "Главная страница",
+      "BY": "Галоўная старонка",
+      "EN": "Home"
+    },
+    "sitemap_search": {
+      "RU": "Поиск новостей",
+      "BY": "Пошук навін",
+      "EN": "News search"
+    },
+    "sitemap_news_section": {
+      "RU": "Новости",
+      "BY": "Навіны",
+      "EN": "News"
+    },
+    "sitemap_specialties": {
+      "RU": "Специальности",
+      "BY": "Спецыяльнасці",
+      "EN": "Specialties"
+    },
+    "back_home": {
+      "RU": "На главную",
+      "BY": "На галоўную",
+      "EN": "Back to home"
+    },
+    "contacts_title": {
+      "RU": "Контакты",
+      "BY": "Кантакты",
+      "EN": "Contacts"
+    },
+    "contacts_lead": {
+      "RU": "Связаться с колледжем можно по телефону, электронной почте или по почтовому адресу.",
+      "BY": "Звязацца з каледжам можна па тэлефоне, электроннай пошце або па паштовым адрасе.",
+      "EN": "You can reach the college by phone, email, or at the postal address below."
+    },
+    "contacts_address_label": {
+      "RU": "Адрес",
+      "BY": "Адрас",
+      "EN": "Address"
+    },
+    "contacts_phone_label": {
+      "RU": "Телефон",
+      "BY": "Тэлефон",
+      "EN": "Phone"
+    },
+    "contacts_email_label": {
+      "RU": "Электронная почта",
+      "BY": "Электронная пошта",
+      "EN": "Email"
+    },
+    "contacts_hours_label": {
+      "RU": "Режим работы",
+      "BY": "Рэжым працы",
+      "EN": "Opening hours"
+    },
+    "sitemap_contacts": {
+      "RU": "Контакты",
+      "BY": "Кантакты",
+      "EN": "Contacts"
+    },
+    "sitemap_cookies": {
+      "RU": "Политика cookie",
+      "BY": "Палітыка cookie",
+      "EN": "Cookie policy"
     }
   },
   "accessibility": {
