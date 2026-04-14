@@ -244,6 +244,57 @@ nav {
     color: var(--text-color);
 }
 
+.dropdown-menu-wide {
+    min-width: 300px;
+    max-width: min(100vw - 24px, 440px);
+}
+
+.dropdown-menu-wide a {
+    white-space: normal;
+    line-height: 1.35;
+}
+
+.main-nav li .nav-group-label span {
+    display: block;
+    padding: 0.45rem 1rem 0.1rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #7f8c8d;
+}
+
+.dark-mode .main-nav li .nav-group-label span {
+    color: #95a5a6;
+}
+
+.legacy-article-content {
+    overflow-x: auto;
+}
+
+.legacy-article-content img,
+.legacy-article-content iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+.legacy-article-content table {
+    border-collapse: collapse;
+    margin: 1rem 0;
+    max-width: 100%;
+}
+
+.students-hub-list a[target="_blank"]::after {
+    content: " \2197";
+    font-size: 0.75em;
+    opacity: 0.7;
+}
+
+.students-legacy-link {
+    margin-top: 1.25rem;
+    font-size: 0.95rem;
+}
+
 .mobile-menu-btn {
     display: none;
     background: none;

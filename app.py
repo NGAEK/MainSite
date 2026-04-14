@@ -4,7 +4,16 @@ import json
 import os
 from config.config import load_config
 from db.connection import init_db
-from page import main_page, news_detail_page, search_page, spec_page, notfound_page, site_pages
+from page import (
+    main_page,
+    news_detail_page,
+    search_page,
+    spec_page,
+    notfound_page,
+    site_pages,
+    student_pages,
+    applicant_pages,
+)
 from api import api_bp
 from util.i18n_url import build_hreflang_url
 
@@ -224,6 +233,26 @@ def cookies_page():
 @app.route("/specialties")
 def specialties_list():
     return site_pages.specialties_handler(request)
+
+
+@app.route("/students")
+def students_hub():
+    return student_pages.students_hub_handler(request)
+
+
+@app.route("/students/<slug>")
+def students_article(slug):
+    return student_pages.students_article_handler(request, slug)
+
+
+@app.route("/applicants")
+def applicants_hub():
+    return applicant_pages.applicants_hub_handler(request)
+
+
+@app.route("/applicants/<slug>")
+def applicants_article(slug):
+    return applicant_pages.applicants_article_handler(request, slug)
 
 
 if __name__ == '__main__':

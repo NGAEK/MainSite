@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% from 'macros/url.html' import u %}
+{% block breadcrumbs %}
+{% set breadcrumbs = [
+  {'label': t.nav.home, 'url': u('/')},
+  {'label': t.applicants.hub_title, 'url': u('/applicants')},
+  {'label': t.applicants.pages[title_key], 'url': None}
+] %}
+{% include 'partials/breadcrumbs.html' %}
+{% endblock %}
+{% block content %}
+<section class="section static-page">
+    <div class="container static-page-inner">
+        <h1 class="static-page-title">{{ t.applicants.pages[title_key] }}</h1>
+        <div class="legacy-article-content static-page-body">{{ body_html|safe }}</div>
+        <p class="students-legacy-link"><a href="{{ legacy_url }}" rel="noopener noreferrer" target="_blank">{{ t.applicants.open_on_legacy }}</a></p>
+        <p><a href="{{ u('/applicants') }}" class="btn btn-outline">{{ t.applicants.back_to_hub }}</a></p>
+    </div>
+</section>
+{% endblock %}

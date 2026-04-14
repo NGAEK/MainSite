@@ -53,21 +53,48 @@
                 </ul>
             </li>
             <li>
-                <a href="#">{{ t.nav.enrollee }} <i class="fas fa-chevron-down"></i></a>
-                <ul class="dropdown-menu">
+                <a href="{{ u('/applicants') }}">{{ t.nav.enrollee }} <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu dropdown-menu-wide">
+                    <li><a href="{{ u('/applicants') }}">{{ t.applicants.hub_title }}</a></li>
                     <li><a href="{{ u('/specialties') }}">{{ t.nav.specialties }}</a></li>
-                    <li><a href="#">{{ t.nav.admission_rules }}</a></li>
-                    <li><a href="#">{{ t.nav.open_doors }}</a></li>
-                    <li><a href="#">{{ t.nav.faq }}</a></li>
+                    <li><a href="{{ u('/applicants/spetsialnosti') }}">{{ t.applicants.pages.spetsialnosti }}</a></li>
+                    <li><a href="{{ u('/applicants/kontrolnye-tsifry-priema') }}">{{ t.applicants.pages.kontrolnye_tsifry }}</a></li>
+                    <li><a href="{{ u('/applicants/tselevaya-podgotovka') }}">{{ t.applicants.pages.tselevaya_podgotovka }}</a></li>
+                    <li><a href="{{ u('/applicants/prokhodnye-bally') }}">{{ t.applicants.pages.prokhodnye_bally }}</a></li>
+                    <li><a href="{{ u('/applicants/stoimost-obucheniya') }}">{{ t.applicants.pages.stoimost_obucheniya }}</a></li>
+                    <li><a href="{{ u('/applicants/sroki-vstupitelnoj-kampanii') }}">{{ t.applicants.pages.sroki_kampanii }}</a></li>
+                    <li><a href="{{ u('/applicants/dokumenty-dlya-postupleniya') }}">{{ t.applicants.pages.dokumenty_postupleniya }}</a></li>
+                    <li><a href="https://pravo.by/document/?guid=12551&amp;p0=P32200023" rel="noopener noreferrer" target="_blank">{{ t.applicants.ext_pravila_priema }}</a></li>
+                    <li><a href="{{ u('/applicants/normativnye-pravovye-dokumenty') }}">{{ t.applicants.pages.normativnye_dokumenty }}</a></li>
+                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSf4mtPWYDfx57FlI74QdEYhj03KmUyQueKRuYggpjSsd1OuEg/viewform?usp=sf_link" rel="noopener noreferrer" target="_blank">{{ t.applicants.ext_predvaritelnaya_registratsiya }}</a></li>
+                    <li><a href="{{ u('/applicants/chasto-zadavaemye-voprosy') }}">{{ t.applicants.pages.chasto_voprosy }}</a></li>
+                    <li><a href="{{ u('/applicants/goryachaya-liniya') }}">{{ t.applicants.pages.goryachaya_liniya }}</a></li>
+                    <li><a href="{{ u('/applicants/konsultatsionnyj-punkt') }}">{{ t.applicants.pages.konsultatsionnyj_punkt }}</a></li>
+                    <li><a href="{{ u('/applicants/trudoustrojstvo') }}">{{ t.applicants.pages.trudoustrojstvo }}</a></li>
+                    <li><a href="{{ u('/applicants/obshchezhitie') }}">{{ t.applicants.pages.obshchezhitie }}</a></li>
+                    <li><a href="{{ u('/applicants/organizatsiya-pitaniya') }}">{{ t.applicants.pages.organizatsiya_pitaniya }}</a></li>
                 </ul>
             </li>
             <li>
-                <a href="#">{{ t.nav.study }} <i class="fas fa-chevron-down"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">{{ t.nav.schedule }}</a></li>
-                    <li><a href="#">{{ t.nav.e_learning }}</a></li>
-                    <li><a href="#">{{ t.nav.library }}</a></li>
-                    <li><a href="#">{{ t.nav.practice }}</a></li>
+                <a href="{{ u('/students') }}">{{ t.nav.students }} <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu dropdown-menu-wide">
+                    <li><a href="{{ u('/students') }}">{{ t.students.hub_title }}</a></li>
+                    <li class="nav-group-label"><span>{{ t.students.section_day }}</span></li>
+                    <li><a href="{{ u('/students/grafik-uchebnogo-protsessa') }}">{{ t.students.pages.grafik_uchebnogo_protsessa }}</a></li>
+                    <li><a href="{{ u('/students/proizvodstvennoe-obuchenie') }}">{{ t.students.pages.proizvodstvennoe_obuchenie }}</a></li>
+                    <li><a href="{{ u('/students/grafik-prokhozhdeniya-uchebnykh-i-proizvodstvennykh-praktik') }}">{{ t.students.pages.grafik_praktik }}</a></li>
+                    <li><a href="{{ u('/students/pamyatka-uchashchemusya') }}">{{ t.students.pages.pamyatka_uchashchemusya }}</a></li>
+                    <li><a href="{{ u('/students/obraztsy-dokumentov') }}">{{ t.students.pages.obraztsy_dokumentov }}</a></li>
+                    <li><a href="{{ u('/students/kursovoe-i-diplomnoe-proektirovanie') }}">{{ t.students.pages.kursovoe_diplomnoe }}</a></li>
+                    <li><a href="{{ u('/students/normativnye-dokumenty') }}">{{ t.students.pages.normativnye_dokumenty }}</a></li>
+                    <li><a href="{{ u('/students/raspredelenie-i-trudoustrojstvo-vypusknikov') }}">{{ t.students.pages.raspredelenie_vypusknikov }}</a></li>
+                    <li class="nav-group-label"><span>{{ t.students.section_zaoch }}</span></li>
+                    <li><a href="{{ u('/students/uchebnaya-programma-preddiplomnoj-praktiki') }}">{{ t.students.pages.programma_preddiplomnoj_praktiki }}</a></li>
+                    <li><a href="{{ u('/students/grafik-uchebnogo-protsessa-zaochnogo-otdeleniya') }}">{{ t.students.pages.grafik_zaochnogo }}</a></li>
+                    <li class="nav-group-label"><span>{{ t.students.section_common }}</span></li>
+                    <li><a href="{{ u('/students/stoimost-obucheniya') }}">{{ t.students.pages.stoimost_obucheniya }}</a></li>
+                    <li><a href="{{ u('/students/vypusknikam') }}">{{ t.students.pages.vypusknikam }}</a></li>
+                    <li><a href="{{ u('/students/informatsiya-dlya-uchashchikhsya-prekrativshim-dosrochno-obrazovatelnye-otnosheniya-i-prokhodivshim-attestatsiyu-v-poryadke-eksternata') }}">{{ t.students.pages.informatsiya_eksternat }}</a></li>
                 </ul>
             </li>
             <li><a href="{{ u('/') }}#news">{{ t.nav.news }}</a></li>
