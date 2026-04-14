@@ -5,6 +5,7 @@ import os
 from config.config import load_config
 from db.connection import init_db
 from db import admin_users_repository
+from db import visitor_metrics_repository
 from page import (
     main_page,
     news_detail_page,
@@ -131,6 +132,23 @@ def add_api_cors_headers(response):
     return response
 
 
+@app.after_request
+def collect_site_user_metrics(response):
+    """Собирает метрики уникальных пользователей по посещениям."""
+    path = request.path or ""
+    if path.startswith("/api/") or path.startswith("/static/") or path == "/favicon.ico":
+        return response
+    try:
+        forwarded = (request.headers.get("X-Forwarded-For") or "").split(",")[0].strip()
+        ip = forwarded or request.remote_addr or ""
+        ua = request.user_agent.string or ""
+        visitor_key = visitor_metrics_repository.build_visitor_key(ip, ua)
+        visitor_metrics_repository.record_visit(visitor_key)
+    except Exception as exc:
+        logger.warning(f"Не удалось сохранить метрику посещения: {exc}")
+    return response
+
+
 # Регистрация фильтров для шаблонов
 @app.template_filter('date_format')
 def date_format_filter(date, format_str='%Y-%m-%d'):
@@ -168,6 +186,7 @@ init_db(
 )
 
 admin_users_repository.ensure_admin_users_table()
+visitor_metrics_repository.ensure_site_visits_table()
 seed_auth = config.admin_auth or {}
 seed_username = str(seed_auth.get("username") or "").strip()
 seed_password_hash = str(seed_auth.get("password_hash") or "").strip()

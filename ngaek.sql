@@ -85,6 +85,21 @@ CREATE TABLE `admin_users` (
 INSERT INTO `admin_users` (`id`, `username`, `password_hash`, `is_active`, `created_at`, `updated_at`) VALUES
 (1, 'admin', '$2b$12$k7dOeMUC/9L4i8Vx9Z9zku.I9M9ygis1WF0QAP8z668UYZLTKzvRa', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `site_visits`
+--
+
+CREATE TABLE `site_visits` (
+                              `id` bigint(20) NOT NULL,
+                              `visit_date` date NOT NULL,
+                              `visitor_key` char(64) NOT NULL,
+                              `first_seen` datetime NOT NULL,
+                              `last_seen` datetime NOT NULL,
+                              `hits` int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Индексы сохранённых таблиц
 --
@@ -103,6 +118,14 @@ ALTER TABLE `admin_users`
     ADD UNIQUE KEY `uq_admin_users_username` (`username`);
 
 --
+-- Индексы таблицы `site_visits`
+--
+ALTER TABLE `site_visits`
+    ADD PRIMARY KEY (`id`),
+    ADD UNIQUE KEY `uq_site_visits_date_visitor` (`visit_date`,`visitor_key`),
+    ADD KEY `idx_site_visits_visit_date` (`visit_date`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -116,6 +139,11 @@ ALTER TABLE `news`
 --
 ALTER TABLE `admin_users`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT для таблицы `site_visits`
+--
+ALTER TABLE `site_visits`
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

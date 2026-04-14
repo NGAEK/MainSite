@@ -1,7 +1,10 @@
 """JSON API для внешней админки: приём и отдача данных о новостях."""
 import logging
+import os
+import uuid
 from datetime import date, datetime, timezone
 from flask import Blueprint, request, jsonify, current_app
+from werkzeug.utils import secure_filename
 
 from api.file_service import (
     build_default_file_service,
@@ -14,6 +17,7 @@ from api.security import validate_api_key
 from db.connection import is_db_alive, get_table_names
 from db import news_repository
 from db import admin_users_repository
+from db import visitor_metrics_repository
 from api.security import (
     validate_admin_credentials,
     issue_access_token,
@@ -28,6 +32,7 @@ API_KEY_HEADER = "X-API-Key"
 AUTHORIZATION_HEADER = "Authorization"
 ACCESS_TOKEN_TTL_SECONDS = 8 * 60 * 60
 API_STARTED_AT = datetime.now(timezone.utc)
+ALLOWED_IMAGE_EXTENSIONS = {"jpg", "jpeg", "png", "webp", "gif"}
 
 
 @api_bp.before_request
@@ -112,6 +117,7 @@ def _collect_main_metrics() -> dict:
     now = datetime.now(timezone.utc)
     uptime_seconds = int((now - API_STARTED_AT).total_seconds())
     db_tables = get_table_names()
+    user_metrics = visitor_metrics_repository.get_user_metrics()
     return {
         "generated_at": now.isoformat(),
         "api_uptime_seconds": uptime_seconds,
@@ -121,7 +127,18 @@ def _collect_main_metrics() -> dict:
         "news_total": news_repository.count_news(),
         "admin_users_total": admin_users_repository.count_admin_users(active_only=False),
         "admin_users_active": admin_users_repository.count_admin_users(active_only=True),
+        "users_today": user_metrics["users_today"],
+        "users_month": user_metrics["users_month"],
+        "users_year": user_metrics["users_year"],
+        "users_total": user_metrics["users_total"],
     }
+
+
+def _is_allowed_image(filename: str) -> bool:
+    if "." not in filename:
+        return False
+    ext = filename.rsplit(".", 1)[1].lower()
+    return ext in ALLOWED_IMAGE_EXTENSIONS
 
 
 @api_bp.route("/auth/login", methods=["POST", "OPTIONS"])
@@ -185,6 +202,7 @@ def openapi_schema():
             "/health": {"get": {"summary": "API health"}},
             "/auth/login": {"post": {"summary": "Login and receive bearer token"}},
             "/metrics/main": {"get": {"summary": "Main operational metrics"}},
+            "/media/news-image": {"post": {"summary": "Upload news image"}},
             "/system/status": {"get": {"summary": "System status"}},
             "/files": {"get": {"summary": "List files or read file"}, "put": {"summary": "Write file"}, "delete": {"summary": "Delete file"}},
             "/news": {"get": {"summary": "List news"}, "post": {"summary": "Create news"}},
@@ -210,6 +228,32 @@ def main_metrics():
         logger.exception("API main_metrics")
         return _json_error(500, "database_error", str(e))
     return jsonify({"data": data}), 200
+
+
+@api_bp.route("/media/news-image", methods=["POST"])
+def upload_news_image():
+    err = _require_auth()
+    if err:
+        return err
+    upload = request.files.get("image")
+    if not upload or not upload.filename:
+        return _json_error(400, "validation_error", "Файл image обязателен")
+    if not _is_allowed_image(upload.filename):
+        return _json_error(
+            400,
+            "validation_error",
+            "Разрешены только изображения: jpg, jpeg, png, webp, gif",
+        )
+    original = secure_filename(upload.filename)
+    ext = original.rsplit(".", 1)[1].lower()
+    unique_name = f"{uuid.uuid4().hex}.{ext}"
+    static_dir = os.path.join(current_app.root_path, "static", "images", "news_images")
+    os.makedirs(static_dir, exist_ok=True)
+    abs_path = os.path.join(static_dir, unique_name)
+    upload.save(abs_path)
+    rel_path = f"/static/images/news_images/{unique_name}"
+    file_url = f"{request.url_root.rstrip('/')}{rel_path}"
+    return jsonify({"data": {"image_path": rel_path, "image_url": file_url}}), 201
 
 
 @api_bp.route("/system/status", methods=["GET"])
