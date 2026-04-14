@@ -2,6 +2,7 @@
 from flask import render_template
 import logging
 from db import news_repository
+from db import tabs_repository
 
 logger = logging.getLogger(__name__)
 
@@ -33,3 +34,10 @@ def cookies_handler(request):
 
 def specialties_handler(request):
     return render_template("pages/specialties.html")
+
+
+def custom_page_handler(request, slug: str):
+    tab = tabs_repository.get_tab_by_slug(slug)
+    if not tab or not bool(tab.get("is_active")):
+        return render_template("errors/404.html"), 404
+    return render_template("pages/custom_tab.html", tab=tab)

@@ -18,6 +18,7 @@ from db.connection import is_db_alive, get_table_names
 from db import news_repository
 from db import admin_users_repository
 from db import visitor_metrics_repository
+from db import tabs_repository
 from api.security import (
     validate_admin_credentials,
     issue_access_token,
@@ -131,7 +132,18 @@ def _collect_main_metrics() -> dict:
         "users_month": user_metrics["users_month"],
         "users_year": user_metrics["users_year"],
         "users_total": user_metrics["users_total"],
+        "tabs_total": len(tabs_repository.get_all_tabs()),
     }
+
+
+def _slugify(value: str) -> str:
+    return (
+        (value or "")
+        .strip()
+        .lower()
+        .replace(" ", "-")
+        .replace("/", "-")
+    )
 
 
 def _is_allowed_image(filename: str) -> bool:
@@ -203,6 +215,8 @@ def openapi_schema():
             "/auth/login": {"post": {"summary": "Login and receive bearer token"}},
             "/metrics/main": {"get": {"summary": "Main operational metrics"}},
             "/media/news-image": {"post": {"summary": "Upload news image"}},
+            "/tabs": {"get": {"summary": "List tabs"}, "post": {"summary": "Create tab"}},
+            "/tabs/{tab_id}": {"put": {"summary": "Update tab"}, "delete": {"summary": "Delete tab"}},
             "/system/status": {"get": {"summary": "System status"}},
             "/files": {"get": {"summary": "List files or read file"}, "put": {"summary": "Write file"}, "delete": {"summary": "Delete file"}},
             "/news": {"get": {"summary": "List news"}, "post": {"summary": "Create news"}},
@@ -254,6 +268,91 @@ def upload_news_image():
     rel_path = f"/static/images/news_images/{unique_name}"
     file_url = f"{request.url_root.rstrip('/')}{rel_path}"
     return jsonify({"data": {"image_path": rel_path, "image_url": file_url}}), 201
+
+
+@api_bp.route("/tabs", methods=["GET"])
+def list_tabs():
+    err = _require_auth()
+    if err:
+        return err
+    include_inactive = _parse_bool(request.args.get("include_inactive"), default=True)
+    items = tabs_repository.get_all_tabs() if include_inactive else tabs_repository.get_active_tabs()
+    return jsonify({"data": items}), 200
+
+
+@api_bp.route("/tabs", methods=["POST"])
+def create_tab():
+    err = _require_auth()
+    if err:
+        return err
+    payload, err = _parse_json_body()
+    if err:
+        return err
+    title = str(payload.get("title") or "").strip()
+    menu_title = str(payload.get("menu_title") or title).strip()
+    slug = _slugify(str(payload.get("slug") or menu_title))
+    if not title or not menu_title or not slug:
+        return _json_error(400, "validation_error", "Поля title/menu_title/slug обязательны")
+    row = {
+        "slug": slug,
+        "title": title,
+        "menu_title": menu_title,
+        "content_html": str(payload.get("content_html") or ""),
+        "sort_order": int(payload.get("sort_order") or 100),
+        "is_active": bool(payload.get("is_active", True)),
+        "open_in_new_tab": bool(payload.get("open_in_new_tab", False)),
+    }
+    try:
+        new_id = tabs_repository.create_tab(row)
+    except Exception as e:
+        logger.exception("API create_tab")
+        return _json_error(500, "database_error", str(e))
+    return jsonify({"data": {"id": new_id}}), 201
+
+
+@api_bp.route("/tabs/<int:tab_id>", methods=["PUT"])
+def update_tab(tab_id):
+    err = _require_auth()
+    if err:
+        return err
+    payload, err = _parse_json_body()
+    if err:
+        return err
+    title = str(payload.get("title") or "").strip()
+    menu_title = str(payload.get("menu_title") or title).strip()
+    slug = _slugify(str(payload.get("slug") or menu_title))
+    if not title or not menu_title or not slug:
+        return _json_error(400, "validation_error", "Поля title/menu_title/slug обязательны")
+    row = {
+        "slug": slug,
+        "title": title,
+        "menu_title": menu_title,
+        "content_html": str(payload.get("content_html") or ""),
+        "sort_order": int(payload.get("sort_order") or 100),
+        "is_active": bool(payload.get("is_active", True)),
+        "open_in_new_tab": bool(payload.get("open_in_new_tab", False)),
+    }
+    try:
+        tabs_repository.update_tab(tab_id, row)
+    except Exception as e:
+        logger.exception("API update_tab")
+        return _json_error(500, "database_error", str(e))
+    return jsonify({"data": {"id": tab_id, "updated": True}}), 200
+
+
+@api_bp.route("/tabs/<int:tab_id>", methods=["DELETE"])
+def delete_tab(tab_id):
+    err = _require_auth()
+    if err:
+        return err
+    try:
+        deleted = tabs_repository.delete_tab(tab_id)
+    except Exception as e:
+        logger.exception("API delete_tab")
+        return _json_error(500, "database_error", str(e))
+    if not deleted:
+        return _json_error(404, "not_found", "Вкладка не найдена")
+    return "", 204
 
 
 @api_bp.route("/system/status", methods=["GET"])

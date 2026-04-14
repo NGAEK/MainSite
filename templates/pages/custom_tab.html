@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% from 'macros/url.html' import u %}
+
+{% block content %}
+<section class="section">
+  <div class="container static-page">
+    <h1 class="static-page-title">{{ tab.title }}</h1>
+    <div class="static-page-content">
+      {{ (tab.content_html or '') | safe }}
+    </div>
+    <p><a href="{{ u('/') }}">{{ t.pages.back_home }}</a></p>
+  </div>
+</section>
+{% endblock %}

@@ -98,6 +98,13 @@
             </li>
             <li><a href="{{ u('/') }}#news">{{ t.nav.news }}</a></li>
             <li><a href="#">{{ t.nav.gallery }}</a></li>
+            {% for tab in dynamic_tabs %}
+                <li>
+                    <a href="{{ u('/pages/' ~ tab.slug) }}" {% if tab.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}>
+                        {{ tab.menu_title }}
+                    </a>
+                </li>
+            {% endfor %}
             <li><a href="{{ u('/contacts') }}">{{ t.nav.contacts }}</a></li>
         </ul>
     </div>

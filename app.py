@@ -6,6 +6,7 @@ from config.config import load_config
 from db.connection import init_db
 from db import admin_users_repository
 from db import visitor_metrics_repository
+from db import tabs_repository
 from page import (
     main_page,
     news_detail_page,
@@ -108,6 +109,16 @@ def inject_site_public():
     )
 
 
+@app.context_processor
+def inject_dynamic_tabs():
+    try:
+        tabs = tabs_repository.get_active_tabs()
+    except Exception as exc:
+        logger.warning(f"Не удалось загрузить динамические вкладки: {exc}")
+        tabs = []
+    return dict(dynamic_tabs=tabs)
+
+
 @app.after_request
 def set_locale_cookie(response):
     """Сохраняем выбранный язык в cookie при ?lang=."""
@@ -187,6 +198,7 @@ init_db(
 
 admin_users_repository.ensure_admin_users_table()
 visitor_metrics_repository.ensure_site_visits_table()
+tabs_repository.ensure_tabs_table()
 seed_auth = config.admin_auth or {}
 seed_username = str(seed_auth.get("username") or "").strip()
 seed_password_hash = str(seed_auth.get("password_hash") or "").strip()
@@ -300,6 +312,11 @@ def applicants_hub():
 @app.route("/applicants/<slug>")
 def applicants_article(slug):
     return applicant_pages.applicants_article_handler(request, slug)
+
+
+@app.route("/pages/<slug>")
+def custom_page(slug):
+    return site_pages.custom_page_handler(request, slug)
 
 
 if __name__ == '__main__':
