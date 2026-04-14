@@ -219,6 +219,100 @@
       "EN": "Contacts"
     }
   },
+  "applicants": {
+    "hub_title": {
+      "RU": "Абитуриентам",
+      "BY": "Абітурыентам",
+      "EN": "Applicants"
+    },
+    "hub_intro": {
+      "RU": "Раздел с основными материалами для поступающих.",
+      "BY": "Раздзел з асноўнымі матэрыяламі для паступаючых.",
+      "EN": "Section with key information for applicants."
+    },
+    "back_to_hub": {
+      "RU": "К разделу абитуриента",
+      "BY": "Да раздзела абітурыента",
+      "EN": "Back to applicants section"
+    },
+    "open_on_legacy": {
+      "RU": "Открыть материал на старом сайте",
+      "BY": "Адкрыць матэрыял на старым сайце",
+      "EN": "Open on legacy website"
+    },
+    "ext_pravila_priema": {
+      "RU": "Правила приёма (внешний ресурс)",
+      "BY": "Правілы прыёму (знешні рэсурс)",
+      "EN": "Admission rules (external)"
+    },
+    "ext_predvaritelnaya_registratsiya": {
+      "RU": "Предварительная регистрация (внешний ресурс)",
+      "BY": "Папярэдняя рэгістрацыя (знешні рэсурс)",
+      "EN": "Pre-registration (external)"
+    },
+    "pages": {
+      "spetsialnosti": { "RU": "Специальности", "BY": "Спецыяльнасці", "EN": "Specialties" },
+      "kontrolnye_tsifry": { "RU": "Контрольные цифры приёма", "BY": "Кантрольныя лічбы прыёму", "EN": "Admission quotas" },
+      "tselevaya_podgotovka": { "RU": "Целевая подготовка", "BY": "Мэтавая падрыхтоўка", "EN": "Targeted training" },
+      "prokhodnye_bally": { "RU": "Проходные баллы", "BY": "Праходныя балы", "EN": "Passing scores" },
+      "stoimost_obucheniya": { "RU": "Стоимость обучения", "BY": "Кошт навучання", "EN": "Tuition fees" },
+      "sroki_kampanii": { "RU": "Сроки вступительной кампании", "BY": "Тэрміны уступнай кампаніі", "EN": "Admission timeline" },
+      "dokumenty_postupleniya": { "RU": "Документы для поступления", "BY": "Дакументы для паступлення", "EN": "Admission documents" },
+      "normativnye_dokumenty": { "RU": "Нормативные документы", "BY": "Нарматыўныя дакументы", "EN": "Regulatory documents" },
+      "chasto_voprosy": { "RU": "Часто задаваемые вопросы", "BY": "Часта задаваныя пытанні", "EN": "FAQ" },
+      "goryachaya_liniya": { "RU": "Горячая линия", "BY": "Гарачая лінія", "EN": "Hotline" },
+      "konsultatsionnyj_punkt": { "RU": "Консультационный пункт", "BY": "Кансультацыйны пункт", "EN": "Consultation point" },
+      "trudoustrojstvo": { "RU": "Трудоустройство", "BY": "Працоўладкаванне", "EN": "Employment" },
+      "obshchezhitie": { "RU": "Общежитие", "BY": "Інтэрнат", "EN": "Dormitory" },
+      "organizatsiya_pitaniya": { "RU": "Организация питания", "BY": "Арганізацыя харчавання", "EN": "Catering" }
+    }
+  },
+  "students": {
+    "hub_title": {
+      "RU": "Учащимся",
+      "BY": "Вучням",
+      "EN": "Students"
+    },
+    "hub_intro": {
+      "RU": "Раздел с материалами для учащихся.",
+      "BY": "Раздзел з матэрыяламі для вучняў.",
+      "EN": "Section with materials for students."
+    },
+    "back_to_hub": {
+      "RU": "К разделу учащихся",
+      "BY": "Да раздзела вучняў",
+      "EN": "Back to students section"
+    },
+    "open_on_legacy": {
+      "RU": "Открыть материал на старом сайте",
+      "BY": "Адкрыць матэрыял на старым сайце",
+      "EN": "Open on legacy website"
+    },
+    "section_day": { "RU": "Дневное отделение", "BY": "Дзённае аддзяленне", "EN": "Full-time" },
+    "section_zaoch": { "RU": "Заочное отделение", "BY": "Завочнае аддзяленне", "EN": "Part-time" },
+    "section_common": { "RU": "Общее", "BY": "Агульнае", "EN": "General" },
+    "ext_schedule_drive": { "RU": "Расписание (Google Drive)", "BY": "Расклад (Google Drive)", "EN": "Schedule (Google Drive)" },
+    "ext_practice_survey": { "RU": "Анкета по практике (внешний ресурс)", "BY": "Анкета па практыцы (знешні рэсурс)", "EN": "Practice survey (external)" },
+    "ext_fakultativ_polozhenie": { "RU": "Положение о факультативах (внешний ресурс)", "BY": "Палажэнне аб факультатывах (знешні рэсурс)", "EN": "Facultative courses policy (external)" },
+    "ext_fakultativ_schedule": { "RU": "Расписание факультативов (внешний ресурс)", "BY": "Расклад факультатываў (знешні рэсурс)", "EN": "Facultative schedule (external)" },
+    "ext_zaoch_materials": { "RU": "Материалы заочного отделения (внешний ресурс)", "BY": "Матэрыялы завочнага аддзялення (знешні рэсурс)", "EN": "Part-time materials (external)" },
+    "ext_rules_adu": { "RU": "Правила для учащихся (adu.by)", "BY": "Правілы для вучняў (adu.by)", "EN": "Student rules (adu.by)" },
+    "pages": {
+      "grafik_uchebnogo_protsessa": { "RU": "График учебного процесса", "BY": "Графік вучэбнага працэсу", "EN": "Academic schedule" },
+      "proizvodstvennoe_obuchenie": { "RU": "Производственное обучение", "BY": "Вытворчае навучанне", "EN": "Industrial training" },
+      "grafik_praktik": { "RU": "График практик", "BY": "Графік практык", "EN": "Internship schedule" },
+      "pamyatka_uchashchemusya": { "RU": "Памятка учащемуся", "BY": "Памятка вучню", "EN": "Student memo" },
+      "obraztsy_dokumentov": { "RU": "Образцы документов", "BY": "Узоры дакументаў", "EN": "Document samples" },
+      "kursovoe_diplomnoe": { "RU": "Курсовое и дипломное проектирование", "BY": "Курсавае і дыпломнае праектаванне", "EN": "Course and diploma projects" },
+      "normativnye_dokumenty": { "RU": "Нормативные документы", "BY": "Нарматыўныя дакументы", "EN": "Regulatory documents" },
+      "raspredelenie_vypusknikov": { "RU": "Распределение и трудоустройство выпускников", "BY": "Размеркаванне і працаўладкаванне выпускнікоў", "EN": "Graduate placement and employment" },
+      "programma_preddiplomnoj_praktiki": { "RU": "Учебная программа преддипломной практики", "BY": "Вучэбная праграма пераддыпломнай практыкі", "EN": "Pre-diploma internship program" },
+      "grafik_zaochnogo": { "RU": "График заочного отделения", "BY": "Графік завочнага аддзялення", "EN": "Part-time schedule" },
+      "stoimost_obucheniya": { "RU": "Стоимость обучения", "BY": "Кошт навучання", "EN": "Tuition fees" },
+      "vypusknikam": { "RU": "Выпускникам", "BY": "Выпускнікам", "EN": "For graduates" },
+      "informatsiya_eksternat": { "RU": "Информация для экстерната", "BY": "Інфармацыя для экстэрната", "EN": "External studies information" }
+    }
+  },
   "hero": {
     "slide1_title": {
       "RU": "Профессиональное образование - путь к успеху",
