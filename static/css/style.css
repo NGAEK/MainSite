@@ -143,7 +143,6 @@ header {
 .logo img {
     height: 46px;
     width: auto;
-    filter: brightness(0) invert(1);
 }
 
 .logo-text h1 {
