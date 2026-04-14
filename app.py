@@ -221,6 +221,11 @@ def cookies_page():
     return site_pages.cookies_handler(request)
 
 
+@app.route("/specialties")
+def specialties_list():
+    return site_pages.specialties_handler(request)
+
+
 if __name__ == '__main__':
     port = config.server.port.lstrip(':') if config.server.port.startswith(':') else config.server.port
     logger.info(f"Сервер запущен на http://localhost:{port}")

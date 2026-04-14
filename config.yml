@@ -17,4 +17,5 @@ site:
     show_placeholder_if_empty: true
   admin_email: "info@ngaek.by"
   phone: "+375 (17) 123-45-67"
+  phone_tel: "+375171234567"
   one_window_external_url: "https://minsk.gov.by/ru/services/okno/"

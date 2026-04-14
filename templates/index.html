@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from 'macros/url.html' import u %}
 {% block content %}
     <!-- Hero Slider -->
     <section class="hero-slider">
@@ -101,73 +102,10 @@
         <div class="container">
             <div class="section-title">
                 <h2>{{ t.specialties.title }}</h2>
+                <p class="section-title-more"><a href="{{ u('/specialties') }}">{{ t.pages.specialties_all_link }}</a></p>
             </div>
-                <a href="/spec/po" style="text-decoration: none;"><div class="specialty-card">
-                    <div class="specialty-icon">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <div class="specialty-info">
-                        <h3>{{ t.specialties.po_title }}</h3>
-                        <div class="specialty-meta">
-                            <span class="specialty-item"><i class="fas fa-clock"></i><p>{{ t.specialties.po_duration }}</p></span>
-                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>{{ t.specialties.po_qualification }}</p></span>
-                        </div>
-                        <p>{{ t.specialties.po_description }}</p>
-                    </div>
-                </div></a>
-                <a href="/spec/byx" style="text-decoration: none;"><div class="specialty-card">
-                    <div class="specialty-icon">
-                        <i class="fas fa-calculator"></i>
-                    </div>
-                    <div class="specialty-info">
-                        <h3>{{ t.specialties.byx_title }}</h3>
-                        <div class="specialty-meta">
-                            <span class="specialty-item"><i class="fas fa-clock"></i><p>{{ t.specialties.byx_duration }}</p></span>
-                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>{{ t.specialties.byx_qualification }}</p></span>
-                        </div>
-                        <p>{{ t.specialties.byx_description }}</p>
-                    </div>
-                </div></a>
-                <a href="/spec/ogu" style="text-decoration: none;"><div class="specialty-card">
-                    <div class="specialty-icon">
-                        <i class="fas fa-house"></i>
-                    </div>
-                    <div class="specialty-info">
-                        <h3>{{ t.specialties.ogu_title }}</h3>
-                        <div class="specialty-meta">
-                            <span class="specialty-item"><i class="fas fa-clock"></i><p>{{ t.specialties.ogu_duration }}</p></span>
-                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>{{ t.specialties.ogu_qualification }}</p></span>
-                        </div>
-                        <p>{{ t.specialties.ogu_description }}</p>
-                    </div>
-                </div></a>
-                <a href="/spec/do" style="text-decoration: none;"><div class="specialty-card">
-                    <div class="specialty-icon">
-                        <i class="fas fa-folder"></i>
-                    </div>
-                    <div class="specialty-info">
-                        <h3>{{ t.specialties.do_title }}</h3>
-                        <div class="specialty-meta">
-                            <span class="specialty-item"><i class="fas fa-clock"></i><p>{{ t.specialties.do_duration }}</p></span>
-                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>{{ t.specialties.do_qualification }}</p></span>
-                        </div>
-                        <p>{{ t.specialties.do_description }}</p>
-                    </div>
-                </div></a>
-                <a href="/spec/soc_rab" style="text-decoration: none;"><div class="specialty-card">
-                    <div class="specialty-icon">
-                        <i class="fas fa-person-chalkboard"></i>
-                    </div>
-                    <div class="specialty-info">
-                        <h3>{{ t.specialties.soc_rab_title }}</h3>
-                        <div class="specialty-meta">
-                            <span class="specialty-item"><i class="fas fa-clock"></i><p>{{ t.specialties.soc_rab_duration }}</p></span>
-                            <span class="specialty-item"><i class="fas fa-graduation-cap"></i><p>{{ t.specialties.soc_rab_qualification }}</p></span>
-                        </div>
-                        <p>{{ t.specialties.soc_rab_description }}</p>
-                    </div>
-                </div></a>
-            </div>
+            {% include 'partials/specialties_grid.html' %}
+        </div>
     </section>
 
     <!-- Gallery Section -->

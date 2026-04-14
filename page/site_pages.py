@@ -29,3 +29,7 @@ def contacts_handler(request):
 
 def cookies_handler(request):
     return render_template("pages/cookies.html")
+
+
+def specialties_handler(request):
+    return render_template("pages/specialties.html")

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% from 'macros/url.html' import u %}
+{% block breadcrumbs %}
+{% set breadcrumbs = [
+  {'label': t.nav.home, 'url': u('/')},
+  {'label': t.pages.specialties_title, 'url': None}
+] %}
+{% include 'partials/breadcrumbs.html' %}
+{% endblock %}
+{% block content %}
+<section class="section bg-light specialties-page">
+    <div class="container">
+        <h1 class="static-page-title specialties-page-title">{{ t.pages.specialties_title }}</h1>
+        <p class="static-page-intro">{{ t.pages.specialties_intro }}</p>
+        {% include 'partials/specialties_grid.html' %}
+        <p class="specialties-page-back"><a href="{{ u('/') }}" class="btn btn-outline">{{ t.pages.back_home }}</a></p>
+    </div>
+</section>
+{% endblock %}
