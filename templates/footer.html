@@ -1,7 +1,7 @@
 {% from 'macros/url.html' import u %}
 
 <!-- partners -->
-<section class="section bg-light">
+<section class="section bg-light" style="padding:32px 0;">
     <hr class="hr-shadow">
     <div class="container">
         <div class="partners-container">
@@ -20,10 +20,24 @@
                 <a href="https://beldosaaf.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/dosaaf.jpg" alt="{{ t.common.partner_alt }} 12"></a>
                 <a href="https://pravo.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/minselxoz.jpg" alt="{{ t.common.partner_alt }} 13"></a>
                 <a href="https://www.mintrud.gov.by/ru/trud-molodezh-ru" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/Banner_zanyatost20molodezhi.png" alt="{{ t.common.partner_alt }} 14"></a>
+                <!-- дубликат для бесконечной прокрутки -->
+                <a href="https://brsm.by/ru" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/brsm.jpg" alt="{{ t.common.partner_alt }} 1"></a>
+                <a href="https://edu.gov.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/images.jpg" alt="{{ t.common.partner_alt }} 2"></a>
+                <a href="https://minsk-roo.gov.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/images1.jpg" alt="{{ t.common.partner_alt }} 3"></a>
+                <a href="https://uomoik.gov.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/mo1.jpg" alt="{{ t.common.partner_alt }} 4"></a>
+                <a href="https://1br.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/belrus.jpg" alt="{{ t.common.partner_alt }} 5"></a>
+                <a href="https://pomogut.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/imvd_banner_170_60.jpg" alt="{{ t.common.partner_alt }} 6"></a>
+                <a href="https://profitest.ripo.by/public/main" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/social-image.jpg" alt="{{ t.common.partner_alt }} 7"></a>
+                <a href="https://president.gov.by/ru" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/president.gif" alt="{{ t.common.partner_alt }} 9"></a>
+                <a href="https://ripo.by/index.php?id=1648" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/ripo.png" alt="{{ t.common.partner_alt }} 10"></a>
+                <a href="https://beldosaaf.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/dosaaf.jpg" alt="{{ t.common.partner_alt }} 12"></a>
+                <a href="https://pravo.by/" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/minselxoz.jpg" alt="{{ t.common.partner_alt }} 13"></a>
+                <a href="https://www.mintrud.gov.by/ru/trud-molodezh-ru" target="_blank" rel="noopener noreferrer"><img src="../static/images/partners/Banner_zanyatost20molodezhi.png" alt="{{ t.common.partner_alt }} 14"></a>
             </div>
         </div>
     </div>
 </section>
+
 <!-- Footer -->
 <footer>
     <div class="container">
@@ -76,7 +90,7 @@
                     <i class="fas fa-clock footer-contact-icon"></i>
                     <span>{{ t.footer.work_hours }}</span>
                 </div>
-                <div class="social-links" style="margin-top: 15px;">
+                <div class="social-links footer-social" style="margin-top:14px; justify-content:flex-start;">
                     <a href="https://vk.com/club40400418" target="_blank" rel="noopener noreferrer"><i class="fab fa-vk"></i></a>
                     <a href="https://t.me/ngaekby" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram"></i></a>
                     <a href="https://instagram.com/uo_ngaek" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
@@ -105,7 +119,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p style="color: white;">&copy; 2025 {{ t.footer.copyright }}</p>
+            <p>&copy; 2025 {{ t.footer.copyright }}</p>
         </div>
     </div>
 </footer>
@@ -138,7 +152,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn" id="resetAccessibility">{{ t.accessibility.reset }}</button>
+            <button class="btn btn-outline" id="resetAccessibility">{{ t.accessibility.reset }}</button>
             <button class="btn" id="saveAccessibility">{{ t.accessibility.save }}</button>
         </div>
     </div>
