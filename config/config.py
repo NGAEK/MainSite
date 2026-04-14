@@ -18,11 +18,12 @@ class ServerConfig:
 
 
 class Config:
-    def __init__(self, database, server, admin_api_key: str = "", site=None):
+    def __init__(self, database, server, admin_api_key: str = "", site=None, admin_auth=None):
         self.database = database
         self.server = server
         self.admin_api_key = admin_api_key or ""
         self.site = site if isinstance(site, dict) else {}
+        self.admin_auth = admin_auth if isinstance(admin_auth, dict) else {}
 
 
 def load_config(path="config.yml"):
@@ -52,7 +53,20 @@ def load_config(path="config.yml"):
     if isinstance(data.get("site"), dict):
         site = data["site"]
 
-    config = Config(db_config, server_config, admin_key, site)
+    admin_auth = {}
+    if isinstance(data.get("admin_auth"), dict):
+        admin_auth = {
+            "username": str(data["admin_auth"].get("username") or "").strip(),
+            "password_hash": str(data["admin_auth"].get("password_hash") or "").strip(),
+        }
+    env_username = os.environ.get("NGAEK_ADMIN_USERNAME", "").strip()
+    env_password_hash = os.environ.get("NGAEK_ADMIN_PASSWORD_HASH", "").strip()
+    if env_username:
+        admin_auth["username"] = env_username
+    if env_password_hash:
+        admin_auth["password_hash"] = env_password_hash
+
+    config = Config(db_config, server_config, admin_key, site, admin_auth)
     
     if not config.database.password:
         print("Внимание: используется пустой пароль для базы данных")

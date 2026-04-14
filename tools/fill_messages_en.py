@@ -217,7 +217,7 @@ teachers_en = {
     "admin_alt": "Administrator",
     "director_name": "Trus Nikolai Nikolaevich",
     "director_position": "College director",
-    "deputy_edu_name": "Krumkach Tamara Nikolaevna",
+    "deputy_edu_name": "Tereshko Svetlana Leonidovna",
     "deputy_edu_position": "Deputy director for academic affairs",
     "deputy_vosp_name": "Begun Lolita Mikhailovna",
     "deputy_vosp_position": "Deputy director for student affairs",

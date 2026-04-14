@@ -178,11 +178,6 @@
       "BY": "Пытанне-адказ",
       "EN": "Q&A"
     },
-    "students": {
-      "RU": "Учащимся",
-      "BY": "Вучням",
-      "EN": "For students"
-    },
     "study": {
       "RU": "Обучение",
       "BY": "Навучанне",
@@ -585,11 +580,6 @@
       "BY": "Дырэктар каледжа",
       "EN": "College director"
     },
-    "deputy_edu_name": {
-      "RU": "Крумкач Тамара Николаевна",
-      "BY": "Крумкач Тамара Мікалаеўна",
-      "EN": "Krumkach Tamara Nikolaevna"
-    },
     "deputy_edu_position": {
       "RU": "Заместитель директора по учебной работе",
       "BY": "Намеснік дырэктара па вучэбнай рабоце",
@@ -605,7 +595,7 @@
       "BY": "Намеснік дырэктара па выхаваўчай рабоце",
       "EN": "Deputy director for student affairs"
     },
-    "deputy_other_name": {
+    "deputy_edu_name": {
       "RU": "Терешко Светлана Леонидовна",
       "BY": "Цярэшка Святлана Леанідаўна",
       "EN": "Tereshko Svetlana Leonidovna"
@@ -1117,244 +1107,6 @@
       "RU": "Изображение галереи",
       "BY": "Выява галерэі",
       "EN": "Gallery image"
-    }
-  },
-  "students": {
-    "hub_title": {
-      "RU": "Учащимся",
-      "BY": "Вучням",
-      "EN": "For students"
-    },
-    "hub_intro": {
-      "RU": "Материалы перенесены со старого сайта колледжа: расписания, практика, нормативные документы, сведения для заочного отделения и общие разделы.",
-      "BY": "Матэрыялы перанесены са старога сайта каледжа: расклады, практыка, нарматыўныя дакументы, звесткі для завочнага аддзялення і агульныя раздзелы.",
-      "EN": "Materials migrated from the college’s previous site: schedules, internships, regulations, distance learning, and common topics."
-    },
-    "section_day": {
-      "RU": "Дневное отделение",
-      "BY": "Дзённае аддзяленне",
-      "EN": "Full-time department"
-    },
-    "section_zaoch": {
-      "RU": "Заочное отделение",
-      "BY": "Завочнае аддзяленне",
-      "EN": "Part-time department"
-    },
-    "section_common": {
-      "RU": "Общие сведения",
-      "BY": "Агульныя звесткі",
-      "EN": "General information"
-    },
-    "back_to_hub": {
-      "RU": "Ко всем разделам для учащихся",
-      "BY": "Да ўсіх раздзелаў для вучняў",
-      "EN": "Back to all student sections"
-    },
-    "open_on_legacy": {
-      "RU": "Открыть исходную страницу на ngaek.by",
-      "BY": "Адкрыць зыходную старонку на ngaek.by",
-      "EN": "Open the original page on ngaek.by"
-    },
-    "ext_schedule_drive": {
-      "RU": "Расписание учебных занятий (файл на Google Диске)",
-      "BY": "Расклад заняткаў (файл на Google Дыску)",
-      "EN": "Class timetable (Google Drive file)"
-    },
-    "ext_practice_survey": {
-      "RU": "Анкета для руководителей производственной практики",
-      "BY": "Анкета для кіраўнікоў вытворчай практыкі",
-      "EN": "Questionnaire for internship supervisors"
-    },
-    "ext_fakultativ_polozhenie": {
-      "RU": "Положение об организации и проведении факультативных занятий",
-      "BY": "Палажэнне аб арганізацыі і правядзенні факультатыўных заняткаў",
-      "EN": "Regulation on optional (facultative) classes"
-    },
-    "ext_fakultativ_schedule": {
-      "RU": "Расписание факультативных занятий",
-      "BY": "Расклад факультатыўных заняткаў",
-      "EN": "Optional class timetable"
-    },
-    "ext_zaoch_materials": {
-      "RU": "Учебные материалы (папка на Google Диске)",
-      "BY": "Вучэбныя матэрыялы (тэчка на Google Дыску)",
-      "EN": "Study materials (Google Drive folder)"
-    },
-    "ext_rules_adu": {
-      "RU": "Правила учащихся (adu.by)",
-      "BY": "Правілы вучняў (adu.by)",
-      "EN": "Student rules (adu.by)"
-    },
-    "pages": {
-      "grafik_uchebnogo_protsessa": {
-        "RU": "График образовательного процесса",
-        "BY": "Графік адукацыйнага працэсу",
-        "EN": "Academic process schedule"
-      },
-      "proizvodstvennoe_obuchenie": {
-        "RU": "Производственное обучение (практики)",
-        "BY": "Вытворчае навучанне (практыкі)",
-        "EN": "Work placements (internships)"
-      },
-      "grafik_praktik": {
-        "RU": "График прохождения учебных и производственных практик",
-        "BY": "Графік праходжання вучэбных і вытворчых практык",
-        "EN": "Timetable for academic and industrial placements"
-      },
-      "pamyatka_uchashchemusya": {
-        "RU": "Памятка учащемуся",
-        "BY": "Памятка вучню",
-        "EN": "Reminder for students"
-      },
-      "obraztsy_dokumentov": {
-        "RU": "Образцы документов",
-        "BY": "Узоры дакументаў",
-        "EN": "Document templates"
-      },
-      "kursovoe_diplomnoe": {
-        "RU": "Курсовое и дипломное проектирование",
-        "BY": "Курсавое і дыпломнае праектаванне",
-        "EN": "Course and diploma projects"
-      },
-      "normativnye_dokumenty": {
-        "RU": "Нормативные документы",
-        "BY": "Нарматыўныя дакументы",
-        "EN": "Regulatory documents"
-      },
-      "raspredelenie_vypusknikov": {
-        "RU": "Распределение и трудоустройство выпускников",
-        "BY": "Размеркаванне і працаўладкаванне выпускнікоў",
-        "EN": "Graduate placement and employment"
-      },
-      "programma_preddiplomnoj_praktiki": {
-        "RU": "Учебная программа преддипломной практики",
-        "BY": "Вучэбная праграма прэдыпломнай практыкі",
-        "EN": "Pre-diploma internship syllabus"
-      },
-      "grafik_zaochnogo": {
-        "RU": "График учебного процесса заочного отделения",
-        "BY": "Графік вучэбнага працэсу завочнага аддзялення",
-        "EN": "Part-time department academic calendar"
-      },
-      "stoimost_obucheniya": {
-        "RU": "Стоимость обучения и банковские реквизиты",
-        "BY": "Кошт навучання і банкаўскія рэквізіты",
-        "EN": "Tuition fees and bank details"
-      },
-      "vypusknikam": {
-        "RU": "Выпускникам",
-        "BY": "Выпускнікам",
-        "EN": "For graduates"
-      },
-      "informatsiya_eksternat": {
-        "RU": "Информация для учащихся, прекративших досрочно образовательные отношения и проходивших аттестацию в порядке экстерната",
-        "BY": "Інфармацыя для вучняў, якія датэрмінова спынілі адукацыйныя адносіны і здавалі атэстацыю ў парадку экстэрнату",
-        "EN": "Information for students who ended studies early or took external exams"
-      }
-    }
-  },
-  "applicants": {
-    "hub_title": {
-      "RU": "Абитуриентам",
-      "BY": "Абітурыентам",
-      "EN": "For applicants"
-    },
-    "hub_intro": {
-      "RU": "Сведения для поступающих перенесены со старого сайта колледжа. Правила приёма на pravo.by и предварительная регистрация — по внешним ссылкам. Каталог специальностей с описанием на этом сайте: раздел «Специальности» в меню.",
-      "BY": "Звесткі для паступаючых перанесены са старога сайта каледжа. Правілы прыёму на pravo.by і папярэдняя рэгістрацыя — па вонкавых спасылках. Каталог спецыяльнасцяў з апісаннем на гэтым сайце: раздзел «Спецыяльнасці» у меню.",
-      "EN": "Applicant information migrated from the college’s previous site. Official admission rules (pravo.by) and pre-registration (Google Form) are external links. For specialty descriptions on this site, use the “Specialties” item in the menu."
-    },
-    "back_to_hub": {
-      "RU": "Ко всем разделам для абитуриентов",
-      "BY": "Да ўсіх раздзелаў для абітурыентаў",
-      "EN": "Back to all applicant sections"
-    },
-    "open_on_legacy": {
-      "RU": "Открыть исходную страницу на ngaek.by",
-      "BY": "Адкрыць зыходную старонку на ngaek.by",
-      "EN": "Open the original page on ngaek.by"
-    },
-    "ext_pravila_priema": {
-      "RU": "Правила приема (pravo.by)",
-      "BY": "Правілы прыёму (pravo.by)",
-      "EN": "Admission rules (pravo.by)"
-    },
-    "ext_predvaritelnaya_registratsiya": {
-      "RU": "Предварительная регистрация абитуриентов (Google Форма)",
-      "BY": "Папярэдняя рэгістрацыя абітурыентаў (Google Форма)",
-      "EN": "Applicant pre-registration (Google Form)"
-    },
-    "pages": {
-      "spetsialnosti": {
-        "RU": "Специальности",
-        "BY": "Спецыяльнасці",
-        "EN": "Specialties"
-      },
-      "kontrolnye_tsifry": {
-        "RU": "Контрольные цифры приема 2026",
-        "BY": "Кантрольныя лічбы прыёму 2026",
-        "EN": "Admission quotas 2026"
-      },
-      "tselevaya_podgotovka": {
-        "RU": "Целевая подготовка",
-        "BY": "Мэтавая падрыхтоўка",
-        "EN": "Targeted training"
-      },
-      "prokhodnye_bally": {
-        "RU": "Проходные баллы",
-        "BY": "Праходныя балы",
-        "EN": "Passing scores"
-      },
-      "stoimost_obucheniya": {
-        "RU": "Стоимость обучения",
-        "BY": "Кошт навучання",
-        "EN": "Tuition fees"
-      },
-      "sroki_kampanii": {
-        "RU": "Сроки проведения вступительной кампании",
-        "BY": "Тэрміны правядзення ўступнай кампаніі",
-        "EN": "Admission campaign dates"
-      },
-      "dokumenty_postupleniya": {
-        "RU": "Документы, необходимые для поступления",
-        "BY": "Дакументы, неабходныя для паступлення",
-        "EN": "Documents required for admission"
-      },
-      "normativnye_dokumenty": {
-        "RU": "Нормативные правовые документы",
-        "BY": "Нарматыўныя прававыя дакументы",
-        "EN": "Regulatory legal documents"
-      },
-      "chasto_voprosy": {
-        "RU": "Часто задаваемые вопросы",
-        "BY": "Часта задаюцца пытанні",
-        "EN": "Frequently asked questions"
-      },
-      "goryachaya_liniya": {
-        "RU": "Горячая линия",
-        "BY": "Гарачая лінія",
-        "EN": "Hotline"
-      },
-      "konsultatsionnyj_punkt": {
-        "RU": "Консультационный пункт для абитуриентов",
-        "BY": "Кансультацыйны пункт для абітурыентаў",
-        "EN": "Applicant consultation office"
-      },
-      "trudoustrojstvo": {
-        "RU": "Трудоустройство",
-        "BY": "Працаўладкаванне",
-        "EN": "Employment"
-      },
-      "obshchezhitie": {
-        "RU": "Общежитие",
-        "BY": "Інтэрнат",
-        "EN": "Student residence hall"
-      },
-      "organizatsiya_pitaniya": {
-        "RU": "Организация питания учащихся",
-        "BY": "Арганізацыя харчавання вучняў",
-        "EN": "Student meals organization"
-      }
     }
   }
 }

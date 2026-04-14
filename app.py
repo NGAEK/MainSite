@@ -4,6 +4,7 @@ import json
 import os
 from config.config import load_config
 from db.connection import init_db
+from db import admin_users_repository
 from page import (
     main_page,
     news_detail_page,
@@ -114,6 +115,22 @@ def set_locale_cookie(response):
     return response
 
 
+@app.after_request
+def add_api_cors_headers(response):
+    """CORS для запросов админки к API."""
+    if request.path.startswith("/api/v1"):
+        site_cfg = current_app.config.get("SITE") or {}
+        allowed_origin = str(site_cfg.get("admin_panel_origin") or "").strip()
+        request_origin = request.headers.get("Origin", "")
+        if allowed_origin and request_origin == allowed_origin:
+            response.headers["Access-Control-Allow-Origin"] = allowed_origin
+            response.headers["Vary"] = "Origin"
+            response.headers["Access-Control-Allow-Headers"] = "Content-Type, X-API-Key, Authorization"
+            response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+            response.headers["Access-Control-Allow-Credentials"] = "false"
+    return response
+
+
 # Регистрация фильтров для шаблонов
 @app.template_filter('date_format')
 def date_format_filter(date, format_str='%Y-%m-%d'):
@@ -138,6 +155,7 @@ def date_format_filter(date, format_str='%Y-%m-%d'):
 # Загрузка конфигурации
 config = load_config("config.yml")
 app.config["ADMIN_API_KEY"] = config.admin_api_key
+app.config["ADMIN_AUTH"] = config.admin_auth
 app.config["SITE"] = config.site or {}
 
 # Инициализация базы данных
@@ -148,6 +166,16 @@ init_db(
     config.database.port,
     config.database.name
 )
+
+admin_users_repository.ensure_admin_users_table()
+seed_auth = config.admin_auth or {}
+seed_username = str(seed_auth.get("username") or "").strip()
+seed_password_hash = str(seed_auth.get("password_hash") or "").strip()
+if seed_username and seed_password_hash:
+    existing_admin = admin_users_repository.get_admin_user_by_username(seed_username)
+    if not existing_admin:
+        admin_users_repository.create_admin_user(seed_username, seed_password_hash)
+        logger.info("Bootstrap admin user created in MySQL")
 
 app.register_blueprint(api_bp)
 

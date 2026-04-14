@@ -89,6 +89,15 @@ def news_exists(news_id):
         raise
 
 
+def count_news() -> int:
+    """Возвращает количество новостей."""
+    db = get_db()
+    with db.cursor() as cursor:
+        cursor.execute("SELECT COUNT(*) AS total FROM news")
+        row = cursor.fetchone()
+    return int((row or {}).get("total") or 0)
+
+
 def _date_iso(val):
     if val is None:
         return None

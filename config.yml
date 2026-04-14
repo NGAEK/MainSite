@@ -10,6 +10,10 @@ server:
 admin_api:
   key: "JDFKEinDIE@DWNSbhdcUY2982e"
 
+admin_auth:
+  username: "admin"
+  password_hash: "scrypt:32768:8:1$CbP71qHTGYpyCOsR$ec997b6a162dded07c322d648d1170597e4a95a1cc02916133df175a7c0a620edd33abde33b967b02b6677dfe51e78222b8bca517ed5cd0e60436ad6602dd3db"
+
 site:
   gris:
     number: "6141303612"
@@ -19,3 +23,4 @@ site:
   phone: "+375 (17) 123-45-67"
   phone_tel: "+375171234567"
   one_window_external_url: "https://minsk.gov.by/ru/services/okno/"
+  admin_panel_origin: "http://0.0.0.0:5050"

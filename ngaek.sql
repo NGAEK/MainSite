@@ -63,6 +63,28 @@ INSERT INTO `news` (`id`, `name`, `date`, `description`, `name_be`, `name_en`, `
  'Our students won first place in the national professional skills competition in the Software specialty.',
  '/static/images/news_images/images.png');
 
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `admin_users`
+--
+
+CREATE TABLE `admin_users` (
+                               `id` int(11) NOT NULL,
+                               `username` varchar(64) NOT NULL,
+                               `password_hash` varchar(255) NOT NULL,
+                               `is_active` tinyint(1) NOT NULL DEFAULT 1,
+                               `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                               `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `admin_users`
+--
+
+INSERT INTO `admin_users` (`id`, `username`, `password_hash`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 'admin', '$2b$12$k7dOeMUC/9L4i8Vx9Z9zku.I9M9ygis1WF0QAP8z668UYZLTKzvRa', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
 --
 -- Индексы сохранённых таблиц
 --
@@ -74,6 +96,13 @@ ALTER TABLE `news`
     ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `admin_users`
+--
+ALTER TABLE `admin_users`
+    ADD PRIMARY KEY (`id`),
+    ADD UNIQUE KEY `uq_admin_users_username` (`username`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -82,6 +111,11 @@ ALTER TABLE `news`
 --
 ALTER TABLE `news`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT для таблицы `admin_users`
+--
+ALTER TABLE `admin_users`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

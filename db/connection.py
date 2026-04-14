@@ -46,3 +46,31 @@ def get_db():
         raise RuntimeError("Database not initialized. Call init_db() first.")
     return _db_connection
 
+
+def is_db_alive() -> bool:
+    """Проверяет доступность БД простым ping-запросом."""
+    try:
+        db = get_db()
+        db.ping(reconnect=True)
+        with db.cursor() as cursor:
+            cursor.execute("SELECT 1 AS ok")
+            row = cursor.fetchone()
+            return bool(row and row.get("ok") == 1)
+    except Exception as e:
+        logger.error(f"Database health check failed: {e}")
+        return False
+
+
+def get_table_names() -> list[str]:
+    """Возвращает список таблиц текущей схемы."""
+    db = get_db()
+    with db.cursor() as cursor:
+        cursor.execute("SHOW TABLES")
+        rows = cursor.fetchall()
+    names = []
+    for row in rows:
+        if not row:
+            continue
+        names.append(next(iter(row.values())))
+    return sorted(names)
+
