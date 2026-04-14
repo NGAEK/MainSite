@@ -3,16 +3,24 @@ from flask import render_template
 import logging
 from db import news_repository
 from db import tabs_repository
+from db import pages_repository
 
 logger = logging.getLogger(__name__)
 
 
+def _managed_page_or_template(slug: str, fallback_template: str):
+    page = pages_repository.get_page_by_slug(slug)
+    if page and bool(page.get("is_active")):
+        return render_template("pages/managed_page.html", page=page)
+    return render_template(fallback_template)
+
+
 def privacy_handler(request):
-    return render_template("pages/privacy.html")
+    return _managed_page_or_template("privacy", "pages/privacy.html")
 
 
 def one_window_handler(request):
-    return render_template("pages/one_window.html")
+    return _managed_page_or_template("one-window", "pages/one_window.html")
 
 
 def sitemap_handler(request):
@@ -25,15 +33,15 @@ def sitemap_handler(request):
 
 
 def contacts_handler(request):
-    return render_template("pages/contacts.html")
+    return _managed_page_or_template("contacts", "pages/contacts.html")
 
 
 def cookies_handler(request):
-    return render_template("pages/cookies.html")
+    return _managed_page_or_template("cookies", "pages/cookies.html")
 
 
 def specialties_handler(request):
-    return render_template("pages/specialties.html")
+    return _managed_page_or_template("specialties", "pages/specialties.html")
 
 
 def custom_page_handler(request, slug: str):

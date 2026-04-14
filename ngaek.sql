@@ -119,6 +119,23 @@ CREATE TABLE `site_tabs` (
                             `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `site_pages`
+--
+
+CREATE TABLE `site_pages` (
+                             `id` int(11) NOT NULL,
+                             `slug` varchar(120) NOT NULL,
+                             `title` varchar(255) NOT NULL,
+                             `content_html` mediumtext DEFAULT NULL,
+                             `sort_order` int(11) NOT NULL DEFAULT 100,
+                             `is_active` tinyint(1) NOT NULL DEFAULT 1,
+                             `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                             `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Индексы сохранённых таблиц
 --
@@ -153,6 +170,14 @@ ALTER TABLE `site_tabs`
     ADD KEY `idx_site_tabs_active_sort` (`is_active`,`sort_order`);
 
 --
+-- Индексы таблицы `site_pages`
+--
+ALTER TABLE `site_pages`
+    ADD PRIMARY KEY (`id`),
+    ADD UNIQUE KEY `uq_site_pages_slug` (`slug`),
+    ADD KEY `idx_site_pages_active_sort` (`is_active`,`sort_order`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -175,6 +200,11 @@ ALTER TABLE `site_visits`
 -- AUTO_INCREMENT для таблицы `site_tabs`
 --
 ALTER TABLE `site_tabs`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `site_pages`
+--
+ALTER TABLE `site_pages`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 

@@ -19,6 +19,7 @@ from db import news_repository
 from db import admin_users_repository
 from db import visitor_metrics_repository
 from db import tabs_repository
+from db import pages_repository
 from api.security import (
     validate_admin_credentials,
     issue_access_token,
@@ -34,6 +35,13 @@ AUTHORIZATION_HEADER = "Authorization"
 ACCESS_TOKEN_TTL_SECONDS = 8 * 60 * 60
 API_STARTED_AT = datetime.now(timezone.utc)
 ALLOWED_IMAGE_EXTENSIONS = {"jpg", "jpeg", "png", "webp", "gif"}
+EDITABLE_PAGE_TEMPLATES = {
+    "privacy": {"route": "/privacy", "template_path": "pages/privacy.html", "title": "Персональные данные"},
+    "one_window": {"route": "/one-window", "template_path": "pages/one_window.html", "title": "Одно окно"},
+    "contacts": {"route": "/contacts", "template_path": "pages/contacts.html", "title": "Контакты"},
+    "cookies": {"route": "/cookies", "template_path": "pages/cookies.html", "title": "Cookie"},
+    "specialties": {"route": "/specialties", "template_path": "pages/specialties.html", "title": "Специальности"},
+}
 
 
 @api_bp.before_request
@@ -133,6 +141,7 @@ def _collect_main_metrics() -> dict:
         "users_year": user_metrics["users_year"],
         "users_total": user_metrics["users_total"],
         "tabs_total": len(tabs_repository.get_all_tabs()),
+        "pages_total": len(pages_repository.get_all_pages()),
     }
 
 
@@ -215,8 +224,12 @@ def openapi_schema():
             "/auth/login": {"post": {"summary": "Login and receive bearer token"}},
             "/metrics/main": {"get": {"summary": "Main operational metrics"}},
             "/media/news-image": {"post": {"summary": "Upload news image"}},
+            "/page-templates": {"get": {"summary": "List editable page templates"}},
+            "/page-templates/{slug}": {"get": {"summary": "Get template content"}, "put": {"summary": "Update template content"}},
             "/tabs": {"get": {"summary": "List tabs"}, "post": {"summary": "Create tab"}},
             "/tabs/{tab_id}": {"put": {"summary": "Update tab"}, "delete": {"summary": "Delete tab"}},
+            "/pages": {"get": {"summary": "List pages"}, "post": {"summary": "Create page"}},
+            "/pages/{page_id}": {"put": {"summary": "Update page"}, "delete": {"summary": "Delete page"}},
             "/system/status": {"get": {"summary": "System status"}},
             "/files": {"get": {"summary": "List files or read file"}, "put": {"summary": "Write file"}, "delete": {"summary": "Delete file"}},
             "/news": {"get": {"summary": "List news"}, "post": {"summary": "Create news"}},
@@ -268,6 +281,63 @@ def upload_news_image():
     rel_path = f"/static/images/news_images/{unique_name}"
     file_url = f"{request.url_root.rstrip('/')}{rel_path}"
     return jsonify({"data": {"image_path": rel_path, "image_url": file_url}}), 201
+
+
+@api_bp.route("/page-templates", methods=["GET"])
+def list_page_templates():
+    err = _require_auth()
+    if err:
+        return err
+    include_content = _parse_bool(request.args.get("include_content"), default=False)
+    service = _file_service()
+    items = []
+    for slug, meta in EDITABLE_PAGE_TEMPLATES.items():
+        item = {"slug": slug, **meta}
+        if include_content:
+            try:
+                item["content"] = service.read_text("templates", meta["template_path"])
+            except Exception:
+                item["content"] = ""
+        items.append(item)
+    return jsonify({"data": items}), 200
+
+
+@api_bp.route("/page-templates/<slug>", methods=["GET"])
+def get_page_template(slug):
+    err = _require_auth()
+    if err:
+        return err
+    meta = EDITABLE_PAGE_TEMPLATES.get(slug)
+    if not meta:
+        return _json_error(404, "not_found", "Шаблон не найден")
+    service = _file_service()
+    try:
+        content = service.read_text("templates", meta["template_path"])
+    except Exception as e:
+        return _json_error(500, "file_error", str(e))
+    return jsonify({"data": {"slug": slug, **meta, "content": content}}), 200
+
+
+@api_bp.route("/page-templates/<slug>", methods=["PUT"])
+def update_page_template(slug):
+    err = _require_auth()
+    if err:
+        return err
+    meta = EDITABLE_PAGE_TEMPLATES.get(slug)
+    if not meta:
+        return _json_error(404, "not_found", "Шаблон не найден")
+    payload, err = _parse_json_body()
+    if err:
+        return err
+    content = payload.get("content")
+    if not isinstance(content, str):
+        return _json_error(400, "validation_error", "Поле content должно быть строкой")
+    service = _file_service()
+    try:
+        service.write_text("templates", meta["template_path"], content)
+    except Exception as e:
+        return _json_error(500, "file_error", str(e))
+    return jsonify({"data": {"slug": slug, "updated": True}}), 200
 
 
 @api_bp.route("/tabs", methods=["GET"])
@@ -352,6 +422,83 @@ def delete_tab(tab_id):
         return _json_error(500, "database_error", str(e))
     if not deleted:
         return _json_error(404, "not_found", "Вкладка не найдена")
+    return "", 204
+
+
+@api_bp.route("/pages", methods=["GET"])
+def list_pages():
+    err = _require_auth()
+    if err:
+        return err
+    return jsonify({"data": pages_repository.get_all_pages()}), 200
+
+
+@api_bp.route("/pages", methods=["POST"])
+def create_page():
+    err = _require_auth()
+    if err:
+        return err
+    payload, err = _parse_json_body()
+    if err:
+        return err
+    title = str(payload.get("title") or "").strip()
+    slug = _slugify(str(payload.get("slug") or title))
+    if not title or not slug:
+        return _json_error(400, "validation_error", "Поля title/slug обязательны")
+    row = {
+        "slug": slug,
+        "title": title,
+        "content_html": str(payload.get("content_html") or ""),
+        "sort_order": int(payload.get("sort_order") or 100),
+        "is_active": bool(payload.get("is_active", True)),
+    }
+    try:
+        page_id = pages_repository.create_page(row)
+    except Exception as e:
+        logger.exception("API create_page")
+        return _json_error(500, "database_error", str(e))
+    return jsonify({"data": {"id": page_id}}), 201
+
+
+@api_bp.route("/pages/<int:page_id>", methods=["PUT"])
+def update_page(page_id):
+    err = _require_auth()
+    if err:
+        return err
+    payload, err = _parse_json_body()
+    if err:
+        return err
+    title = str(payload.get("title") or "").strip()
+    slug = _slugify(str(payload.get("slug") or title))
+    if not title or not slug:
+        return _json_error(400, "validation_error", "Поля title/slug обязательны")
+    row = {
+        "slug": slug,
+        "title": title,
+        "content_html": str(payload.get("content_html") or ""),
+        "sort_order": int(payload.get("sort_order") or 100),
+        "is_active": bool(payload.get("is_active", True)),
+    }
+    try:
+        pages_repository.update_page(page_id, row)
+    except Exception as e:
+        logger.exception("API update_page")
+        return _json_error(500, "database_error", str(e))
+    return jsonify({"data": {"id": page_id, "updated": True}}), 200
+
+
+@api_bp.route("/pages/<int:page_id>", methods=["DELETE"])
+def delete_page(page_id):
+    err = _require_auth()
+    if err:
+        return err
+    try:
+        deleted = pages_repository.delete_page(page_id)
+    except Exception as e:
+        logger.exception("API delete_page")
+        return _json_error(500, "database_error", str(e))
+    if not deleted:
+        return _json_error(404, "not_found", "Страница не найдена")
     return "", 204
 
 

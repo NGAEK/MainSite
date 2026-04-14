@@ -7,6 +7,7 @@ from db.connection import init_db
 from db import admin_users_repository
 from db import visitor_metrics_repository
 from db import tabs_repository
+from db import pages_repository
 from page import (
     main_page,
     news_detail_page,
@@ -199,6 +200,7 @@ init_db(
 admin_users_repository.ensure_admin_users_table()
 visitor_metrics_repository.ensure_site_visits_table()
 tabs_repository.ensure_tabs_table()
+pages_repository.ensure_pages_table()
 seed_auth = config.admin_auth or {}
 seed_username = str(seed_auth.get("username") or "").strip()
 seed_password_hash = str(seed_auth.get("password_hash") or "").strip()
