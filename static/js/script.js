@@ -13,8 +13,11 @@ const navItems = document.querySelectorAll('.main-nav > li');
 
 navItems.forEach(item => {
     const link = item.querySelector('a');
+    if (!link) return;
     link.addEventListener('click', (e) => {
         if (window.innerWidth <= 768) {
+            const hasDropdown = Boolean(item.querySelector('.dropdown-menu'));
+            if (!hasDropdown) return;
             e.preventDefault();
             item.classList.toggle('active');
         }
