@@ -34,7 +34,11 @@
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
-        
+        <div class="slider-dots">
+            <button class="slider-dot active" data-slide="0"></button>
+            <button class="slider-dot" data-slide="1"></button>
+            <button class="slider-dot" data-slide="2"></button>
+        </div>
     </section>
 
 <!-- News Section -->
@@ -71,7 +75,7 @@
         {% if search_count > 0 %}
         <div class="news-grid">
             {% for news in news_list %}
-            <div class="news-card">
+            <div class="news-card reveal">
                 <div class="news-img">
                     <img src="{{ news.image_path }}" alt="{{ news.localized_name(current_lang) }}">
                 </div>
@@ -158,46 +162,49 @@
                 <h2>{{ t.teachers.title }}</h2>
             </div>
             <div class="teachers-grid">
-                <div class="teacher-card">
+                <div class="teacher-card reveal">
                     <div class="teacher-img">
                         <img src="../static/images/administration_images/unnamed.jpg" alt="{{ t.teachers.admin_alt }} 1">
                     </div>
                     <div class="teacher-info">
                         <h3 class="teacher-name">{{ t.teachers.director_name }}</h3>
                         <p class="teacher-position">{{ t.teachers.director_position }}</p>
-                        <p class="teacher-bio">+375-29-123-45-67 <br> +375-29-123-45-67<div class="social-links">
+                        <p class="teacher-bio">+375-29-123-45-67 <br> +375-29-123-45-67</p>
+                        <div class="social-links">
                             <a href="#"><i class="fab fa-vk"></i></a>
                             <a href="#"><i class="fas fa-envelope"></i></a>
                         </div>
                     </div>
                 </div>
-                <div class="teacher-card">
+                <div class="teacher-card reveal reveal-delay-1">
                     <div class="teacher-img">
                         <img src="../static/images/administration_images/003_sm.jpg.crdownload" alt="{{ t.teachers.admin_alt }} 2">
                     </div>
                     <div class="teacher-info">
                         <h3 class="teacher-name">{{ t.teachers.deputy_edu_name }}</h3>
                         <p class="teacher-position">{{ t.teachers.deputy_edu_position }}</p>
-                        <p class="teacher-bio">+375-29-123-45-67 <br> +375-29-123-45-67</p><div class="social-links">
+                        <p class="teacher-bio">+375-29-123-45-67 <br> +375-29-123-45-67</p>
+                        <div class="social-links">
                             <a href="#"><i class="fab fa-vk"></i></a>
                             <a href="#"><i class="fas fa-envelope"></i></a>
                         </div>
                     </div>
                 </div>
-                <div class="teacher-card">
+                <div class="teacher-card reveal reveal-delay-2">
                     <div class="teacher-img">
                         <img src="https://via.placeholder.com/400x500" alt="{{ t.teachers.admin_alt }} 3">
                     </div>
                     <div class="teacher-info">
                         <h3 class="teacher-name">{{ t.teachers.deputy_vosp_name }}</h3>
                         <p class="teacher-position">{{ t.teachers.deputy_vosp_position }}</p>
-                        <p class="teacher-bio">+375-29-123-45-67 <br> +375-29-123-45-67</p><div class="social-links">
+                        <p class="teacher-bio">+375-29-123-45-67 <br> +375-29-123-45-67</p>
+                        <div class="social-links">
                             <a href="#"><i class="fab fa-vk"></i></a>
                             <a href="#"><i class="fas fa-envelope"></i></a>
                         </div>
                     </div>
                 </div>
-                <div class="teacher-card">
+                <div class="teacher-card reveal reveal-delay-3">
                     <div class="teacher-img">
                         <img src="https://via.placeholder.com/400x500" alt="{{ t.teachers.admin_alt }} 4">
                     </div>
@@ -216,116 +223,117 @@
     </section>
 
     <!-- Achievements Section -->
-<section class="section">
-    <div class="container">
-        <div class="section-title">
-            <h2>{{ t.achievements.title }}</h2>
-        </div>
-        <div class="achievements-grid">
-            <div class="achievement-item">
-                <div class="achievement-icon">
-                    <i class="fas fa-trophy"></i>
-                </div>
-                <div class="achievement-number">25+</div>
-                <div class="achievement-text">{{ t.achievements.wins }}</div>
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>{{ t.achievements.title }}</h2>
             </div>
-            <div class="achievement-item">
-                <div class="achievement-icon">
-                    <i class="fas fa-user-graduate"></i>
+            <div class="achievements-grid">
+                <div class="achievement-item reveal">
+                    <div class="achievement-icon"><i class="fas fa-trophy"></i></div>
+                    <div class="achievement-number">25+</div>
+                    <div class="achievement-text">{{ t.achievements.wins }}</div>
                 </div>
-                <div class="achievement-number">95%</div>
-                <div class="achievement-text">{{ t.achievements.employment }}</div>
-            </div>
-            <div class="achievement-item">
-                <div class="achievement-icon">
-                    <i class="fas fa-chalkboard-teacher"></i>
+                <div class="achievement-item reveal reveal-delay-1">
+                    <div class="achievement-icon"><i class="fas fa-user-graduate"></i></div>
+                    <div class="achievement-number">95%</div>
+                    <div class="achievement-text">{{ t.achievements.employment }}</div>
                 </div>
-                <div class="achievement-number">50+</div>
-                <div class="achievement-text">{{ t.achievements.teachers_count }}</div>
-            </div>
-            <div class="achievement-item">
-                <div class="achievement-icon">
-                    <i class="fas fa-building"></i>
+                <div class="achievement-item reveal reveal-delay-2">
+                    <div class="achievement-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <div class="achievement-number">50+</div>
+                    <div class="achievement-text">{{ t.achievements.teachers_count }}</div>
                 </div>
-                <div class="achievement-number">15</div>
-                <div class="achievement-text">{{ t.achievements.years_work }}</div>
+                <div class="achievement-item reveal reveal-delay-3">
+                    <div class="achievement-icon"><i class="fas fa-building"></i></div>
+                    <div class="achievement-number">15</div>
+                    <div class="achievement-text">{{ t.achievements.years_work }}</div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-<section class="section bg-light">
-    <div class="container">
-        <div class="section-title">
-            <h2>{{ t.contact.title }}</h2>
-        </div>
-        <div class="contact-container">
-            <div class="contact-info">
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-map-marker-alt"></i>
+    </section>
+
+    <section class="section bg-light">
+        <div class="container">
+            <div class="section-title">
+                <h2>{{ t.contact.title }}</h2>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item reveal">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="contact-text">
+                            <h3>{{ t.contact.address_title }}</h3>
+                            <p>{{ t.contact.address_value }}</p>
+                        </div>
                     </div>
-                    <div class="contact-text">
-                        <h3>{{ t.contact.address_title }}</h3>
-                        <p>{{ t.contact.address_value }}</p>
+                    <div class="contact-item reveal reveal-delay-1">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div class="contact-text">
+                            <h3>{{ t.contact.phones_title }}</h3>
+                            <p>{{ t.contact.phone_reception }}</p>
+                            <p>{{ t.contact.phone_admission }}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item reveal reveal-delay-2">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-text">
+                            <h3>{{ t.contact.email_title }}</h3>
+                            <p>info@ngaek.by</p>
+                        </div>
+                    </div>
+                    <div class="contact-item reveal reveal-delay-3">
+                        <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                        <div class="contact-text">
+                            <h3>{{ t.contact.schedule_title }}</h3>
+                            <p>{{ t.contact.schedule_week }}</p>
+                            <p>{{ t.contact.schedule_sat }}</p>
+                            <p>{{ t.contact.schedule_sun }}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h3>{{ t.contact.phones_title }}</h3>
-                        <p>{{ t.contact.phone_reception }}</p>
-                        <p>{{ t.contact.phone_admission }}</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h3>{{ t.contact.email_title }}</h3>
-                        <p>info@ngaek.by</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h3>{{ t.contact.schedule_title }}</h3>
-                        <p>{{ t.contact.schedule_week }}</p>
-                        <p>{{ t.contact.schedule_sat }}</p>
-                        <p>{{ t.contact.schedule_sun }}</p>
-                    </div>
+                <div class="contact-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2346.591326868842!2d27.12822127677034!3d53.97452457247813!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbe61066ca4ff7%3A0xfa724ea167d4f495!2z0J3QvtCy0L7Qv9C-0LvRjNGB0LrQuNC5INCz0L7RgdGD0LTQsNGA0YHRgtCy0LXQvdC90YvQuSDQsNCz0YDQsNGA0L3Qvi3RjdC60L7QvdC-0LzQuNGH0LXRgdC60LjQuSDQutC-0LvQu9C10LTQtg!5e0!3m2!1sru!2sby!4v1743948181101!5m2!1sru!2sby" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
-            <div class="contact-map">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2346.591326868842!2d27.12822127677034!3d53.97452457247813!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbe61066ca4ff7%3A0xfa724ea167d4f495!2z0J3QvtCy0L7Qv9C-0LvRjNGB0LrQuNC5INCz0L7RgdGD0LTQsNGA0YHRgtCy0LXQvdC90YvQuSDQsNCz0YDQsNGA0L3Qvi3RjdC60L7QvdC-0LzQuNGH0LXRgdC60LjQuSDQutC-0LvQu9C10LTQtg!5e0!3m2!1sru!2sby!4v1743948181101!5m2!1sru!2sby" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div class="contact-form reveal" style="margin-top:40px;">
+                <h3>{{ t.contact.feedback_title }}</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="name" class="form-label">{{ t.contact.your_name }}</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">{{ t.contact.email_title }}</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject" class="form-label">{{ t.contact.topic }}</label>
+                        <input type="text" id="subject" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="form-label">{{ t.contact.message }}</label>
+                        <textarea id="message" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">{{ t.contact.send }}</button>
+                </form>
             </div>
         </div>
-        <div class="contact-form" style="margin-top: 40px;">
-            <h3 style="margin-bottom: 20px; color: var(--primary-color);">{{ t.contact.feedback_title }}</h3>
-            <form>
-                <div class="form-group">
-                    <label for="name" class="form-label">{{ t.contact.your_name }}</label>
-                    <input type="text" id="name" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="email" class="form-label">{{ t.contact.email_title }}</label>
-                    <input type="email" id="email" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="subject" class="form-label">{{ t.contact.topic }}</label>
-                    <input type="text" id="subject" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="message" class="form-label">{{ t.contact.message }}</label>
-                    <textarea id="message" class="form-control" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">{{ t.contact.send }}</button>
-            </form>
-        </div>
-    </div>
-</section>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+/* Scroll reveal */
+(function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!els.length) return;
+    var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+        });
+    },{threshold:0.12});
+    els.forEach(function(el){ io.observe(el); });
+})();
+</script>
 {% endblock %}
