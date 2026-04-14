@@ -94,6 +94,7 @@ def build_default_file_service(project_root: str) -> FileService:
         {
             "content": root / "data",
             "locales": root / "static" / "locales",
+            "css": root / "static" / "css",
             "templates": root / "templates",
         }
     )
