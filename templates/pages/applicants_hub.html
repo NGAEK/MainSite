@@ -8,12 +8,15 @@
 {% include 'partials/breadcrumbs.html' %}
 {% endblock %}
 {% block content %}
-<section class="section static-page">
-    <div class="container static-page-inner">
-        <h1 class="static-page-title">{{ t.applicants.hub_title }}</h1>
-        <p class="static-page-intro">{{ t.applicants.hub_intro }}</p>
+<section class="section bg-light branch-page">
+    <div class="container">
+        <div class="section-title branch-page-heading">
+            <h1 class="branch-page-title">{{ t.applicants.hub_title }}</h1>
+        </div>
+        <p class="static-page-intro branch-page-intro">{{ t.applicants.hub_intro }}</p>
 
-        <ul class="sitemap-list students-hub-list">
+        <div class="branch-page-panel">
+        <ul class="sitemap-list students-hub-list branch-hub-list">
             <li><a href="{{ u('/applicants/spetsialnosti') }}">{{ t.applicants.pages.spetsialnosti }}</a></li>
             <li><a href="{{ u('/applicants/kontrolnye-tsifry-priema') }}">{{ t.applicants.pages.kontrolnye_tsifry }}</a></li>
             <li><a href="{{ u('/applicants/tselevaya-podgotovka') }}">{{ t.applicants.pages.tselevaya_podgotovka }}</a></li>
@@ -31,8 +34,9 @@
             <li><a href="{{ u('/applicants/obshchezhitie') }}">{{ t.applicants.pages.obshchezhitie }}</a></li>
             <li><a href="{{ u('/applicants/organizatsiya-pitaniya') }}">{{ t.applicants.pages.organizatsiya_pitaniya }}</a></li>
         </ul>
+        </div>
 
-        <p><a href="{{ u('/') }}" class="btn btn-outline">{{ t.pages.back_home }}</a></p>
+        <p class="branch-page-actions"><a href="{{ u('/') }}" class="btn btn-outline">{{ t.pages.back_home }}</a></p>
     </div>
 </section>
 {% endblock %}

@@ -8,13 +8,16 @@
 {% include 'partials/breadcrumbs.html' %}
 {% endblock %}
 {% block content %}
-<section class="section static-page">
-    <div class="container static-page-inner">
-        <h1 class="static-page-title">{{ t.students.hub_title }}</h1>
-        <p class="static-page-intro">{{ t.students.hub_intro }}</p>
+<section class="section bg-light branch-page">
+    <div class="container">
+        <div class="section-title branch-page-heading">
+            <h1 class="branch-page-title">{{ t.students.hub_title }}</h1>
+        </div>
+        <p class="static-page-intro branch-page-intro">{{ t.students.hub_intro }}</p>
 
-        <h2 class="static-page-subtitle">{{ t.students.section_day }}</h2>
-        <ul class="sitemap-list students-hub-list">
+        <div class="branch-page-panel">
+        <h2 class="branch-page-subtitle">{{ t.students.section_day }}</h2>
+        <ul class="sitemap-list students-hub-list branch-hub-list">
             <li><a href="https://drive.google.com/file/d/1WW9Gxk6rtrN4rRx7T6n5IM2rosb1QYaS/view?usp=sharing" rel="noopener noreferrer" target="_blank">{{ t.students.ext_schedule_drive }}</a></li>
             <li><a href="{{ u('/students/grafik-uchebnogo-protsessa') }}">{{ t.students.pages.grafik_uchebnogo_protsessa }}</a></li>
             <li><a href="{{ u('/students/proizvodstvennoe-obuchenie') }}">{{ t.students.pages.proizvodstvennoe_obuchenie }}</a></li>
@@ -29,22 +32,23 @@
             <li><a href="https://drive.google.com/file/d/1wmkKAThiSfWodE-7dOZZLrf6WpRC2SFO/view?usp=sharing" rel="noopener noreferrer" target="_blank">{{ t.students.ext_fakultativ_schedule }}</a></li>
         </ul>
 
-        <h2 class="static-page-subtitle">{{ t.students.section_zaoch }}</h2>
-        <ul class="sitemap-list students-hub-list">
+        <h2 class="branch-page-subtitle">{{ t.students.section_zaoch }}</h2>
+        <ul class="sitemap-list students-hub-list branch-hub-list">
             <li><a href="https://drive.google.com/drive/folders/1XWbh-om15u2iuOnuR1FY17XtMoDqvZZ8?usp=sharing" rel="noopener noreferrer" target="_blank">{{ t.students.ext_zaoch_materials }}</a></li>
             <li><a href="{{ u('/students/uchebnaya-programma-preddiplomnoj-praktiki') }}">{{ t.students.pages.programma_preddiplomnoj_praktiki }}</a></li>
             <li><a href="{{ u('/students/grafik-uchebnogo-protsessa-zaochnogo-otdeleniya') }}">{{ t.students.pages.grafik_zaochnogo }}</a></li>
         </ul>
 
-        <h2 class="static-page-subtitle">{{ t.students.section_common }}</h2>
-        <ul class="sitemap-list students-hub-list">
+        <h2 class="branch-page-subtitle">{{ t.students.section_common }}</h2>
+        <ul class="sitemap-list students-hub-list branch-hub-list">
             <li><a href="{{ u('/students/stoimost-obucheniya') }}">{{ t.students.pages.stoimost_obucheniya }}</a></li>
             <li><a href="{{ u('/students/vypusknikam') }}">{{ t.students.pages.vypusknikam }}</a></li>
             <li><a href="{{ u('/students/informatsiya-dlya-uchashchikhsya-prekrativshim-dosrochno-obrazovatelnye-otnosheniya-i-prokhodivshim-attestatsiyu-v-poryadke-eksternata') }}">{{ t.students.pages.informatsiya_eksternat }}</a></li>
             <li><a href="https://adu.by/ru/homeru/obrazovatelnyj-protcess-2023-2024-uchebnyj-god/obshchee-srednee-obrazovanie/pravila-uchashchikhsya.html" rel="noopener noreferrer" target="_blank">{{ t.students.ext_rules_adu }}</a></li>
         </ul>
+        </div>
 
-        <p><a href="{{ u('/') }}" class="btn btn-outline">{{ t.pages.back_home }}</a></p>
+        <p class="branch-page-actions"><a href="{{ u('/') }}" class="btn btn-outline">{{ t.pages.back_home }}</a></p>
     </div>
 </section>
 {% endblock %}

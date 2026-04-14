@@ -9,12 +9,18 @@
 {% include 'partials/breadcrumbs.html' %}
 {% endblock %}
 {% block content %}
-<section class="section static-page">
-    <div class="container static-page-inner">
-        <h1 class="static-page-title">{{ t.students.pages[title_key] }}</h1>
-        <div class="legacy-article-content static-page-body">{{ body_html|safe }}</div>
-        <p class="students-legacy-link"><a href="{{ legacy_url }}" rel="noopener noreferrer" target="_blank">{{ t.students.open_on_legacy }}</a></p>
-        <p><a href="{{ u('/students') }}" class="btn btn-outline">{{ t.students.back_to_hub }}</a></p>
+<section class="section bg-light branch-page">
+    <div class="container">
+        <div class="section-title branch-page-heading">
+            <h1 class="branch-page-title">{{ t.students.pages[title_key] }}</h1>
+        </div>
+        <div class="branch-page-panel branch-page-panel--article">
+            <div class="legacy-article-content static-page-body">{{ body_html|safe }}</div>
+            <p class="branch-page-legacy"><a href="{{ legacy_url }}" rel="noopener noreferrer" target="_blank">{{ t.students.open_on_legacy }}</a></p>
+        </div>
+        <p class="branch-page-actions">
+            <a href="{{ u('/students') }}" class="btn btn-outline">{{ t.students.back_to_hub }}</a>
+        </p>
     </div>
 </section>
 {% endblock %}

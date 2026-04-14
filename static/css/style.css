@@ -284,15 +284,130 @@ nav {
     max-width: 100%;
 }
 
-.students-hub-list a[target="_blank"]::after {
+.students-hub-list a[target="_blank"]::after,
+.branch-hub-list a[target="_blank"]::after {
     content: " \2197";
     font-size: 0.75em;
     opacity: 0.7;
 }
 
-.students-legacy-link {
-    margin-top: 1.25rem;
+/* Разделы «Учащимся» / «Абитуриентам»: фон и карточка как на главной и «Специальности» */
+.branch-page {
+    padding: 3rem 0 4rem;
+    margin-bottom: 0;
+}
+
+.branch-page .container {
+    max-width: 960px;
+}
+
+.branch-page-heading {
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.branch-page-title {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 12px;
+    margin: 0 0 0.25rem;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text-color);
+}
+
+.branch-page-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--secondary-color);
+}
+
+.branch-page-intro {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+    text-align: center;
+    line-height: 1.65;
+}
+
+.branch-page-panel {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    padding: 1.75rem 2rem 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.branch-page-panel--article {
+    padding-top: 1.5rem;
+}
+
+.branch-page-subtitle {
+    margin: 0 0 0.85rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    padding-bottom: 0.35rem;
+    border-bottom: 2px solid var(--secondary-color);
+}
+
+.branch-page-panel .branch-page-subtitle:not(:first-child) {
+    margin-top: 2rem;
+}
+
+.branch-page-panel .branch-hub-list,
+.branch-page-panel .sitemap-list {
+    margin-bottom: 0;
+}
+
+.branch-page-legacy {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
     font-size: 0.95rem;
+}
+
+.branch-page-legacy a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.branch-page-legacy a:hover {
+    text-decoration: underline;
+}
+
+.branch-page-actions {
+    margin-top: 2rem;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+@media (max-width: 576px) {
+    .branch-page-title {
+        font-size: 1.5rem;
+    }
+
+    .branch-page-panel {
+        padding: 1.25rem 1.15rem 1.5rem;
+    }
+}
+
+.branch-page-panel .legacy-article-content {
+    margin-top: 0;
+}
+
+.branch-page-panel .legacy-article-content p,
+.branch-page-panel .legacy-article-content td,
+.branch-page-panel .legacy-article-content th {
+    color: var(--text-color);
 }
 
 .mobile-menu-btn {
