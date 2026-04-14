@@ -128,90 +128,215 @@
       "BY": "Галоўная",
       "EN": "Home"
     },
-    "about_college": {
-      "RU": "О колледже",
-      "BY": "А каледжы",
-      "EN": "About the college"
+    "history_traditions_achievements": {
+      "RU": "История, традиции, достижения",
+      "BY": "Гісторыя, традыцыі, дасягненні",
+      "EN": "History, traditions, achievements"
     },
     "history": {
       "RU": "История",
       "BY": "Гісторыя",
       "EN": "History"
     },
-    "administration": {
-      "RU": "Администрация",
-      "BY": "Адміністрацыя",
-      "EN": "Administration"
+    "traditions": {
+      "RU": "Традиции",
+      "BY": "Традыцыі",
+      "EN": "Traditions"
+    },
+    "achievements": {
+      "RU": "Достижения",
+      "BY": "Дасягненні",
+      "EN": "Achievements"
+    },
+    "education": {
+      "RU": "Образование",
+      "BY": "Адукацыя",
+      "EN": "Education"
+    },
+    "education_schedule": {
+      "RU": "График учебного процесса",
+      "BY": "Графік вучэбнага працэсу",
+      "EN": "Academic schedule"
+    },
+    "ideology": {
+      "RU": "Воспитание и идеология",
+      "BY": "Выхаванне і ідэалогія",
+      "EN": "Ideology and upbringing"
+    },
+    "ideology_main": {
+      "RU": "Основные направления",
+      "BY": "Асноўныя напрамкі",
+      "EN": "Main directions"
+    },
+    "ideology_events": {
+      "RU": "Мероприятия",
+      "BY": "Мерапрыемствы",
+      "EN": "Events"
+    },
+    "ideology_prevention": {
+      "RU": "Профилактика",
+      "BY": "Прафілактыка",
+      "EN": "Prevention"
+    },
+    "students": {
+      "RU": "Учащимся",
+      "BY": "Вучням",
+      "EN": "Students"
+    },
+    "students_section": {
+      "RU": "Раздел учащимся",
+      "BY": "Раздзел для вучняў",
+      "EN": "Students section"
+    },
+    "students_production_training": {
+      "RU": "Производственное обучение",
+      "BY": "Вытворчае навучанне",
+      "EN": "Industrial training"
+    },
+    "students_practice_schedule": {
+      "RU": "График практик",
+      "BY": "Графік практык",
+      "EN": "Practice schedule"
+    },
+    "students_memo": {
+      "RU": "Памятка учащемуся",
+      "BY": "Памятка вучню",
+      "EN": "Student memo"
+    },
+    "students_documents_samples": {
+      "RU": "Образцы документов",
+      "BY": "Узоры дакументаў",
+      "EN": "Document samples"
     },
     "documents": {
       "RU": "Документы",
       "BY": "Дакументы",
       "EN": "Documents"
     },
-    "vacancies": {
-      "RU": "Вакансии",
-      "BY": "Вакансіі",
-      "EN": "Vacancies"
-    },
     "enrollee": {
-      "RU": "Абитуриенту",
-      "BY": "Абітурыенту",
+      "RU": "Абитуриентам",
+      "BY": "Абітурыентам",
       "EN": "Applicants"
+    },
+    "enrollee_section": {
+      "RU": "Раздел абитуриентам",
+      "BY": "Раздзел для абітурыентаў",
+      "EN": "Applicants section"
     },
     "specialties": {
       "RU": "Специальности",
       "BY": "Спецыяльнасці",
       "EN": "Specialties"
     },
-    "admission_rules": {
-      "RU": "Правила приема",
-      "BY": "Правілы прыёму",
-      "EN": "Admission rules"
+    "admission_quotas": {
+      "RU": "Контрольные цифры приема",
+      "BY": "Кантрольныя лічбы прыёму",
+      "EN": "Admission quotas"
     },
-    "open_doors": {
-      "RU": "День открытых дверей",
-      "BY": "Дзень адкрытых дзвярэй",
-      "EN": "Open day"
+    "passing_scores": {
+      "RU": "Проходные баллы",
+      "BY": "Праходныя балы",
+      "EN": "Passing scores"
+    },
+    "tuition_fees": {
+      "RU": "Стоимость обучения",
+      "BY": "Кошт навучання",
+      "EN": "Tuition fees"
+    },
+    "admission_documents": {
+      "RU": "Документы для поступления",
+      "BY": "Дакументы для паступлення",
+      "EN": "Admission documents"
+    },
+    "career_guidance": {
+      "RU": "Профориентация",
+      "BY": "Прафарыентацыя",
+      "EN": "Career guidance"
+    },
+    "career_video": {
+      "RU": "Профориентационный ролик",
+      "BY": "Прафарыентацыйны ролік",
+      "EN": "Career guidance video"
+    },
+    "career_principles": {
+      "RU": "Принципы выбора профессии",
+      "BY": "Прынцыпы выбару прафесіі",
+      "EN": "Career choice principles"
+    },
+    "career_plan": {
+      "RU": "План профориентационной работы",
+      "BY": "План прафарыентацыйнай работы",
+      "EN": "Career guidance plan"
+    },
+    "career_open_days": {
+      "RU": "График дней открытых дверей",
+      "BY": "Графік дзён адкрытых дзвярэй",
+      "EN": "Open days schedule"
+    },
+    "inclusive_education": {
+      "RU": "Инклюзивное образование",
+      "BY": "Інклюзіўная адукацыя",
+      "EN": "Inclusive education"
+    },
+    "inclusive_main": {
+      "RU": "Основная информация",
+      "BY": "Асноўная інфармацыя",
+      "EN": "Main information"
+    },
+    "inclusive_regional_map": {
+      "RU": "Региональная карта",
+      "BY": "Рэгіянальная карта",
+      "EN": "Regional map"
+    },
+    "inclusive_for_parents": {
+      "RU": "Информация для родителей",
+      "BY": "Інфармацыя для бацькоў",
+      "EN": "Information for parents"
+    },
+    "one_window": {
+      "RU": "Одно окно",
+      "BY": "Адно акно",
+      "EN": "One-stop shop"
+    },
+    "one_window_procedures": {
+      "RU": "Административные процедуры",
+      "BY": "Адміністрацыйныя працэдуры",
+      "EN": "Administrative procedures"
+    },
+    "one_window_management": {
+      "RU": "Вышестоящий орган управления",
+      "BY": "Вышэйстаячы орган кіравання",
+      "EN": "Supervisory authority"
+    },
+    "one_window_citizens_schedule": {
+      "RU": "График приема граждан",
+      "BY": "Графік прыёму грамадзян",
+      "EN": "Citizens reception schedule"
+    },
+    "one_window_acts": {
+      "RU": "Нормативные правовые акты",
+      "BY": "Нарматыўныя прававыя акты",
+      "EN": "Regulatory legal acts"
+    },
+    "network_form": {
+      "RU": "Сетевая форма взаимодействия",
+      "BY": "Сеткавая форма ўзаемадзеяння",
+      "EN": "Network form of interaction"
+    },
+    "network_about": {
+      "RU": "О сетевой форме",
+      "BY": "Пра сеткавую форму",
+      "EN": "About network form"
+    },
+    "network_partners": {
+      "RU": "Партнеры",
+      "BY": "Партнёры",
+      "EN": "Partners"
     },
     "faq": {
       "RU": "Вопрос-ответ",
       "BY": "Пытанне-адказ",
       "EN": "Q&A"
-    },
-    "study": {
-      "RU": "Обучение",
-      "BY": "Навучанне",
-      "EN": "Studies"
-    },
-    "schedule": {
-      "RU": "Расписание",
-      "BY": "Расклад",
-      "EN": "Schedule"
-    },
-    "e_learning": {
-      "RU": "Электронное обучение",
-      "BY": "Электроннае навучанне",
-      "EN": "E-learning"
-    },
-    "library": {
-      "RU": "Библиотека",
-      "BY": "Бібліятэка",
-      "EN": "Library"
-    },
-    "practice": {
-      "RU": "Практика",
-      "BY": "Практыка",
-      "EN": "Internship"
-    },
-    "news": {
-      "RU": "Новости",
-      "BY": "Навіны",
-      "EN": "News"
-    },
-    "gallery": {
-      "RU": "Галерея",
-      "BY": "Галерэя",
-      "EN": "Gallery"
     },
     "contacts": {
       "RU": "Контакты",
