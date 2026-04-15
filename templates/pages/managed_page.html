@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% from 'macros/url.html' import u %}
 
+{% block breadcrumbs %}
+{% set breadcrumbs = [
+  {'label': t.nav.home, 'url': u('/')},
+  {'label': page.title, 'url': None}
+] %}
+{% include 'partials/breadcrumbs.html' %}
+{% endblock %}
+
 {% block content %}
 <section class="section static-page">
     <div class="container static-page-inner">

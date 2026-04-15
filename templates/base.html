@@ -13,6 +13,16 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="shortcut icon" href="/static/images/favicon_focused_64x64.ico" />
     {% block extra_css %}{% endblock %}
+    <script>
+        // Apply dark mode BEFORE paint to avoid flash
+        (function() {
+            try {
+                if (localStorage.getItem('darkMode') === 'true') {
+                    document.documentElement.classList.add('dark-mode-early');
+                }
+            } catch(e) {}
+        })();
+    </script>
 </head>
 <body>
 {% include "header.html" %}
@@ -29,6 +39,17 @@
 </div>
 {% include "footer.html" %}
 <script src="/static/js/cookies.js"></script>
+<script>
+    // Sync early dark mode class from html to body
+    (function() {
+        try {
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+                document.documentElement.classList.remove('dark-mode-early');
+            }
+        } catch(e) {}
+    })();
+</script>
 {% block extra_js %}{% endblock %}
 </body>
 </html>

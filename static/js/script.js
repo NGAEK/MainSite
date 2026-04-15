@@ -10,7 +10,6 @@ if (mobileMenuBtn && mainNav) {
 
 // Dropdown Menu Handling
 const navItems = document.querySelectorAll('.main-nav > li');
-
 navItems.forEach(item => {
     const link = item.querySelector('a');
     if (!link) return;
@@ -26,23 +25,17 @@ navItems.forEach(item => {
 
 // Tab Navigation
 const tabBtns = document.querySelectorAll('.tab-btn');
-
 tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        // Remove active class from all buttons and tab contents
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        
-        // Add active class to clicked button
         btn.classList.add('active');
-        
-        // Show corresponding tab content
         const tabId = btn.getAttribute('data-tab');
         document.getElementById(tabId).classList.add('active');
     });
 });
 
-//hero-slider
+// hero-slider
 document.addEventListener('DOMContentLoaded', function() {
     const slidesContainer = document.querySelector('.slides-container');
     const slides = document.querySelectorAll('.slid');
@@ -51,40 +44,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const dots = document.querySelectorAll('.slider-dot');
     let currentIndex = 0;
 
-    if (!slidesContainer || !slides.length || !prevBtn || !nextBtn) {
-        return;
-    }
+    if (!slidesContainer || !slides.length || !prevBtn || !nextBtn) return;
 
     function showSlide(index) {
         slidesContainer.style.transform = `translateX(-${index * 100}%)`;
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === index);
-        });
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
     }
 
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % slides.length;
-        showSlide(currentIndex);
-        
-    }
-
-    function prevSlide() {
+    prevBtn.addEventListener('click', () => {
         currentIndex = (currentIndex - 1 + slides.length) % slides.length;
         showSlide(currentIndex);
-    }
-
-    prevBtn.addEventListener('click', prevSlide);
-    nextBtn.addEventListener('click', nextSlide);
-
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            currentIndex = index;
-            showSlide(currentIndex);
-        });
     });
-
-    // Auto slide
-    setInterval(nextSlide, 5000);
+    nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+    });
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => { currentIndex = index; showSlide(currentIndex); });
+    });
+    setInterval(() => { currentIndex = (currentIndex + 1) % slides.length; showSlide(currentIndex); }, 5000);
 });
 
 // Gallery Slider
@@ -95,49 +73,38 @@ let currentSlide = 0;
 if (gallerySlider && sliderDots.length) {
     sliderDots.forEach(dot => {
         dot.addEventListener('click', () => {
-            const slideIndex = parseInt(dot.getAttribute('data-slide'));
-            currentSlide = slideIndex;
+            currentSlide = parseInt(dot.getAttribute('data-slide'));
             updateSlider();
         });
     });
-
-    setInterval(() => {
-        currentSlide = (currentSlide + 1) % sliderDots.length;
-        updateSlider();
-    }, 5000);
-
+    setInterval(() => { currentSlide = (currentSlide + 1) % sliderDots.length; updateSlider(); }, 5000);
     function updateSlider() {
-        gallerySlider.scrollTo({
-            left: currentSlide * gallerySlider.offsetWidth,
-            behavior: 'smooth'
-        });
-        
-        sliderDots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentSlide);
-        });
+        gallerySlider.scrollTo({ left: currentSlide * gallerySlider.offsetWidth, behavior: 'smooth' });
+        sliderDots.forEach((dot, index) => dot.classList.toggle('active', index === currentSlide));
     }
 }
 
-// Theme Toggle
+// ─── Theme Toggle ───────────────────────────────────────────────
+function applyTheme(isDark) {
+    document.body.classList.toggle('dark-mode', isDark);
+    const toggle = document.getElementById('themeToggle');
+    if (toggle) {
+        const icon = toggle.querySelector('i');
+        if (icon) { icon.classList.toggle('fa-moon', !isDark); icon.classList.toggle('fa-sun', isDark); }
+    }
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    if (darkModeToggle) darkModeToggle.checked = isDark;
+    localStorage.setItem('darkMode', isDark ? 'true' : 'false');
+}
+
 const themeToggle = document.getElementById('themeToggle');
 const darkModeToggle = document.getElementById('darkModeToggle');
 
 if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        themeToggle.querySelector('i').classList.toggle('fa-moon');
-        themeToggle.querySelector('i').classList.toggle('fa-sun');
-        
-        if (darkModeToggle) {
-            darkModeToggle.checked = document.body.classList.contains('dark-mode');
-        }
-    });
+    themeToggle.addEventListener('click', () => applyTheme(!document.body.classList.contains('dark-mode')));
 }
-
 if (darkModeToggle) {
-    darkModeToggle.addEventListener('change', () => {
-        document.body.classList.toggle('dark-mode', darkModeToggle.checked);
-    });
+    darkModeToggle.addEventListener('change', () => applyTheme(darkModeToggle.checked));
 }
 
 // Accessibility Modal
@@ -150,121 +117,87 @@ const resetAccessibility = document.getElementById('resetAccessibility');
 const saveAccessibility = document.getElementById('saveAccessibility');
 
 if (accessibilityBtn && accessibilityModal) {
-    accessibilityBtn.addEventListener('click', () => {
-        accessibilityModal.style.display = 'flex';
-    });
+    accessibilityBtn.addEventListener('click', () => { accessibilityModal.style.display = 'flex'; });
 }
-
 if (closeModal && accessibilityModal) {
-    closeModal.addEventListener('click', () => {
-        accessibilityModal.style.display = 'none';
-    });
+    closeModal.addEventListener('click', () => { accessibilityModal.style.display = 'none'; });
 }
-
 if (highContrastToggle) {
     highContrastToggle.addEventListener('change', () => {
         document.body.classList.toggle('high-contrast', highContrastToggle.checked);
+        localStorage.setItem('highContrast', highContrastToggle.checked);
     });
 }
-
 if (largeTextToggle) {
     largeTextToggle.addEventListener('change', () => {
         document.body.classList.toggle('large-text', largeTextToggle.checked);
+        localStorage.setItem('largeText', largeTextToggle.checked);
     });
 }
-
-if (resetAccessibility && highContrastToggle && largeTextToggle && darkModeToggle) {
+if (resetAccessibility) {
     resetAccessibility.addEventListener('click', () => {
         document.body.classList.remove('high-contrast', 'large-text', 'dark-mode');
-        highContrastToggle.checked = false;
-        largeTextToggle.checked = false;
-        darkModeToggle.checked = false;
+        if (highContrastToggle) highContrastToggle.checked = false;
+        if (largeTextToggle) largeTextToggle.checked = false;
+        if (darkModeToggle) darkModeToggle.checked = false;
+        localStorage.setItem('highContrast', 'false');
+        localStorage.setItem('largeText', 'false');
+        localStorage.setItem('darkMode', 'false');
+        const icon = themeToggle ? themeToggle.querySelector('i') : null;
+        if (icon) { icon.classList.add('fa-moon'); icon.classList.remove('fa-sun'); }
     });
 }
-
-if (saveAccessibility && accessibilityModal && highContrastToggle && largeTextToggle) {
+if (saveAccessibility && accessibilityModal) {
     saveAccessibility.addEventListener('click', () => {
-        localStorage.setItem('highContrast', highContrastToggle.checked);
-        localStorage.setItem('largeText', largeTextToggle.checked);
-        localStorage.setItem('darkMode', darkModeToggle ? darkModeToggle.checked : false);
+        if (highContrastToggle) localStorage.setItem('highContrast', highContrastToggle.checked);
+        if (largeTextToggle) localStorage.setItem('largeText', largeTextToggle.checked);
+        if (darkModeToggle) localStorage.setItem('darkMode', darkModeToggle.checked);
         accessibilityModal.style.display = 'none';
     });
 }
 
+// Restore preferences on load (dark mode applied early via base.html inline script)
 window.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('highContrast') === 'true' && highContrastToggle) {
         document.body.classList.add('high-contrast');
         highContrastToggle.checked = true;
     }
-    
     if (localStorage.getItem('largeText') === 'true' && largeTextToggle) {
         document.body.classList.add('large-text');
         largeTextToggle.checked = true;
     }
-    
-    if (localStorage.getItem('darkMode') === 'true' && darkModeToggle) {
-        document.body.classList.add('dark-mode');
-        darkModeToggle.checked = true;
-        if (themeToggle) {
-            const icon = themeToggle.querySelector('i');
-            if (icon) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            }
-        }
+    if (localStorage.getItem('darkMode') === 'true') {
+        // body class already set by inline script; just sync toggles
+        if (darkModeToggle) darkModeToggle.checked = true;
+        const icon = themeToggle ? themeToggle.querySelector('i') : null;
+        if (icon) { icon.classList.remove('fa-moon'); icon.classList.add('fa-sun'); }
     }
 });
 
 if (accessibilityModal) {
-    window.addEventListener('click', (e) => {
-        if (e.target === accessibilityModal) {
-            accessibilityModal.style.display = 'none';
-        }
-    });
+    window.addEventListener('click', (e) => { if (e.target === accessibilityModal) accessibilityModal.style.display = 'none'; });
 }
 
-// news slider
+// News slider
 const newsGrid = document.querySelector('.news-grid');
 const newsPrev = document.querySelector('.news-prev');
 const newsNext = document.querySelector('.news-next');
 
 if (newsGrid && newsPrev && newsNext) {
-    newsNext.addEventListener('click', () => {
-        const scrollAmount = newsGrid.clientWidth;
-        newsGrid.scrollBy({
-            left: scrollAmount,
-            behavior: 'smooth'
-        });
-    });
-
-    newsPrev.addEventListener('click', () => {
-        const scrollAmount = newsGrid.clientWidth;
-        newsGrid.scrollBy({
-            left: -scrollAmount,
-            behavior: 'smooth'
-        });
-    });
-
+    newsNext.addEventListener('click', () => newsGrid.scrollBy({ left: newsGrid.clientWidth, behavior: 'smooth' }));
+    newsPrev.addEventListener('click', () => newsGrid.scrollBy({ left: -newsGrid.clientWidth, behavior: 'smooth' }));
     const checkNewsButtons = () => {
-        const scrollLeft = newsGrid.scrollLeft;
-        const maxScroll = newsGrid.scrollWidth - newsGrid.clientWidth;
-        
-        newsPrev.disabled = scrollLeft === 0;
-        newsNext.disabled = scrollLeft >= maxScroll - 1;
+        newsPrev.disabled = newsGrid.scrollLeft === 0;
+        newsNext.disabled = newsGrid.scrollLeft >= newsGrid.scrollWidth - newsGrid.clientWidth - 1;
     };
-
     newsGrid.addEventListener('scroll', checkNewsButtons);
     window.addEventListener('resize', checkNewsButtons);
     checkNewsButtons();
 }
 
 const langButtons = document.querySelectorAll('.lang-btn');
-
 langButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const lang = button.getAttribute('data-lang');
-        changeLanguage(lang);
-    });
+    button.addEventListener('click', () => changeLanguage(button.getAttribute('data-lang')));
 });
 
 function changeLanguage(lang) {
@@ -272,7 +205,6 @@ function changeLanguage(lang) {
     url.searchParams.set('lang', lang);
     window.location.href = url.toString();
 }
-
 
 const searchForm = document.querySelector('.search-form');
 if (searchForm) {
@@ -282,9 +214,6 @@ if (searchForm) {
         const langInput = searchForm.querySelector('input[name="lang"]');
         const query = queryInput ? queryInput.value.trim() : '';
         const lang = langInput ? langInput.value : (new URL(window.location.href).searchParams.get('lang') || 'ru');
-        if (query) {
-            const url = `/search?q=${encodeURIComponent(query)}&lang=${encodeURIComponent(lang)}`;
-            window.location.href = url;
-        }
+        if (query) window.location.href = `/search?q=${encodeURIComponent(query)}&lang=${encodeURIComponent(lang)}`;
     });
 }
