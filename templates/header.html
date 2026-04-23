@@ -1,157 +1,158 @@
-<!-- Fragment: включается в base.html (единый <html lang="{{ current_lang }}"> в base) -->
 {% from 'macros/url.html' import u %}
-<header>
-    <div class="container header-container">
-        <div class="logo">
-            <img src="../static/images/istockphoto-2119394587-1024x1024-removebg-preview.png" alt="{{ t.common.logo_alt }}">
-            <div class="logo-text">
-                <h1>{{ t.header.title }}</h1>
-                <p>{{ t.header.subtitle }}</p>
+
+<div class="header-wrapper">
+    <header id="mainHeader">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="../static/images/istockphoto-2119394587-1024x1024-removebg-preview.png" alt="{{ t.common.logo_alt }}">
+                <div class="logo-text">
+                    <h1>{{ t.header.title }}</h1>
+                    <p>{{ t.header.subtitle }}</p>
+                </div>
             </div>
-        </div>
-        <div class="header-actions">
-            <form class="search-form" action="/search" method="GET">
-                <input type="hidden" name="lang" value="{{ current_lang }}">
-                <input type="text" name="q" placeholder="{{ t.header.search_placeholder }}" aria-label="{{ t.header.search_aria }}"
-                       value="{{ query if query else '' }}">
-                <button type="submit" aria-label="{{ t.header.search_btn_aria }}">
-                    <div class="search-icon"><i class="fas fa-search"></i></div>
+            <div class="header-actions">
+                <form class="search-form" action="/search" method="GET">
+                    <input type="hidden" name="lang" value="{{ current_lang }}">
+                    <input type="text" name="q" placeholder="{{ t.header.search_placeholder }}" aria-label="{{ t.header.search_aria }}"
+                           value="{{ query if query else '' }}">
+                    <button type="submit" aria-label="{{ t.header.search_btn_aria }}">
+                        <div class="search-icon"><i class="fas fa-search"></i></div>
+                    </button>
+                </form>
+
+                <div class="language-switcher">
+                    <button type="button" class="lang-btn" data-lang="be" aria-label="{{ t.header.lang_be_aria }}"><img src="/static/images/flags/be.gif" alt=""></button>
+                    <button type="button" class="lang-btn" data-lang="ru" aria-label="{{ t.header.lang_ru_aria }}"><img src="/static/images/flags/ru.gif" alt=""></button>
+                    <button type="button" class="lang-btn lang-btn-en" data-lang="en" aria-label="{{ t.header.lang_en_aria }}"><span class="lang-btn-en-text">EN</span></button>
+                </div>
+
+                <button type="button" class="accessibility-btn" id="accessibilityBtn" aria-label="{{ t.header.accessibility_aria }}">
+                    <i class="fas fa-universal-access"></i>
                 </button>
-            </form>
-
-            <div class="language-switcher">
-                <button type="button" class="lang-btn" data-lang="be" aria-label="{{ t.header.lang_be_aria }}"><img src="/static/images/flags/be.gif" alt=""></button>
-                <button type="button" class="lang-btn" data-lang="ru" aria-label="{{ t.header.lang_ru_aria }}"><img src="/static/images/flags/ru.gif" alt=""></button>
-                <button type="button" class="lang-btn lang-btn-en" data-lang="en" aria-label="{{ t.header.lang_en_aria }}"><span class="lang-btn-en-text">EN</span></button>
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="{{ t.header.theme_aria }}">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
-
-            <button type="button" class="accessibility-btn" id="accessibilityBtn" aria-label="{{ t.header.accessibility_aria }}">
-                <i class="fas fa-universal-access"></i>
-            </button>
-            <button type="button" class="theme-toggle" id="themeToggle" aria-label="{{ t.header.theme_aria }}">
-                <i class="fas fa-moon"></i>
-            </button>
         </div>
-    </div>
-</header>
+    </header>
 
-<nav>
-    <div class="container nav-container">
-        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="main-nav-grid" id="mainNav">
-            <ul class="main-nav main-nav-row">
-                <li><a href="{{ u('/') }}">{{ t.nav.home }}</a></li>
-                <li>
-                    <a href="{{ u('/pages/history') }}">{{ t.nav.history_traditions_achievements }} <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ u('/pages/history') }}">{{ t.nav.history }}</a></li>
-                        <li><a href="{{ u('/pages/traditions') }}">{{ t.nav.traditions }}</a></li>
-                        <li><a href="{{ u('/pages/achievements') }}">{{ t.nav.achievements }}</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="{{ u('/pages/education') }}">{{ t.nav.education }} <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ u('/specialties') }}">{{ t.nav.specialties }}</a></li>
-                        <li><a href="{{ u('/pages/documents') }}">{{ t.nav.documents }}</a></li>
-                        <li><a href="{{ u('/pages/education-schedule') }}">{{ t.nav.education_schedule }}</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="{{ u('/pages/ideology') }}">{{ t.nav.ideology }} <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ u('/pages/ideology-main') }}">{{ t.nav.ideology_main }}</a></li>
-                        <li><a href="{{ u('/pages/ideology-events') }}">{{ t.nav.ideology_events }}</a></li>
-                        <li><a href="{{ u('/pages/ideology-prevention') }}">{{ t.nav.ideology_prevention }}</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="{{ u('/students') }}">{{ t.nav.students }} <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-wide">
-                        <li><a href="{{ u('/students') }}">{{ t.students.hub_title }}</a></li>
-                        <li class="nav-group-label"><span>{{ t.students.section_day }}</span></li>
-                        <li><a href="{{ u('/students/grafik-uchebnogo-protsessa') }}">{{ t.students.pages.grafik_uchebnogo_protsessa }}</a></li>
-                        <li><a href="{{ u('/students/proizvodstvennoe-obuchenie') }}">{{ t.students.pages.proizvodstvennoe_obuchenie }}</a></li>
-                        <li><a href="{{ u('/students/grafik-prokhozhdeniya-uchebnykh-i-proizvodstvennykh-praktik') }}">{{ t.students.pages.grafik_praktik }}</a></li>
-                        <li><a href="{{ u('/students/pamyatka-uchashchemusya') }}">{{ t.students.pages.pamyatka_uchashchemusya }}</a></li>
-                        <li><a href="{{ u('/students/obraztsy-dokumentov') }}">{{ t.students.pages.obraztsy_dokumentov }}</a></li>
-                        <li><a href="{{ u('/students/kursovoe-i-diplomnoe-proektirovanie') }}">{{ t.students.pages.kursovoe_diplomnoe }}</a></li>
-                        <li><a href="{{ u('/students/normativnye-dokumenty') }}">{{ t.students.pages.normativnye_dokumenty }}</a></li>
-                        <li><a href="{{ u('/students/raspredelenie-i-trudoustrojstvo-vypusknikov') }}">{{ t.students.pages.raspredelenie_vypusknikov }}</a></li>
-                        <li class="nav-group-label"><span>{{ t.students.section_zaoch }}</span></li>
-                        <li><a href="{{ u('/students/uchebnaya-programma-preddiplomnoj-praktiki') }}">{{ t.students.pages.programma_preddiplomnoj_praktiki }}</a></li>
-                        <li><a href="{{ u('/students/grafik-uchebnogo-protsessa-zaochnogo-otdeleniya') }}">{{ t.students.pages.grafik_zaochnogo }}</a></li>
-                        <li class="nav-group-label"><span>{{ t.students.section_common }}</span></li>
-                        <li><a href="{{ u('/students/stoimost-obucheniya') }}">{{ t.students.pages.stoimost_obucheniya }}</a></li>
-                        <li><a href="{{ u('/students/vypusknikam') }}">{{ t.students.pages.vypusknikam }}</a></li>
-                        <li><a href="{{ u('/students/informatsiya-dlya-uchashchikhsya-prekrativshim-dosrochno-obrazovatelnye-otnosheniya-i-prokhodivshim-attestatsiyu-v-poryadke-eksternata') }}">{{ t.students.pages.informatsiya_eksternat }}</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="{{ u('/applicants') }}">{{ t.nav.enrollee }} <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-wide">
-                        <li><a href="{{ u('/applicants') }}">{{ t.applicants.hub_title }}</a></li>
-                        <li><a href="{{ u('/specialties') }}">{{ t.nav.specialties }}</a></li>
-                        <li><a href="{{ u('/applicants/spetsialnosti') }}">{{ t.applicants.pages.spetsialnosti }}</a></li>
-                        <li><a href="{{ u('/applicants/kontrolnye-tsifry-priema') }}">{{ t.applicants.pages.kontrolnye_tsifry }}</a></li>
-                        <li><a href="{{ u('/applicants/tselevaya-podgotovka') }}">{{ t.applicants.pages.tselevaya_podgotovka }}</a></li>
-                        <li><a href="{{ u('/applicants/prokhodnye-bally') }}">{{ t.applicants.pages.prokhodnye_bally }}</a></li>
-                        <li><a href="{{ u('/applicants/stoimost-obucheniya') }}">{{ t.applicants.pages.stoimost_obucheniya }}</a></li>
-                        <li><a href="{{ u('/applicants/sroki-vstupitelnoj-kampanii') }}">{{ t.applicants.pages.sroki_kampanii }}</a></li>
-                        <li><a href="{{ u('/applicants/dokumenty-dlya-postupleniya') }}">{{ t.applicants.pages.dokumenty_postupleniya }}</a></li>
-                        <li><a href="{{ u('/applicants/normativnye-pravovye-dokumenty') }}">{{ t.applicants.pages.normativnye_dokumenty }}</a></li>
-                        <li><a href="{{ u('/applicants/chasto-zadavaemye-voprosy') }}">{{ t.applicants.pages.chasto_voprosy }}</a></li>
-                        <li><a href="{{ u('/applicants/goryachaya-liniya') }}">{{ t.applicants.pages.goryachaya_liniya }}</a></li>
-                        <li><a href="{{ u('/applicants/konsultatsionnyj-punkt') }}">{{ t.applicants.pages.konsultatsionnyj_punkt }}</a></li>
-                        <li><a href="{{ u('/applicants/trudoustrojstvo') }}">{{ t.applicants.pages.trudoustrojstvo }}</a></li>
-                        <li><a href="{{ u('/applicants/obshchezhitie') }}">{{ t.applicants.pages.obshchezhitie }}</a></li>
-                        <li><a href="{{ u('/applicants/organizatsiya-pitaniya') }}">{{ t.applicants.pages.organizatsiya_pitaniya }}</a></li>
-                    </ul>
-                </li>
-            </ul>
+    <nav id="smartNav">
+        <div class="container nav-container">
+            <button type="button" class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="main-nav-grid" id="mainNav">
+                <ul class="main-nav main-nav-row">
+                    <li><a href="{{ u('/') }}">{{ t.nav.home }}</a></li>
+                    <li>
+                        <a href="{{ u('/pages/history') }}">{{ t.nav.history_traditions_achievements }} <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ u('/pages/history') }}">{{ t.nav.history }}</a></li>
+                            <li><a href="{{ u('/pages/traditions') }}">{{ t.nav.traditions }}</a></li>
+                            <li><a href="{{ u('/pages/achievements') }}">{{ t.nav.achievements }}</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ u('/pages/education') }}">{{ t.nav.education }} <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ u('/specialties') }}">{{ t.nav.specialties }}</a></li>
+                            <li><a href="{{ u('/pages/documents') }}">{{ t.nav.documents }}</a></li>
+                            <li><a href="{{ u('/pages/education-schedule') }}">{{ t.nav.education_schedule }}</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ u('/pages/ideology') }}">{{ t.nav.ideology }} <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ u('/pages/ideology-main') }}">{{ t.nav.ideology_main }}</a></li>
+                            <li><a href="{{ u('/pages/ideology-events') }}">{{ t.nav.ideology_events }}</a></li>
+                            <li><a href="{{ u('/pages/ideology-prevention') }}">{{ t.nav.ideology_prevention }}</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ u('/students') }}">{{ t.nav.students }} <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-wide">
+                            <li><a href="{{ u('/students') }}">{{ t.students.hub_title }}</a></li>
+                            <li class="nav-group-label"><span>{{ t.students.section_day }}</span></li>
+                            <li><a href="{{ u('/students/grafik-uchebnogo-protsessa') }}">{{ t.students.pages.grafik_uchebnogo_protsessa }}</a></li>
+                            <li><a href="{{ u('/students/proizvodstvennoe-obuchenie') }}">{{ t.students.pages.proizvodstvennoe_obuchenie }}</a></li>
+                            <li><a href="{{ u('/students/grafik-prokhozhdeniya-uchebnykh-i-proizvodstvennykh-praktik') }}">{{ t.students.pages.grafik_praktik }}</a></li>
+                            <li><a href="{{ u('/students/pamyatka-uchashchemusya') }}">{{ t.students.pages.pamyatka_uchashchemusya }}</a></li>
+                            <li><a href="{{ u('/students/obraztsy-dokumentov') }}">{{ t.students.pages.obraztsy_dokumentov }}</a></li>
+                            <li><a href="{{ u('/students/kursovoe-i-diplomnoe-proektirovanie') }}">{{ t.students.pages.kursovoe_diplomnoe }}</a></li>
+                            <li><a href="{{ u('/students/normativnye-dokumenty') }}">{{ t.students.pages.normativnye_dokumenty }}</a></li>
+                            <li><a href="{{ u('/students/raspredelenie-i-trudoustrojstvo-vypusknikov') }}">{{ t.students.pages.raspredelenie_vypusknikov }}</a></li>
+                            <li class="nav-group-label"><span>{{ t.students.section_zaoch }}</span></li>
+                            <li><a href="{{ u('/students/uchebnaya-programma-preddiplomnoj-praktiki') }}">{{ t.students.pages.programma_preddiplomnoj_praktiki }}</a></li>
+                            <li><a href="{{ u('/students/grafik-uchebnogo-protsessa-zaochnogo-otdeleniya') }}">{{ t.students.pages.grafik_zaochnogo }}</a></li>
+                            <li class="nav-group-label"><span>{{ t.students.section_common }}</span></li>
+                            <li><a href="{{ u('/students/stoimost-obucheniya') }}">{{ t.students.pages.stoimost_obucheniya }}</a></li>
+                            <li><a href="{{ u('/students/vypusknikam') }}">{{ t.students.pages.vypusknikam }}</a></li>
+                            <li><a href="{{ u('/students/informatsiya-dlya-uchashchikhsya-prekrativshim-dosrochno-obrazovatelnye-otnosheniya-i-prokhodivshim-attestatsiyu-v-poryadke-eksternata') }}">{{ t.students.pages.informatsiya_eksternat }}</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ u('/applicants') }}">{{ t.nav.enrollee }} <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-wide">
+                            <li><a href="{{ u('/applicants') }}">{{ t.applicants.hub_title }}</a></li>
+                            <li><a href="{{ u('/specialties') }}">{{ t.nav.specialties }}</a></li>
+                            <li><a href="{{ u('/applicants/kontrolnye-tsifry-priema') }}">{{ t.applicants.pages.kontrolnye_tsifry }}</a></li>
+                            <li><a href="{{ u('/applicants/tselevaya-podgotovka') }}">{{ t.applicants.pages.tselevaya_podgotovka }}</a></li>
+                            <li><a href="{{ u('/applicants/prokhodnye-bally') }}">{{ t.applicants.pages.prokhodnye_bally }}</a></li>
+                            <li><a href="{{ u('/applicants/stoimost-obucheniya') }}">{{ t.applicants.pages.stoimost_obucheniya }}</a></li>
+                            <li><a href="{{ u('/applicants/sroki-vstupitelnoj-kampanii') }}">{{ t.applicants.pages.sroki_kampanii }}</a></li>
+                            <li><a href="{{ u('/applicants/dokumenty-dlya-postupleniya') }}">{{ t.applicants.pages.dokumenty_postupleniya }}</a></li>
+                            <li><a href="{{ u('/applicants/normativnye-pravovye-dokumenty') }}">{{ t.applicants.pages.normativnye_dokumenty }}</a></li>
+                            <li><a href="{{ u('/applicants/chasto-zadavaemye-voprosy') }}">{{ t.applicants.pages.chasto_voprosy }}</a></li>
+                            <li><a href="{{ u('/applicants/goryachaya-liniya') }}">{{ t.applicants.pages.goryachaya_liniya }}</a></li>
+                            <li><a href="{{ u('/applicants/konsultatsionnyj-punkt') }}">{{ t.applicants.pages.konsultatsionnyj_punkt }}</a></li>
+                            <li><a href="{{ u('/applicants/trudoustrojstvo') }}">{{ t.applicants.pages.trudoustrojstvo }}</a></li>
+                            <li><a href="{{ u('/applicants/obshchezhitie') }}">{{ t.applicants.pages.obshchezhitie }}</a></li>
+                            <li><a href="{{ u('/applicants/organizatsiya-pitaniya') }}">{{ t.applicants.pages.organizatsiya_pitaniya }}</a></li>
+                        </ul>
+                    </li>
+                </ul>
 
-            <ul class="main-nav main-nav-row">
-                <li>
-                    <a href="{{ u('/pages/proforientation') }}">{{ t.nav.career_guidance }} <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ u('/pages/proforientation-video') }}">{{ t.nav.career_video }}</a></li>
-                        <li><a href="{{ u('/pages/proforientation-principles') }}">{{ t.nav.career_principles }}</a></li>
-                        <li><a href="{{ u('/pages/proforientation-plan') }}">{{ t.nav.career_plan }}</a></li>
-                        <li><a href="{{ u('/pages/proforientation-open-days') }}">{{ t.nav.career_open_days }}</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="{{ u('/pages/inclusive-education') }}">{{ t.nav.inclusive_education }} <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ u('/pages/inclusive-main') }}">{{ t.nav.inclusive_main }}</a></li>
-                        <li><a href="{{ u('/pages/inclusive-regional-map') }}">{{ t.nav.inclusive_regional_map }}</a></li>
-                        <li><a href="{{ u('/pages/inclusive-for-parents') }}">{{ t.nav.inclusive_for_parents }}</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="{{ u('/one-window') }}">{{ t.nav.one_window }} <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ u('/one-window') }}">{{ t.nav.one_window_procedures }}</a></li>
-                        <li><a href="{{ u('/pages/one-window-management') }}">{{ t.nav.one_window_management }}</a></li>
-                        <li><a href="{{ u('/pages/one-window-citizens-schedule') }}">{{ t.nav.one_window_citizens_schedule }}</a></li>
-                        <li><a href="{{ u('/pages/one-window-acts') }}">{{ t.nav.one_window_acts }}</a></li>
-                        <li><a href="{{ u('/privacy') }}">{{ t.footer.link_privacy }}</a></li>
-                        <li><a href="{{ u('/cookies') }}">{{ t.footer.link_cookies }}</a></li>
-                        <li><a href="{{ u('/sitemap') }}">{{ t.footer.link_sitemap }}</a></li>
-                    </ul>
-                </li>
-                <li><a href="{{ u('/contacts') }}">{{ t.nav.contacts }}</a></li>
-                <li>
-                    <a href="{{ u('/pages/network') }}">{{ t.nav.network_form }} <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ u('/pages/network-about') }}">{{ t.nav.network_about }}</a></li>
-                        <li><a href="{{ u('/pages/network-partners') }}">{{ t.nav.network_partners }}</a></li>
-                        <li><a href="{{ u('/pages/network-docs') }}">{{ t.nav.documents }}</a></li>
-                    </ul>
-                </li>
-            </ul>
+                <ul class="main-nav main-nav-row">
+                    <li>
+                        <a href="{{ u('/pages/proforientation') }}">{{ t.nav.career_guidance }} <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ u('/pages/proforientation-video') }}">{{ t.nav.career_video }}</a></li>
+                            <li><a href="{{ u('/pages/proforientation-principles') }}">{{ t.nav.career_principles }}</a></li>
+                            <li><a href="{{ u('/pages/proforientation-plan') }}">{{ t.nav.career_plan }}</a></li>
+                            <li><a href="{{ u('/pages/proforientation-open-days') }}">{{ t.nav.career_open_days }}</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ u('/pages/inclusive-education') }}">{{ t.nav.inclusive_education }} <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ u('/pages/inclusive-main') }}">{{ t.nav.inclusive_main }}</a></li>
+                            <li><a href="{{ u('/pages/inclusive-regional-map') }}">{{ t.nav.inclusive_regional_map }}</a></li>
+                            <li><a href="{{ u('/pages/inclusive-for-parents') }}">{{ t.nav.inclusive_for_parents }}</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ u('/one-window') }}">{{ t.nav.one_window }} <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ u('/one-window') }}">{{ t.nav.one_window_procedures }}</a></li>
+                            <li><a href="{{ u('/pages/one-window-management') }}">{{ t.nav.one_window_management }}</a></li>
+                            <li><a href="{{ u('/pages/one-window-citizens-schedule') }}">{{ t.nav.one_window_citizens_schedule }}</a></li>
+                            <li><a href="{{ u('/pages/one-window-acts') }}">{{ t.nav.one_window_acts }}</a></li>
+                            <li><a href="{{ u('/privacy') }}">{{ t.footer.link_privacy }}</a></li>
+                            <li><a href="{{ u('/cookies') }}">{{ t.footer.link_cookies }}</a></li>
+                            <li><a href="{{ u('/sitemap') }}">{{ t.footer.link_sitemap }}</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ u('/contacts') }}">{{ t.nav.contacts }}</a></li>
+                    <li>
+                        <a href="{{ u('/pages/network') }}">{{ t.nav.network_form }} <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ u('/pages/network-about') }}">{{ t.nav.network_about }}</a></li>
+                            <li><a href="{{ u('/pages/network-partners') }}">{{ t.nav.network_partners }}</a></li>
+                            <li><a href="{{ u('/pages/network-docs') }}">{{ t.nav.documents }}</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</div>

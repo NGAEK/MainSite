@@ -217,3 +217,35 @@ if (searchForm) {
         if (query) window.location.href = `/search?q=${encodeURIComponent(query)}&lang=${encodeURIComponent(lang)}`;
     });
 }
+
+const mainHeader = document.getElementById('mainHeader');
+const smartNav = document.getElementById('smartNav');
+let lastScrollY = window.scrollY;
+
+// Функция, которая точно ставит меню под логотип
+function adjustNavPosition() {
+    if (mainHeader && smartNav) {
+        const headerHeight = mainHeader.offsetHeight;
+        smartNav.style.top = headerHeight + 'px';
+    }
+}
+
+window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+
+    if (smartNav) {
+        // Если крутим вниз и проехали больше 150px — прячем только меню
+        if (currentScrollY > lastScrollY && currentScrollY > 150) {
+            smartNav.classList.add('nav-hidden');
+        } 
+        // Если крутим вверх — возвращаем меню на место
+        else {
+            smartNav.classList.remove('nav-hidden');
+        }
+    }
+    lastScrollY = currentScrollY;
+}, { passive: true });
+
+// Подстраиваем позиции при загрузке и ресайзе
+window.addEventListener('resize', adjustNavPosition);
+window.addEventListener('load', adjustNavPosition);

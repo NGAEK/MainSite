@@ -120,7 +120,7 @@ header {
     height: var(--header-h);
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 1010;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     transition: background var(--tr);
 }
@@ -132,6 +132,16 @@ header {
     height: 100%;
     gap: 16px;
 }
+
+.header-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 1010;
+    transition: transform 0.3s ease-in-out;
+    /* Фон намеренно не задан, чтобы сохранить вашу прозрачность */
+}
+
+
 
 .logo {
     display: flex;
@@ -291,10 +301,11 @@ nav {
     background: var(--clr-primary);
     min-height: calc(var(--nav-h) * 2);
     position: sticky;
-    top: var(--header-h);
-    z-index: 999;
+    top: var(--header-h); /* Липнет сразу под хедером */
+    z-index: 1000;
     border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    transition: background var(--tr);
+    /* Добавляем плавность для анимации */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, background var(--tr);
 }
 
 .nav-container {
@@ -302,6 +313,13 @@ nav {
     align-items: center;
     min-height: calc(var(--nav-h) * 2);
     justify-content: space-between;
+}
+
+.nav-hidden {
+    /* Сдвигаем на высоту самой навигации вверх, чтобы она спряталась под хедер */
+    transform: translateY(-100%); 
+    opacity: 0;
+    pointer-events: none;
 }
 
 .main-nav-grid {
@@ -1623,49 +1641,7 @@ footer {
     font-size: 0.82rem;
 }
 
-/* BREADCRUMBS */
-.breadcrumbs-wrap {
-    background: var(--clr-bg-card);
-    border-bottom: 1px solid var(--clr-border);
-    padding: 10px 0;
-}
 
-.breadcrumbs {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 4px 6px;
-    padding: 0;
-    margin: 0;
-    font-size: 0.82rem;
-}
-
-.breadcrumbs li {
-    display: inline-flex;
-    align-items: center;
-    color: var(--clr-text-muted);
-}
-
-.breadcrumbs li+li::before {
-    content: '/';
-    margin-right: 6px;
-    color: var(--clr-text-faint);
-}
-
-.breadcrumbs a {
-    color: var(--secondary-color);
-    text-decoration: none;
-}
-
-.breadcrumbs a:hover {
-    text-decoration: underline;
-}
-
-.breadcrumbs [aria-current="page"] {
-    color: var(--clr-text);
-    font-weight: 600;
-}
 
 /* COOKIE */
 .cookie-banner {
@@ -2334,64 +2310,62 @@ html.dark-mode-early body {
     color: var(--clr-text);
 }
 
-/* ═══════════════════════════════════════════════════
-   BREADCRUMBS — REDESIGNED
-   ═══════════════════════════════════════════════════ */
+/* ХЛЕБНЫЕ КРОШКИ – компактная высота, прилипание сверху */
 .breadcrumbs-wrap {
-    background: var(--clr-bg-card);
+    background: var(--clr-bg-subtle);
     border-bottom: 1px solid var(--clr-border);
-    padding: 10px 0;
-    position: relative;
-    z-index: 998;
+    padding: 20px 0;
+    font-size: 0.9rem;
+    position: sticky;
+    top: 0;
+    z-index: 98;
+    min-height: 60px;          /* гарантирует минимум, но растягивается при необходимости */
 }
 
-.dark-mode .breadcrumbs-wrap {
-    background: var(--clr-bg-subtle);
+/* Если шапка уже sticky и перекрывает, добавьте отступ */
+.breadcrumbs-wrap {
+    top: var(--header-h, 76px); /* прилипание сразу под шапкой */
 }
 
 .breadcrumbs {
-    list-style: none;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 0;
-    padding: 0;
+    list-style: none;
     margin: 0;
-    font-size: 0.80rem;
+    padding: 0;
+    line-height: 1.2;
+    margin-left: 12px;        /* уменьшаем межстрочный интервал */
 }
 
 .breadcrumbs li {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     color: var(--clr-text-muted);
 }
 
-.breadcrumbs li + li::before {
-    content: '';
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    border-top: 1.5px solid var(--clr-text-faint);
-    border-right: 1.5px solid var(--clr-text-faint);
-    transform: rotate(45deg);
-    margin: 0 8px 0 4px;
-    flex-shrink: 0;
+.breadcrumbs li:not(:last-child)::after {
+    content: "›";
+    margin: 0 5px;
+    color: var(--clr-text-faint);
+    font-size: 0.8rem;
 }
 
 .breadcrumbs a {
-    color: var(--clr-text-muted);
+    color: var(--secondary-color);
     text-decoration: none;
     transition: color var(--tr);
+    padding: 2px 0;            /* минимальные отступы внутри ссылки */
 }
 
 .breadcrumbs a:hover {
-    color: var(--secondary-color);
-    text-decoration: none;
+    color: var(--clr-accent);
+    text-decoration: underline;
 }
 
 .breadcrumbs [aria-current="page"] {
     color: var(--clr-text);
     font-weight: 500;
+    pointer-events: none;
 }
 
 /* ═══════════════════════════════════════════════════
