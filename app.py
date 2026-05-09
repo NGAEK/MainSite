@@ -320,9 +320,117 @@ def applicants_article(slug):
 def custom_page(slug):
     return site_pages.custom_page_handler(request, slug)
 
+# Добавьте эти маршруты после существующих (после строки @app.route("/pages/<slug>"))
+
+# Мигрированные страницы
+@app.route("/pages/stranitsy-istorii")
+def page_stranitsy_istorii():
+    return render_template('migrated/stranitsy-istorii.html')
+
+@app.route("/pages/traditsii-kolledzha")
+def page_traditsii_kolledzha():
+    return render_template('migrated/traditsii-kolledzha.html')
+
+@app.route("/pages/nashi-dostizheniya")
+def page_nashi_dostizheniya():
+    return render_template('migrated/nashi-dostizheniya.html')
+
+@app.route("/pages/istoriya")
+def page_istoriya():
+    return render_template('migrated/istoriya.html')
+
+@app.route("/pages/znamenitye-vypuskniki")
+def page_znamenitye_vypuskniki():
+    return render_template('migrated/znamenitye-vypuskniki.html')
+
+@app.route("/pages/nashi-tsel-i-zadachi")
+def page_nashi_tsel_i_zadachi():
+    return render_template('migrated/nashi-tsel-i-zadachi.html')
+
+@app.route("/pages/antikorruptsionnaya-deyatelnost")
+def page_antikorruptsionnaya_deyatelnost():
+    return render_template('migrated/antikorruptsionnaya-deyatelnost.html')
+
+@app.route("/pages/polozhenie-o-politike-cookie")
+def page_polozhenie_o_politike_cookie():
+    return render_template('migrated/polozhenie-o-politike-cookie.html')
+
+# Образование - новые страницы
+@app.route('/pages/education-informatization')
+def page_education_informatization():
+    return render_template('migrated/education-informatization.html')
+
+@app.route('/pages/education-methodical-work')
+def page_education_methodical_work():
+    return render_template('migrated/education-methodical-work.html')
+
+@app.route('/pages/education-teaching-materials')
+def page_education_teaching_materials():
+    return render_template('migrated/education-teaching-materials.html')
+
+@app.route('/pages/education-teacher-rules')
+def page_education_teacher_rules():
+    return render_template('migrated/education-teacher-rules.html')
+
+@app.route('/pages/education-cycle-commissions')
+def page_education_cycle_commissions():
+    return render_template('migrated/education-cycle-commissions.html')
+
+@app.route('/pages/education-qualification-plan')
+def page_education_qualification_plan():
+    return render_template('migrated/education-qualification-plan.html')
+
+@app.route('/pages/education-pedagogical-council-plan')
+def page_education_pedagogical_council_plan():
+    return render_template('migrated/education-pedagogical-council-plan.html')
+
+@app.route('/pages/education-professional-development')
+def page_education_professional_development():
+    return render_template('migrated/education-professional-development.html')
+
+@app.route('/pages/education-legal-acts')
+def page_education_legal_acts():
+    return render_template('migrated/education-legal-acts.html')
+
+@app.route('/pages/education-adult-education')
+def page_education_adult_education():
+    return render_template('migrated/education-adult-education.html')
+
+@app.route('/pages/education-innovative-activity')
+def page_education_innovative_activity():
+    return render_template('migrated/education-innovative-activity.html')
+
+
+@app.route('/pages/forma-obratnoj-svyazi')
+def page_forma_obratnoj_svyazi():
+    return render_template('migrated/forma-obratnoj-svyazi.html')
+
+
+@app.route('/pages/karta-sajta')
+def page_karta_sajta():
+    return render_template('migrated/karta-sajta.html')
+
+
+@app.route('/pages/spravochnik-telefonov-sotsialnoj-zashchity')
+def page_spravochnik_telefonov_sotsialnoj_zashchity():
+    return render_template('migrated/spravochnik-telefonov-sotsialnoj-zashchity.html')
+
+
+@app.route('/pages/interaktivnaya-karta')
+def page_interaktivnaya_karta():
+    return render_template('migrated/interaktivnaya-karta.html')
+
+
+@app.route('/pages/struktura-kolledzha')
+def page_struktura_kolledzha():
+    return render_template('migrated/struktura-kolledzha.html')
+
+
+@app.route('/pages/telefony-spravochnyh-sluzhb')
+def page_telefony_spravochnyh_sluzhb():
+    return render_template('migrated/telefony-spravochnyh-sluzhb.html')
 
 if __name__ == '__main__':
     port = config.server.port.lstrip(':') if config.server.port.startswith(':') else config.server.port
     logger.info(f"Сервер запущен на http://localhost:{port}")
     app.run(host='0.0.0.0', port=int(port), debug=True)
-

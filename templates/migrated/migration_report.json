@@ -1,0 +1,30 @@
+{
+  "base_url": "http://www.ngaek.by",
+  "total_pages": 2,
+  "pages": [
+    {
+      "slug": "struktura-kolledzha",
+      "title": "Структура колледжа",
+      "url": "/index.php/ru/kontakty/administratsiya-kolledzha",
+      "nav_section": null,
+      "breadcrumbs": [
+        "Главная/",
+        "КОНТАКТЫ",
+        "/Структура колледжа"
+      ],
+      "template_path": "templates\\migrated\\struktura-kolledzha.html"
+    },
+    {
+      "slug": "telefony-spravochnyh-sluzhb",
+      "title": "Телефоны справочных служб",
+      "url": "/index.php/ru/kontakty/telefony-spravochnykh-sluzhb",
+      "nav_section": null,
+      "breadcrumbs": [
+        "Главная/",
+        "КОНТАКТЫ",
+        "/Телефоны справочных служб"
+      ],
+      "template_path": "templates\\migrated\\telefony-spravochnyh-sluzhb.html"
+    }
+  ]
+}

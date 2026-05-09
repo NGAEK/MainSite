@@ -4,7 +4,8 @@
     <header id="mainHeader">
         <div class="container header-container">
             <div class="logo">
-                <img src="../static/images/istockphoto-2119394587-1024x1024-removebg-preview.png" alt="{{ t.common.logo_alt }}">
+                <img src="../static/images/istockphoto-2119394587-1024x1024-removebg-preview.png"
+                    alt="{{ t.common.logo_alt }}">
                 <div class="logo-text">
                     <h1>{{ t.header.title }}</h1>
                     <p>{{ t.header.subtitle }}</p>
@@ -13,20 +14,24 @@
             <div class="header-actions">
                 <form class="search-form" action="/search" method="GET">
                     <input type="hidden" name="lang" value="{{ current_lang }}">
-                    <input type="text" name="q" placeholder="{{ t.header.search_placeholder }}" aria-label="{{ t.header.search_aria }}"
-                           value="{{ query if query else '' }}">
+                    <input type="text" name="q" placeholder="{{ t.header.search_placeholder }}"
+                        aria-label="{{ t.header.search_aria }}" value="{{ query if query else '' }}">
                     <button type="submit" aria-label="{{ t.header.search_btn_aria }}">
                         <div class="search-icon"><i class="fas fa-search"></i></div>
                     </button>
                 </form>
 
                 <div class="language-switcher">
-                    <button type="button" class="lang-btn" data-lang="be" aria-label="{{ t.header.lang_be_aria }}"><img src="/static/images/flags/be.gif" alt=""></button>
-                    <button type="button" class="lang-btn" data-lang="ru" aria-label="{{ t.header.lang_ru_aria }}"><img src="/static/images/flags/ru.gif" alt=""></button>
-                    <button type="button" class="lang-btn lang-btn-en" data-lang="en" aria-label="{{ t.header.lang_en_aria }}"><span class="lang-btn-en-text">EN</span></button>
+                    <button type="button" class="lang-btn" data-lang="be" aria-label="{{ t.header.lang_be_aria }}"><img
+                            src="/static/images/flags/be.gif" alt=""></button>
+                    <button type="button" class="lang-btn" data-lang="ru" aria-label="{{ t.header.lang_ru_aria }}"><img
+                            src="/static/images/flags/ru.gif" alt=""></button>
+                    <button type="button" class="lang-btn lang-btn-en" data-lang="en"
+                        aria-label="{{ t.header.lang_en_aria }}"><span class="lang-btn-en-text">EN</span></button>
                 </div>
 
-                <button type="button" class="accessibility-btn" id="accessibilityBtn" aria-label="{{ t.header.accessibility_aria }}">
+                <button type="button" class="accessibility-btn" id="accessibilityBtn"
+                    aria-label="{{ t.header.accessibility_aria }}">
                     <i class="fas fa-universal-access"></i>
                 </button>
                 <button type="button" class="theme-toggle" id="themeToggle" aria-label="{{ t.header.theme_aria }}">
@@ -44,22 +49,53 @@
             <div class="main-nav-grid" id="mainNav">
                 <ul class="main-nav main-nav-row">
                     <li><a href="{{ u('/') }}">{{ t.nav.home }}</a></li>
+                    
+                    <!-- ИСТОРИЯ, ТРАДИЦИИ, ДОСТИЖЕНИЯ -->
                     <li>
-                        <a href="{{ u('/pages/history') }}">{{ t.nav.history_traditions_achievements }} <i class="fas fa-chevron-down"></i></a>
+                        <a href="#">{{ t.nav.history_traditions_achievements }} <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ u('/pages/history') }}">{{ t.nav.history }}</a></li>
-                            <li><a href="{{ u('/pages/traditions') }}">{{ t.nav.traditions }}</a></li>
-                            <li><a href="{{ u('/pages/achievements') }}">{{ t.nav.achievements }}</a></li>
+                            <li><a href="{{ u('/pages/stranitsy-istorii') }}">Страницы истории</a></li>
+                            <li><a href="{{ u('/pages/traditsii-kolledzha') }}">Традиции колледжа</a></li>
+                            <li><a href="{{ u('/pages/nashi-dostizheniya') }}">Наши достижения</a></li>
+                            <li><a href="https://license.gov.by/onelicense/178456" target="_blank">Лицензия ↗</a></li>
+                            <li><a href="{{ u('/pages/istoriya') }}">История колледжа</a></li>
+                            <li><a href="{{ u('/pages/znamenitye-vypuskniki') }}">Знаменитые выпускники</a></li>
+                            <li><a href="{{ u('/pages/nashi-tsel-i-zadachi') }}">Наши цель и задачи</a></li>
+                            <li><a href="https://pristalica.by/08112022/poznakomilis-s-yarkimi-studentami-novopolskogo-gaek-udostoennymi-speczialnoj-stipendii/"
+                                    target="_blank">Про нас говорят и пишут ↗</a></li>
+                            <li><a href="{{ u('/pages/antikorruptsionnaya-deyatelnost') }}">Антикоррупционная
+                                    деятельность</a></li>
+                            <li><a href="{{ u('/pages/polozhenie-o-politike-cookie') }}">Положение о политике в
+                                    отношении обработки cookie</a></li>
                         </ul>
                     </li>
+                    
+                    <!-- ОБРАЗОВАНИЕ - НОВАЯ СТРУКТУРА (уже есть) -->
                     <li>
-                        <a href="{{ u('/pages/education') }}">{{ t.nav.education }} <i class="fas fa-chevron-down"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ u('/specialties') }}">{{ t.nav.specialties }}</a></li>
-                            <li><a href="{{ u('/pages/documents') }}">{{ t.nav.documents }}</a></li>
-                            <li><a href="{{ u('/pages/education-schedule') }}">{{ t.nav.education_schedule }}</a></li>
+                        <a href="#">{{ t.nav.education }} <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-wide">
+                            <li class="nav-group-label"><span>Информатизация</span></li>
+                            <li><a href="{{ u('/pages/education-informatization') }}">Информатизация</a></li>
+                            
+                            <li class="nav-group-label"><span>Методическая работа</span></li>
+                            <li><a href="{{ u('/pages/education-methodical-work') }}">Методическая работа</a></li>
+                            <li><a href="{{ u('/pages/education-teaching-materials') }}">Учебно-методические материалы</a></li>
+                            <li><a href="{{ u('/pages/education-teacher-rules') }}">Правила педагогических работников</a></li>
+                            <li><a href="{{ u('/pages/education-cycle-commissions') }}">Цикловые комиссии</a></li>
+                            <li><a href="{{ u('/pages/education-qualification-plan') }}">План повышения квалификации руководящих работников и специалистов</a></li>
+                            <li><a href="{{ u('/pages/education-pedagogical-council-plan') }}">План работы педагогического совета</a></li>
+                            <li><a href="{{ u('/pages/education-professional-development') }}">Повышение квалификации</a></li>
+                            <li><a href="{{ u('/pages/education-legal-acts') }}">Нормативно правовые акты</a></li>
+                            
+                            <li class="nav-group-label"><span>Дополнительное образование</span></li>
+                            <li><a href="{{ u('/pages/education-adult-education') }}">Дополнительное образование взрослых</a></li>
+                            
+                            <li class="nav-group-label"><span>Инновационная деятельность</span></li>
+                            <li><a href="{{ u('/pages/education-innovative-activity') }}">Экспериментальная и инновационная деятельность</a></li>
                         </ul>
                     </li>
+                    
+                    <!-- ВОСПИТАНИЕ И ИДЕОЛОГИЯ -->
                     <li>
                         <a href="{{ u('/pages/ideology') }}">{{ t.nav.ideology }} <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
@@ -68,6 +104,8 @@
                             <li><a href="{{ u('/pages/ideology-prevention') }}">{{ t.nav.ideology_prevention }}</a></li>
                         </ul>
                     </li>
+                    
+                    <!-- УЧАСТИЕ (студенты) -->
                     <li>
                         <a href="{{ u('/students') }}">{{ t.nav.students }} <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu dropdown-menu-wide">
@@ -90,6 +128,8 @@
                             <li><a href="{{ u('/students/informatsiya-dlya-uchashchikhsya-prekrativshim-dosrochno-obrazovatelnye-otnosheniya-i-prokhodivshim-attestatsiyu-v-poryadke-eksternata') }}">{{ t.students.pages.informatsiya_eksternat }}</a></li>
                         </ul>
                     </li>
+                    
+                    <!-- АБИТУРИЕНТУ -->
                     <li>
                         <a href="{{ u('/applicants') }}">{{ t.nav.enrollee }} <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu dropdown-menu-wide">
@@ -113,15 +153,18 @@
                 </ul>
 
                 <ul class="main-nav main-nav-row">
+                    <!-- ПРОФОРИЕНТАЦИЯ -->
                     <li>
                         <a href="{{ u('/pages/proforientation') }}">{{ t.nav.career_guidance }} <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ u('/pages/proforientation-video') }}">{{ t.nav.career_video }}</a></li>
                             <li><a href="{{ u('/pages/proforientation-principles') }}">{{ t.nav.career_principles }}</a></li>
-                            <li><a href="{{ u('/pages/proforientation-plan') }}">{{ t.nav.career_plan }}</a></li>
-                            <li><a href="{{ u('/pages/proforientation-open-days') }}">{{ t.nav.career_open_days }}</a></li>
+                            <li><a href="https://drive.google.com/file/d/1HeDcVImm2ALgASdf0SZ69I0Fp6MdcuTe/view">{{ t.nav.career_plan }}</a></li>
+                            <li><a href="https://drive.google.com/file/d/1u0jMA_VZbyuSFeY7xV5aYHJXXYmk3qJz/view">{{ t.nav.career_open_days }}</a></li>
                         </ul>
                     </li>
+
+                    <!-- ИНКЛЮЗИВНОЕ ОБРАЗОВАНИЕ -->
                     <li>
                         <a href="{{ u('/pages/inclusive-education') }}">{{ t.nav.inclusive_education }} <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
@@ -130,6 +173,8 @@
                             <li><a href="{{ u('/pages/inclusive-for-parents') }}">{{ t.nav.inclusive_for_parents }}</a></li>
                         </ul>
                     </li>
+
+                    <!-- ОДНО ОКНО -->
                     <li>
                         <a href="{{ u('/one-window') }}">{{ t.nav.one_window }} <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
@@ -139,17 +184,26 @@
                             <li><a href="{{ u('/pages/one-window-acts') }}">{{ t.nav.one_window_acts }}</a></li>
                             <li><a href="{{ u('/privacy') }}">{{ t.footer.link_privacy }}</a></li>
                             <li><a href="{{ u('/cookies') }}">{{ t.footer.link_cookies }}</a></li>
-                            <li><a href="{{ u('/sitemap') }}">{{ t.footer.link_sitemap }}</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ u('/contacts') }}">{{ t.nav.contacts }}</a></li>
+
+                    <!-- КОНТАКТЫ (теперь ВЫПАДАЮЩЕЕ МЕНЮ) -->
                     <li>
-                        <a href="{{ u('/pages/network') }}">{{ t.nav.network_form }} <i class="fas fa-chevron-down"></i></a>
+                        <a href="#">{{ t.nav.contacts }} <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ u('/pages/network-about') }}">{{ t.nav.network_about }}</a></li>
-                            <li><a href="{{ u('/pages/network-partners') }}">{{ t.nav.network_partners }}</a></li>
-                            <li><a href="{{ u('/pages/network-docs') }}">{{ t.nav.documents }}</a></li>
+                            <!-- Ссылки на вновь созданные страницы (и уже существующие) -->
+                            <li><a href="{{ u('/pages/struktura-kolledzha') }}">Структура колледжа</a></li>
+                            <li><a href="{{ u('/pages/karta-sajta') }}">Карта сайта</a></li>
+                            <li><a href="{{ u('/pages/spravochnik-telefonov-sotsialnoj-zashchity') }}">Справочник телефонов служб социальной защиты детей</a></li>
+                            <li><a href="{{ u('/pages/interaktivnaya-karta') }}">Интерактивная карта</a></li>
+                            <li><a href="http://xn----7sbgfh2alwzdhpc0c.xn--90ais/organization/23563/org-page" target="_blank">Портал рейтинговой оценки ↗</a></li>
+                            <li><a href="{{ u('/pages/telefony-spravochnyh-sluzhb') }}">Телефоны справочных служб</a></li>
                         </ul>
+                    </li>
+
+                    <!-- СЕТЕВАЯ ФОРМА (оставлена как отдельный пункт) -->
+                    <li>
+                        <a href="{{ u('/pages/network') }}">{{ t.nav.network_form }}</a>
                     </li>
                 </ul>
             </div>

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from 'macros/url.html' import u %}
+
+{% block content %}
+
+<div class="breadcrumbs-wrap">
+    <div class="container">
+        <ul class="breadcrumbs">
+            <li><a href="{{ u('/') }}">Главная/</a></li>            <li><a href="{{ u('/') }}">КОНТАКТЫ</a></li>            <li><span aria-current="page">/Телефоны справочных служб</span></li>
+        </ul>
+    </div>
+</div>
+
+<section class="static-page migrated-page">
+    <div class="container static-page-inner">
+        <h1 class="static-page-title">Телефоны справочных служб</h1>
+        
+        <div class="static-page-body">
+            <html><body><section>
+
+<p><strong>101</strong> – Пожарная аварийно-спасательная служба, центр оперативного управления МЧС<br/> <strong>102</strong> – Милиция<br/> <strong>103</strong> – Скорая медицинская помощь, экстренный вызов<br/> <strong>199</strong> – Справочная служба о номерах телефонов экстренных служб</p> <div></div><div></div>
+
+</section></body></html>
+        </div>
+    </div>
+</section>
+{% endblock %}
