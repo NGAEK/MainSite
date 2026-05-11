@@ -208,7 +208,7 @@ if seed_username and seed_password_hash:
     existing_admin = admin_users_repository.get_admin_user_by_username(seed_username)
     if not existing_admin:
         admin_users_repository.create_admin_user(seed_username, seed_password_hash)
-        logger.info("Bootstrap admin user created in MySQL")
+        logger.info("Bootstrap admin user created in PostgreSQL")
 
 app.register_blueprint(api_bp)
 

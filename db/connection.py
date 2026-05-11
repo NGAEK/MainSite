@@ -1,64 +1,65 @@
-import pymysql
-from pymysql.err import InterfaceError
+import psycopg2
+import psycopg2.extras
 import logging
 
 logger = logging.getLogger(__name__)
 
 _db_connection = None
-_db_config = {}  # Сохраняем конфигурацию для переподключения
+_db_config: dict = {}  # Сохраняем конфигурацию для переподключения
 
 
 def init_db(user, password, host, port, db_name):
-    """Инициализирует подключение к базе данных MySQL"""
+    """Инициализирует подключение к базе данных PostgreSQL."""
     global _db_connection, _db_config
-    
-    # Сохраняем конфигурацию для будущих переподключений
+
     _db_config = {
         'host': host,
-        'port': port,
+        'port': int(port),
         'user': user,
-        'database': db_name,
-        'charset': 'utf8mb4',
-        'cursorclass': pymysql.cursors.DictCursor,
-        'autocommit': True,
-        'connect_timeout': 10,  # Таймаут подключения
-        'read_timeout': 30,     # Таймаут чтения
-        'write_timeout': 30     # Таймаут записи
+        'dbname': db_name,
+        'connect_timeout': 10,
+        # cursor_factory на уровне соединения — все cursor() вернут RealDictRow (dict-подобные объекты)
+        'cursor_factory': psycopg2.extras.RealDictCursor,
     }
-    
-    # Добавляем пароль только если он есть
     if password:
         _db_config['password'] = password
-    
+
     try:
-        _db_connection = pymysql.connect(**_db_config)
-        logger.info("Successfully connected to MySQL database")
+        _db_connection = _new_connection()
+        logger.info("Successfully connected to PostgreSQL database")
         return _db_connection
     except Exception as e:
         logger.error(f"Error connecting to database: {e}")
         raise
 
 
+def _new_connection():
+    """Создаёт новое соединение и включает autocommit."""
+    conn = psycopg2.connect(**_db_config)
+    conn.autocommit = True
+    return conn
+
+
 def get_db():
-    """Возвращает рабочее подключение к базе данных, автоматически переподключаясь при обрыве"""
+    """Возвращает рабочее подключение к БД, автоматически переподключаясь при обрыве."""
     global _db_connection
-    
-    if _db_config is None or not _db_config:
+
+    if not _db_config:
         raise RuntimeError("Database not initialized. Call init_db() first.")
-    
-    try:
-        # Проверяем, существует ли соединение и живо ли оно
-        if _db_connection is not None:
-            # Пытаемся выполнить ping для проверки соединения
-            _db_connection.ping(reconnect=True)
+
+    # Проверяем живость соединения
+    if _db_connection is not None and not _db_connection.closed:
+        try:
+            with _db_connection.cursor() as cur:
+                cur.execute("SELECT 1")
             return _db_connection
-    except (AttributeError, InterfaceError, Exception) as e:
-        logger.warning(f"Database connection lost, reconnecting: {e}")
-        _db_connection = None
-    
-    # Создаём новое соединение
+        except Exception as e:
+            logger.warning(f"Database connection lost: {e}")
+            _db_connection = None
+
+    # Переподключение
     try:
-        _db_connection = pymysql.connect(**_db_config)
+        _db_connection = _new_connection()
         logger.info("Database reconnection successful")
         return _db_connection
     except Exception as e:
@@ -67,9 +68,9 @@ def get_db():
 
 
 def is_db_alive() -> bool:
-    """Проверяет доступность БД простым ping-запросом."""
+    """Проверяет доступность БД простым SELECT 1."""
     try:
-        db = get_db()  # Используем get_db вместо прямого доступа к _db_connection
+        db = get_db()
         with db.cursor() as cursor:
             cursor.execute("SELECT 1 AS ok")
             row = cursor.fetchone()
@@ -80,23 +81,26 @@ def is_db_alive() -> bool:
 
 
 def get_table_names() -> list[str]:
-    """Возвращает список таблиц текущей схемы."""
-    db = get_db()  # Используем get_db вместо прямого доступа
+    """Возвращает список таблиц текущей схемы (public)."""
+    db = get_db()
     with db.cursor() as cursor:
-        cursor.execute("SHOW TABLES")
+        cursor.execute(
+            """
+            SELECT table_name
+            FROM information_schema.tables
+            WHERE table_schema = 'public'
+              AND table_type = 'BASE TABLE'
+            ORDER BY table_name
+            """
+        )
         rows = cursor.fetchall()
-    names = []
-    for row in rows:
-        if not row:
-            continue
-        names.append(next(iter(row.values())))
-    return sorted(names)
+    return [row["table_name"] for row in rows]
 
 
 def close_connection():
-    """Закрывает соединение с БД (вызывать при завершении приложения)"""
+    """Закрывает соединение с БД (вызывать при завершении приложения)."""
     global _db_connection
-    if _db_connection:
+    if _db_connection and not _db_connection.closed:
         try:
             _db_connection.close()
             logger.info("Database connection closed")

@@ -1,6 +1,6 @@
 database:
   host: "45.136.205.42"
-  port: 3306
+  port: 5432
   user: "ngaek"
   password: "ngaek"
   name: "ngaek"

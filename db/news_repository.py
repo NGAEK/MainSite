@@ -9,6 +9,20 @@ _NEWS_COLUMNS = (
     "description_be, description_en, image_path"
 )
 
+# Поля, допустимые при частичном обновлении (PATCH)
+_PATCH_KEYS = frozenset(
+    {
+        "name",
+        "description",
+        "name_be",
+        "name_en",
+        "description_be",
+        "description_en",
+        "image_path",
+        "date",
+    }
+)
+
 
 def get_all_news():
     """Возвращает все новости из базы данных."""
@@ -38,9 +52,9 @@ def search_news(query):
                 f"""
                 SELECT {_NEWS_COLUMNS}
                 FROM news
-                WHERE name LIKE %s OR description LIKE %s
-                   OR name_be LIKE %s OR name_en LIKE %s
-                   OR description_be LIKE %s OR description_en LIKE %s
+                WHERE name ILIKE %s OR description ILIKE %s
+                   OR name_be ILIKE %s OR name_en ILIKE %s
+                   OR description_be ILIKE %s OR description_en ILIKE %s
                 ORDER BY date DESC
                 """,
                 (search_query,) * 6,
@@ -73,13 +87,13 @@ def get_news_by_id(news_id):
         raise
 
 
-def news_exists(news_id):
+def news_exists(news_id) -> bool:
     """Проверяет существование новости по ID."""
     try:
         db = get_db()
         with db.cursor() as cursor:
             cursor.execute(
-                "SELECT EXISTS(SELECT 1 FROM news WHERE id = %s) as exists_flag",
+                "SELECT EXISTS(SELECT 1 FROM news WHERE id = %s) AS exists_flag",
                 (news_id,),
             )
             result = cursor.fetchone()
@@ -121,30 +135,17 @@ def news_to_dict(news: News) -> dict:
     }
 
 
-_PATCH_KEYS = frozenset(
-    {
-        "name",
-        "description",
-        "name_be",
-        "name_en",
-        "description_be",
-        "description_en",
-        "image_path",
-        "date",
-    }
-)
-
-
 def insert_news(row: dict) -> int:
-    """Создаёт новость; возвращает id."""
+    """Создаёт новость; возвращает id новой записи."""
     db = get_db()
     with db.cursor() as c:
         c.execute(
             """
             INSERT INTO news (
-              `name`, `date`, `description`, `name_be`, `name_en`,
-              `description_be`, `description_en`, `image_path`
-            ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+              name, date, description, name_be, name_en,
+              description_be, description_en, image_path
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            RETURNING id
             """,
             (
                 row["name"],
@@ -157,17 +158,18 @@ def insert_news(row: dict) -> int:
                 row.get("image_path"),
             ),
         )
-        return c.lastrowid
+        return c.fetchone()["id"]
 
 
 def update_news_full(news_id: int, row: dict) -> None:
+    """Полная замена полей новости."""
     db = get_db()
     with db.cursor() as c:
         c.execute(
             """
             UPDATE news SET
-              `name`=%s, `date`=%s, `description`=%s,
-              `name_be`=%s, `name_en`=%s, `description_be`=%s, `description_en`=%s, `image_path`=%s
+              name=%s, "date"=%s, description=%s,
+              name_be=%s, name_en=%s, description_be=%s, description_en=%s, image_path=%s
             WHERE id=%s
             """,
             (
@@ -185,19 +187,22 @@ def update_news_full(news_id: int, row: dict) -> None:
 
 
 def update_news_partial(news_id: int, patch: dict) -> None:
+    """Частичное обновление новости (PATCH)."""
     keys = [k for k in patch if k in _PATCH_KEYS]
     if not keys:
         return
-    assignments = ", ".join(f"`{k}`=%s" for k in keys)
+    # Двойные кавычки для имён полей (date — зарезервированное слово в PG)
+    assignments = ", ".join(f'"{k}"=%s' for k in keys)
     values = [patch[k] for k in keys]
     values.append(news_id)
-    sql = f"UPDATE news SET {assignments} WHERE id=%s"
+    sql = f'UPDATE news SET {assignments} WHERE id=%s'
     db = get_db()
     with db.cursor() as c:
         c.execute(sql, values)
 
 
 def delete_news(news_id: int) -> bool:
+    """Удаляет новость по ID. Возвращает True если запись была найдена и удалена."""
     db = get_db()
     with db.cursor() as c:
         c.execute("DELETE FROM news WHERE id=%s", (news_id,))

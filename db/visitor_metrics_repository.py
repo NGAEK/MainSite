@@ -5,21 +5,26 @@ from db.connection import get_db
 
 
 def ensure_site_visits_table() -> None:
+    """Создаёт таблицу site_visits если она ещё не существует (идемпотентно)."""
     db = get_db()
     with db.cursor() as c:
         c.execute(
             """
             CREATE TABLE IF NOT EXISTS site_visits (
-              id BIGINT NOT NULL AUTO_INCREMENT,
-              visit_date DATE NOT NULL,
-              visitor_key CHAR(64) NOT NULL,
-              first_seen DATETIME NOT NULL,
-              last_seen DATETIME NOT NULL,
-              hits INT NOT NULL DEFAULT 1,
-              PRIMARY KEY (id),
-              UNIQUE KEY uq_site_visits_date_visitor (visit_date, visitor_key),
-              KEY idx_site_visits_visit_date (visit_date)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+              id           BIGSERIAL PRIMARY KEY,
+              visit_date   DATE         NOT NULL,
+              visitor_key  CHAR(64)     NOT NULL,
+              first_seen   TIMESTAMP    NOT NULL,
+              last_seen    TIMESTAMP    NOT NULL,
+              hits         INT          NOT NULL DEFAULT 1,
+              CONSTRAINT uq_site_visits_date_visitor UNIQUE (visit_date, visitor_key)
+            )
+            """
+        )
+        c.execute(
+            """
+            CREATE INDEX IF NOT EXISTS idx_site_visits_visit_date
+              ON site_visits (visit_date)
             """
         )
 
@@ -30,6 +35,7 @@ def build_visitor_key(ip: str, user_agent: str) -> str:
 
 
 def record_visit(visitor_key: str, at: datetime | None = None) -> None:
+    """Записывает посещение: создаёт новую запись или обновляет счётчик хитов."""
     now = at or datetime.utcnow()
     db = get_db()
     with db.cursor() as c:
@@ -37,22 +43,23 @@ def record_visit(visitor_key: str, at: datetime | None = None) -> None:
             """
             INSERT INTO site_visits (visit_date, visitor_key, first_seen, last_seen, hits)
             VALUES (%s, %s, %s, %s, 1)
-            ON DUPLICATE KEY UPDATE
-              last_seen = VALUES(last_seen),
-              hits = hits + 1
+            ON CONFLICT (visit_date, visitor_key) DO UPDATE
+              SET last_seen = EXCLUDED.last_seen,
+                  hits      = site_visits.hits + 1
             """,
             (now.date(), visitor_key, now, now),
         )
 
 
 def get_user_metrics() -> dict:
+    """Возвращает метрики уникальных посетителей за сегодня, месяц, год и всего."""
     db = get_db()
     with db.cursor() as c:
         c.execute(
             """
             SELECT COUNT(DISTINCT visitor_key) AS total
             FROM site_visits
-            WHERE visit_date = CURDATE()
+            WHERE visit_date = CURRENT_DATE
             """
         )
         today = int((c.fetchone() or {}).get("total") or 0)
@@ -61,8 +68,8 @@ def get_user_metrics() -> dict:
             """
             SELECT COUNT(DISTINCT visitor_key) AS total
             FROM site_visits
-            WHERE YEAR(visit_date) = YEAR(CURDATE())
-              AND MONTH(visit_date) = MONTH(CURDATE())
+            WHERE EXTRACT(YEAR  FROM visit_date) = EXTRACT(YEAR  FROM CURRENT_DATE)
+              AND EXTRACT(MONTH FROM visit_date) = EXTRACT(MONTH FROM CURRENT_DATE)
             """
         )
         month = int((c.fetchone() or {}).get("total") or 0)
@@ -71,7 +78,7 @@ def get_user_metrics() -> dict:
             """
             SELECT COUNT(DISTINCT visitor_key) AS total
             FROM site_visits
-            WHERE YEAR(visit_date) = YEAR(CURDATE())
+            WHERE EXTRACT(YEAR FROM visit_date) = EXTRACT(YEAR FROM CURRENT_DATE)
             """
         )
         year = int((c.fetchone() or {}).get("total") or 0)
