@@ -98,6 +98,18 @@ search_block = {
     "no_results_text": "nothing was found on this site.",
     "show_all_news": "Show all news",
     "news_alt": "News item",
+    "found_pages": "Pages found",
+    "pages_section_title": "Pages and site sections",
+    "page_go": "Open page",
+    "locale_section_title": "Site texts and labels",
+    "locale_section_hint": "Matches in the translation file (names, addresses, section titles, etc.).",
+    "locale_open": "Go to",
+    "all_matches_title": "All matches on the site",
+    "all_matches_hint": "Database pages and sections, news, and strings from the translation file where your query appears.",
+    "all_matches_open": "Open",
+    "source_news": "News",
+    "source_page": "Page / section (database)",
+    "source_locale": "Localized text",
 }
 for k, v in search_block.items():
     data["search"][k]["EN"] = v

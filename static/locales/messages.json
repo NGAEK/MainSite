@@ -1508,6 +1508,51 @@
       "RU": "Открыть страницу",
       "BY": "Адкрыць старонку",
       "EN": "Open page"
+    },
+    "locale_section_title": {
+      "RU": "Тексты и подписи на сайте",
+      "BY": "Тэксты і подпісы на сайце",
+      "EN": "Site texts and labels"
+    },
+    "locale_section_hint": {
+      "RU": "Совпадения в файле переводов (имена, адреса, заголовки блоков и т.д.).",
+      "BY": "Супадзенні ў файле перакладаў (імёны, адрасы, загалоўкі блокаў і г.д.).",
+      "EN": "Matches in the translation file (names, addresses, section titles, etc.)."
+    },
+    "locale_open": {
+      "RU": "Перейти",
+      "BY": "Перайсці",
+      "EN": "Go to"
+    },
+    "all_matches_title": {
+      "RU": "Все вхождения на сайте",
+      "BY": "Усе супадзенні на сайце",
+      "EN": "All matches on the site"
+    },
+    "all_matches_hint": {
+      "RU": "Страницы и разделы из базы данных, новости и строки из файла переводов (локализация), где встречается запрос.",
+      "BY": "Старонкі і раздзелы з базы даных, навіны і радкі з файла перакладаў (лакалізацыя), дзе сустракаецца запыт.",
+      "EN": "Database pages and sections, news, and strings from the translation file where your query appears."
+    },
+    "all_matches_open": {
+      "RU": "Открыть",
+      "BY": "Адкрыць",
+      "EN": "Open"
+    },
+    "source_news": {
+      "RU": "Новость",
+      "BY": "Навіна",
+      "EN": "News"
+    },
+    "source_page": {
+      "RU": "Страница / раздел (БД)",
+      "BY": "Старонка / раздзел (БД)",
+      "EN": "Page / section (database)"
+    },
+    "source_locale": {
+      "RU": "Текст (локализация)",
+      "BY": "Тэкст (лакалізацыя)",
+      "EN": "Localized text"
     }
   },
   "news_detail": {
