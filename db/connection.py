@@ -7,10 +7,8 @@ logger = logging.getLogger(__name__)
 _db_connection = None
 _db_config: dict = {}  # Сохраняем конфигурацию для переподключения
 
-# DB: ↓↓↓ Раскомментируй для включения PostgreSQL ↓↓↓
-# 1) Установи USE_DB = True
-# 2) Убедись что connection.py не импортируется раньше config.py с настройками БД
-USE_DB = False  # ← False = работаем без БД
+# DB: USE_DB=False — приложение без PostgreSQL (новости/вкладки/метрики из БД недоступны).
+USE_DB = True  # ← False = работаем без БД
 
 
 def init_db(user, password, host, port, db_name):
