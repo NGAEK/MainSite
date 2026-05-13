@@ -30,15 +30,6 @@
       {% for m in all_matches %}
       <li class="search-page-item search-all-match-item">
         <div class="search-page-content">
-          <div class="search-match-meta">
-            {% if m.kind == 'news' %}
-            <span class="search-source-badge search-source-news">{{ t.search.source_news }}</span>
-            {% elif m.kind == 'page' %}
-            <span class="search-source-badge search-source-page">{{ t.search.source_page }}</span>
-            {% else %}
-            <span class="search-source-badge search-source-locale">{{ t.search.source_locale }}</span>
-            {% endif %}
-          </div>
           <a href="{{ m.href }}" class="search-page-title">{{ m.title }}</a>
           {% if m.excerpt %}
           <p class="search-page-excerpt">{{ m.excerpt }}</p>
