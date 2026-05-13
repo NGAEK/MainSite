@@ -15,8 +15,7 @@ def home_handler(request):
         all_news = []
     
     query = request.args.get('q', '').strip()
-    logger.info(f"Search query: '{query}'")
-    
+
     filtered_news = []
     is_search_results = False
     
@@ -43,7 +42,6 @@ def home_handler(request):
                 if any(query_lower in t for t in _texts(news)):
                     filtered_news.append(news)
         
-        logger.info(f"Found {len(filtered_news)} results for query '{query}'")
     else:
         filtered_news = all_news
         is_search_results = False

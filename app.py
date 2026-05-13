@@ -23,6 +23,7 @@ from util.i18n_url import build_hreflang_url
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
+logging.getLogger("werkzeug").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
