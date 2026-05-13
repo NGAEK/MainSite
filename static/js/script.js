@@ -1,251 +1,293 @@
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const mainNav = document.getElementById('mainNav');
+(function () {
+    'use strict';
 
-if (mobileMenuBtn && mainNav) {
-    mobileMenuBtn.addEventListener('click', () => {
-        mainNav.classList.toggle('active');
-        mobileMenuBtn.classList.toggle('active');
-    });
-}
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mainNav       = document.getElementById('mainNav');
+    const smartNav      = document.getElementById('smartNav');
+    const mainHeader    = document.getElementById('mainHeader');
 
-// Dropdown Menu Handling
-const navItems = document.querySelectorAll('.main-nav > li');
-navItems.forEach(item => {
-    const link = item.querySelector('a');
-    if (!link) return;
-    link.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-            const hasDropdown = Boolean(item.querySelector('.dropdown-menu'));
-            if (!hasDropdown) return;
-            e.preventDefault();
-            item.classList.toggle('active');
-        }
-    });
-});
+    if (!mobileMenuBtn || !mainNav) return;
 
-// Tab Navigation
-const tabBtns = document.querySelectorAll('.tab-btn');
-tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        const tabId = btn.getAttribute('data-tab');
-        document.getElementById(tabId).classList.add('active');
-    });
-});
+    const MOBILE = () => window.innerWidth <= 768;
 
-// hero-slider
-document.addEventListener('DOMContentLoaded', function() {
-    const slidesContainer = document.querySelector('.slides-container');
-    const slides = document.querySelectorAll('.slid');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    const dots = document.querySelectorAll('.slider-dot');
-    let currentIndex = 0;
-
-    if (!slidesContainer || !slides.length || !prevBtn || !nextBtn) return;
-
-    function showSlide(index) {
-        slidesContainer.style.transform = `translateX(-${index * 100}%)`;
-        dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+    /* ── Close button внутри ящика ── */
+    let closeBtn = document.getElementById('drawerCloseBtn');
+    if (!closeBtn) {
+        closeBtn = document.createElement('button');
+        closeBtn.id   = 'drawerCloseBtn';
+        closeBtn.type = 'button';
+        closeBtn.innerHTML = '<i class="fas fa-times"></i><span style="font-size:0.78rem;letter-spacing:0.03em">Закрыть</span>';
+        Object.assign(closeBtn.style, {
+            display:        'none',
+            alignItems:     'center',
+            gap:            '8px',
+            background:     'none',
+            border:         'none',
+            borderBottom:   '1px solid rgba(255,255,255,0.08)',
+            color:          'rgba(255,255,255,0.7)',
+            cursor:         'pointer',
+            fontFamily:     'var(--ff-body)',
+            padding:        '0 20px',
+            height:         '56px',
+            width:          '100%',
+            justifyContent: 'flex-start',
+            flexShrink:     '0',
+            transition:     'color 0.15s',
+            boxSizing:      'border-box',
+        });
+        closeBtn.addEventListener('mouseenter', () => closeBtn.style.color = '#fff');
+        closeBtn.addEventListener('mouseleave', () => closeBtn.style.color = 'rgba(255,255,255,0.7)');
+        closeBtn.addEventListener('click', closeDrawer);
+        mainNav.prepend(closeBtn);
     }
 
-    prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-        showSlide(currentIndex);
-    });
-    nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % slides.length;
-        showSlide(currentIndex);
-    });
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => { currentIndex = index; showSlide(currentIndex); });
-    });
-    setInterval(() => { currentIndex = (currentIndex + 1) % slides.length; showSlide(currentIndex); }, 5000);
-});
+    /* ── Open ── */
+    function openDrawer() {
+        if (!MOBILE()) return;
+        closeBtn.style.display = 'flex';
+        mainNav.classList.add('active');
+        mobileMenuBtn.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        mobileMenuBtn.setAttribute('aria-expanded', 'true');
+    }
 
-// Gallery Slider
-const gallerySlider = document.getElementById('gallerySlider');
-const sliderDots = document.querySelectorAll('.slider-dot');
-let currentSlide = 0;
+    /* ── Close ── */
+    function closeDrawer() {
+        closeBtn.style.display = 'none';
+        mainNav.classList.remove('active');
+        mobileMenuBtn.classList.remove('active');
+        document.body.style.overflow = '';
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        document.querySelectorAll('.main-nav > li.active')
+            .forEach(li => li.classList.remove('active'));
+    }
 
-if (gallerySlider && sliderDots.length) {
-    sliderDots.forEach(dot => {
-        dot.addEventListener('click', () => {
-            currentSlide = parseInt(dot.getAttribute('data-slide'));
-            updateSlider();
+    /* ── Burger ── */
+    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+    mobileMenuBtn.addEventListener('click', () => {
+        mainNav.classList.contains('active') ? closeDrawer() : openDrawer();
+    });
+
+    /* ── Escape → close ── */
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && mainNav.classList.contains('active')) {
+            closeDrawer();
+            mobileMenuBtn.focus();
+        }
+    });
+
+    /* ── Dropdown accordion (только мобиль) ── */
+    const navItems = document.querySelectorAll('.main-nav > li');
+
+    navItems.forEach(item => {
+        const link = item.querySelector(':scope > a');
+        if (!link) return;
+
+        link.addEventListener('click', e => {
+            if (!MOBILE()) return;
+
+            const hasDropdown = Boolean(item.querySelector('.dropdown-menu'));
+            if (!hasDropdown) {
+                closeDrawer();
+                return;
+            }
+
+            e.preventDefault();
+
+            const isOpen = item.classList.contains('active');
+            navItems.forEach(other => {
+                if (other !== item) other.classList.remove('active');
+            });
+            item.classList.toggle('active', !isOpen);
         });
     });
-    setInterval(() => { currentSlide = (currentSlide + 1) % sliderDots.length; updateSlider(); }, 5000);
-    function updateSlider() {
-        gallerySlider.scrollTo({ left: currentSlide * gallerySlider.offsetWidth, behavior: 'smooth' });
-        sliderDots.forEach((dot, index) => dot.classList.toggle('active', index === currentSlide));
-    }
-}
 
-// ─── Theme Toggle ───────────────────────────────────────────────
-function applyTheme(isDark) {
-    document.body.classList.toggle('dark-mode', isDark);
-    const toggle = document.getElementById('themeToggle');
-    if (toggle) {
-        const icon = toggle.querySelector('i');
-        if (icon) { icon.classList.toggle('fa-moon', !isDark); icon.classList.toggle('fa-sun', isDark); }
-    }
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    if (darkModeToggle) darkModeToggle.checked = isDark;
-    localStorage.setItem('darkMode', isDark ? 'true' : 'false');
-}
-
-const themeToggle = document.getElementById('themeToggle');
-const darkModeToggle = document.getElementById('darkModeToggle');
-
-if (themeToggle) {
-    themeToggle.addEventListener('click', () => applyTheme(!document.body.classList.contains('dark-mode')));
-}
-if (darkModeToggle) {
-    darkModeToggle.addEventListener('change', () => applyTheme(darkModeToggle.checked));
-}
-
-// Accessibility Modal
-const accessibilityBtn = document.getElementById('accessibilityBtn');
-const accessibilityModal = document.getElementById('accessibilityModal');
-const closeModal = document.getElementById('closeModal');
-const highContrastToggle = document.getElementById('highContrastToggle');
-const largeTextToggle = document.getElementById('largeTextToggle');
-const resetAccessibility = document.getElementById('resetAccessibility');
-const saveAccessibility = document.getElementById('saveAccessibility');
-
-if (accessibilityBtn && accessibilityModal) {
-    accessibilityBtn.addEventListener('click', () => { accessibilityModal.style.display = 'flex'; });
-}
-if (closeModal && accessibilityModal) {
-    closeModal.addEventListener('click', () => { accessibilityModal.style.display = 'none'; });
-}
-if (highContrastToggle) {
-    highContrastToggle.addEventListener('change', () => {
-        document.body.classList.toggle('high-contrast', highContrastToggle.checked);
-        localStorage.setItem('highContrast', highContrastToggle.checked);
+    /* ── Ссылки внутри дропдауна — закрываем ящик ── */
+    mainNav.querySelectorAll('.dropdown-menu a').forEach(a => {
+        a.addEventListener('click', () => {
+            if (MOBILE()) closeDrawer();
+        });
     });
-}
-if (largeTextToggle) {
-    largeTextToggle.addEventListener('change', () => {
-        document.body.classList.toggle('large-text', largeTextToggle.checked);
-        localStorage.setItem('largeText', largeTextToggle.checked);
-    });
-}
-if (resetAccessibility) {
-    resetAccessibility.addEventListener('click', () => {
-        document.body.classList.remove('high-contrast', 'large-text', 'dark-mode');
-        if (highContrastToggle) highContrastToggle.checked = false;
-        if (largeTextToggle) largeTextToggle.checked = false;
-        if (darkModeToggle) darkModeToggle.checked = false;
-        localStorage.setItem('highContrast', 'false');
-        localStorage.setItem('largeText', 'false');
-        localStorage.setItem('darkMode', 'false');
-        const icon = themeToggle ? themeToggle.querySelector('i') : null;
-        if (icon) { icon.classList.add('fa-moon'); icon.classList.remove('fa-sun'); }
-    });
-}
-if (saveAccessibility && accessibilityModal) {
-    saveAccessibility.addEventListener('click', () => {
-        if (highContrastToggle) localStorage.setItem('highContrast', highContrastToggle.checked);
-        if (largeTextToggle) localStorage.setItem('largeText', largeTextToggle.checked);
-        if (darkModeToggle) localStorage.setItem('darkMode', darkModeToggle.checked);
-        accessibilityModal.style.display = 'none';
-    });
-}
 
-// Restore preferences on load (dark mode applied early via base.html inline script)
-window.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('highContrast') === 'true' && highContrastToggle) {
-        document.body.classList.add('high-contrast');
-        highContrastToggle.checked = true;
-    }
-    if (localStorage.getItem('largeText') === 'true' && largeTextToggle) {
-        document.body.classList.add('large-text');
-        largeTextToggle.checked = true;
-    }
-    if (localStorage.getItem('darkMode') === 'true') {
-        // body class already set by inline script; just sync toggles
-        if (darkModeToggle) darkModeToggle.checked = true;
-        const icon = themeToggle ? themeToggle.querySelector('i') : null;
-        if (icon) { icon.classList.remove('fa-moon'); icon.classList.add('fa-sun'); }
-    }
-});
-
-if (accessibilityModal) {
-    window.addEventListener('click', (e) => { if (e.target === accessibilityModal) accessibilityModal.style.display = 'none'; });
-}
-
-// News slider
-const newsGrid = document.querySelector('.news-grid');
-const newsPrev = document.querySelector('.news-prev');
-const newsNext = document.querySelector('.news-next');
-
-if (newsGrid && newsPrev && newsNext) {
-    newsNext.addEventListener('click', () => newsGrid.scrollBy({ left: newsGrid.clientWidth, behavior: 'smooth' }));
-    newsPrev.addEventListener('click', () => newsGrid.scrollBy({ left: -newsGrid.clientWidth, behavior: 'smooth' }));
-    const checkNewsButtons = () => {
-        newsPrev.disabled = newsGrid.scrollLeft === 0;
-        newsNext.disabled = newsGrid.scrollLeft >= newsGrid.scrollWidth - newsGrid.clientWidth - 1;
-    };
-    newsGrid.addEventListener('scroll', checkNewsButtons);
-    window.addEventListener('resize', checkNewsButtons);
-    checkNewsButtons();
-}
-
-const langButtons = document.querySelectorAll('.lang-btn');
-langButtons.forEach(button => {
-    button.addEventListener('click', () => changeLanguage(button.getAttribute('data-lang')));
-});
-
-function changeLanguage(lang) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('lang', lang);
-    window.location.href = url.toString();
-}
-
-const searchForm = document.querySelector('.search-form');
-if (searchForm) {
-    searchForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const queryInput = searchForm.querySelector('input[name="q"]');
-        const langInput = searchForm.querySelector('input[name="lang"]');
-        const query = queryInput ? queryInput.value.trim() : '';
-        const lang = langInput ? langInput.value : (new URL(window.location.href).searchParams.get('lang') || 'ru');
-        if (query) window.location.href = `/search?q=${encodeURIComponent(query)}&lang=${encodeURIComponent(lang)}`;
-    });
-}
-
-const mainHeader = document.getElementById('mainHeader');
-const smartNav = document.getElementById('smartNav');
-let lastScrollY = window.scrollY;
-
-// Функция, которая точно ставит меню под логотип
-function adjustNavPosition() {
-    if (mainHeader && smartNav) {
-        const headerHeight = mainHeader.offsetHeight;
-        smartNav.style.top = headerHeight + 'px';
-    }
-}
-
-window.addEventListener('scroll', () => {
-    const currentScrollY = window.scrollY;
-
-    if (smartNav) {
-        // Если крутим вниз и проехали больше 150px — прячем только меню
-        if (currentScrollY > lastScrollY && currentScrollY > 150) {
-            smartNav.classList.add('nav-hidden');
-        } 
-        // Если крутим вверх — возвращаем меню на место
-        else {
-            smartNav.classList.remove('nav-hidden');
+    /* ── Resize → десктоп: сбрасываем всё ── */
+    window.addEventListener('resize', () => {
+        if (!MOBILE()) {
+            closeDrawer();
+            if (smartNav) smartNav.style.top = '';
         }
-    }
-    lastScrollY = currentScrollY;
-}, { passive: true });
+    });
 
-// Подстраиваем позиции при загрузке и ресайзе
-window.addEventListener('resize', adjustNavPosition);
-window.addEventListener('load', adjustNavPosition);
+    /* ── NAV SCROLL-HIDE ── */
+    if (smartNav) {
+        let lastY   = window.scrollY;
+        let ticking = false;
+
+        window.addEventListener('scroll', () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                const y = window.scrollY;
+                if (!mainNav.classList.contains('active')) {
+                    smartNav.classList.toggle('nav-hidden', y > lastY && y > 150);
+                }
+                lastY   = y;
+                ticking = false;
+            });
+        }, { passive: true });
+    }
+
+    /* ── DYNAMIC NAV TOP — только мобиль ── */
+    function syncNavTop() {
+        if (!mainHeader || !smartNav) return;
+        if (!MOBILE()) {
+            smartNav.style.top = '';
+            return;
+        }
+        const h = mainHeader.getBoundingClientRect().height;
+        smartNav.style.top = h + 'px';
+    }
+
+    const ro = window.ResizeObserver ? new ResizeObserver(syncNavTop) : null;
+    if (ro && mainHeader) ro.observe(mainHeader);
+
+    window.addEventListener('load', syncNavTop);
+    syncNavTop();
+
+    /* ══════════════════════════════════════════════════════════════
+       SLIDER MODULE
+       ══════════════════════════════════════════════════════════════ */
+
+    /* ── 1. Hero Slider ── */
+    (function initHeroSlider() {
+        const slidesContainer = document.querySelector('.hero-slider .slides-container');
+        const slides          = document.querySelectorAll('.hero-slider .slid');
+        const prevBtn         = document.querySelector('.hero-slider .prev-btn');
+        const nextBtn         = document.querySelector('.hero-slider .next-btn');
+        const dots            = document.querySelectorAll('.hero-slider .slider-dot');
+
+        if (!slidesContainer || !slides.length) return;
+
+        let currentIndex = 0;
+        let autoplayTimer = null;
+        const AUTOPLAY_DELAY = 5000;
+
+        function goToSlide(index) {
+            if (index < 0) index = slides.length - 1;
+            if (index >= slides.length) index = 0;
+            currentIndex = index;
+
+            slidesContainer.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+
+            dots.forEach(function(dot, i) {
+                dot.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        function prevSlide() { goToSlide(currentIndex - 1); }
+        function nextSlide() { goToSlide(currentIndex + 1); }
+
+        function startAutoplay() {
+            stopAutoplay();
+            autoplayTimer = setInterval(nextSlide, AUTOPLAY_DELAY);
+        }
+
+        function stopAutoplay() {
+            if (autoplayTimer) {
+                clearInterval(autoplayTimer);
+                autoplayTimer = null;
+            }
+        }
+
+        /* ── Events ── */
+        if (prevBtn) prevBtn.addEventListener('click', function() { prevSlide(); startAutoplay(); });
+        if (nextBtn) nextBtn.addEventListener('click', function() { nextSlide(); startAutoplay(); });
+
+        dots.forEach(function(dot) {
+            dot.addEventListener('click', function() {
+                var idx = parseInt(this.getAttribute('data-slide'), 10);
+                if (!isNaN(idx)) goToSlide(idx);
+                startAutoplay();
+            });
+        });
+
+        /* Pause on hover */
+        var heroSlider = document.querySelector('.hero-slider');
+        if (heroSlider) {
+            heroSlider.addEventListener('mouseenter', stopAutoplay);
+            heroSlider.addEventListener('mouseleave', startAutoplay);
+        }
+
+        goToSlide(0);
+        startAutoplay();
+    })();
+
+    /* ── 2. Gallery Slider (dot navigation) ── */
+    (function initGallerySlider() {
+        const gallerySlider = document.getElementById('gallerySlider');
+        const galleryDots   = document.querySelectorAll('#sliderNav .slider-dot');
+
+        if (!gallerySlider || !galleryDots.length) return;
+
+        galleryDots.forEach(function(dot) {
+            dot.addEventListener('click', function() {
+                var idx = parseInt(this.getAttribute('data-slide'), 10);
+                if (isNaN(idx)) return;
+
+                var slide = gallerySlider.children[idx];
+                if (slide) {
+                    slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                }
+
+                galleryDots.forEach(function(d) { d.classList.remove('active'); });
+                this.classList.add('active');
+            });
+        });
+
+        /* Update active dot on scroll */
+        gallerySlider.addEventListener('scroll', function() {
+            var scrollLeft = gallerySlider.scrollLeft;
+            var slideWidth = gallerySlider.offsetWidth;
+            if (!slideWidth) return;
+
+            var activeIndex = Math.round(scrollLeft / slideWidth);
+
+            galleryDots.forEach(function(dot, i) {
+                dot.classList.toggle('active', i === activeIndex);
+            });
+        });
+    })();
+
+    /* ── 3. News Slider (prev/next scroll) ── */
+    (function initNewsSlider() {
+        const newsGrid   = document.querySelector('.news-grid');
+        const newsPrev   = document.querySelector('.news-prev');
+        const newsNext   = document.querySelector('.news-next');
+
+        if (!newsGrid || !newsPrev || !newsNext) return;
+
+        var card = newsGrid.querySelector('.news-card');
+        if (!card) return;
+        var cardStyle = window.getComputedStyle(card);
+        var cardWidth = card.offsetWidth + parseFloat(cardStyle.marginLeft) + parseFloat(cardStyle.marginRight);
+
+        function updateButtons() {
+            var maxScroll = newsGrid.scrollWidth - newsGrid.clientWidth;
+            newsPrev.disabled = newsGrid.scrollLeft <= 0;
+            newsNext.disabled = newsGrid.scrollLeft >= maxScroll - 1;
+        }
+
+        newsPrev.addEventListener('click', function() {
+            newsGrid.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+            setTimeout(updateButtons, 350);
+        });
+
+        newsNext.addEventListener('click', function() {
+            newsGrid.scrollBy({ left: cardWidth, behavior: 'smooth' });
+            setTimeout(updateButtons, 350);
+        });
+
+        newsGrid.addEventListener('scroll', updateButtons);
+        updateButtons();
+    })();
+
+})();
