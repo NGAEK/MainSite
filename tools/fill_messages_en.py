@@ -98,6 +98,12 @@ search_block = {
     "no_results_text": "nothing was found on this site.",
     "show_all_news": "Show all news",
     "news_alt": "News item",
+    "found_pages": "Pages found",
+    "pages_section_title": "Pages and site sections",
+    "page_go": "Open page",
+    "all_matches_title": "All matches on the site",
+    "all_matches_hint": "Links to site sections where your query appears.",
+    "all_matches_open": "Open",
 }
 for k, v in search_block.items():
     data["search"][k]["EN"] = v

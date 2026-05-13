@@ -19,57 +19,24 @@
     </a>
   </div>
 
-  {# ── НОВОСТИ ── #}
-  {% if results %}
-  <div class="search-meta">
-    <div class="search-results-count">
-      <div class="txtcolor"><i class="fas fa-newspaper"></i> {{ t.search.found_news }}: {{ results|length }}</div>
-    </div>
-  </div>
-
-  <div class="news-grid">
-    {% for news in results %}
-    <div class="news-card">
-      <div class="news-img">
-        {% if news.image_path %}
-        <img src="{{ news.image_path }}" alt="{{ news.localized_name(current_lang) }}" class="news-image">
-        {% else %}
-        <img src="/static/images/news-placeholder.jpg" alt="{{ t.search.news_alt }}" class="news-image">
-        {% endif %}
-      </div>
-      <div class="news-content">
-        <span class="news-date">
-          <i class="far fa-calendar-alt"></i>{{ news.formatted_date(current_lang) }}
-        </span>
-        <h3 class="news-title">{{ news.localized_name(current_lang) }}</h3>
-        <p class="news-excerpt">{{ news.localized_description(current_lang) }}</p>
-        <a href="{{ u('/news/' ~ news.id) }}" class="read-more">
-          {{ t.search.read_more }} <i class="fas fa-arrow-right"></i>
-        </a>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-  {% endif %}
-
-  {# ── СТРАНИЦЫ САЙТА ── #}
-  {% if page_results %}
-  <div class="search-pages-section">
-    <h2 class="search-pages-title">
-      <i class="fas fa-file-alt"></i> {{ t.search.pages_section_title }}
-      <span class="search-results-badge">{{ page_results|length }}</span>
+  {% if all_matches %}
+  <div class="search-all-matches-section">
+    <h2 class="search-pages-title search-all-matches-title">
+      <i class="fas fa-list-ul"></i> {{ t.search.all_matches_title }}
+      <span class="search-results-badge">{{ all_matches|length }}</span>
     </h2>
-    <ul class="search-pages-list">
-      {% for page in page_results %}
-      <li class="search-page-item">
+    <p class="search-all-matches-hint">{{ t.search.all_matches_hint }}</p>
+    <ul class="search-pages-list search-all-matches-list">
+      {% for m in all_matches %}
+      <li class="search-page-item search-all-match-item">
         <div class="search-page-content">
-          <a href="{{ u(page.url) }}" class="search-page-title">{{ page.title }}</a>
-          {% if page.excerpt %}
-          <p class="search-page-excerpt">{{ page.excerpt }}</p>
+          <a href="{{ m.href }}" class="search-page-title">{{ m.title }}</a>
+          {% if m.excerpt %}
+          <p class="search-page-excerpt">{{ m.excerpt }}</p>
           {% endif %}
         </div>
-        <a href="{{ u(page.url) }}" class="search-page-link">
-          {{ t.search.page_go }} <i class="fas fa-arrow-right"></i>
+        <a href="{{ m.href }}" class="search-page-link">
+          {{ t.search.all_matches_open }} <i class="fas fa-arrow-right"></i>
         </a>
       </li>
       {% endfor %}
@@ -77,8 +44,7 @@
   </div>
   {% endif %}
 
-  {# ── НИЧЕГО НЕ НАЙДЕНО ── #}
-  {% if not results and not page_results %}
+  {% if not all_matches %}
   <div class="no-results">
     <div class="no-results-icon">
       <i class="fas fa-search fa-3x"></i>

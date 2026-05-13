@@ -2,6 +2,41 @@ import re
 from flask import render_template, redirect
 import logging
 from db import news_repository, pages_repository, tabs_repository
+from util.locale_search import href_with_lang, search_locale_strings
+
+
+def _unified_search_matches(query: str, lang: str, news_results, page_results, locale_results) -> list[dict]:
+    """Один список: БД (страницы, вкладки, новости) + совпадения в messages.json."""
+    matches: list[dict] = []
+    for p in page_results:
+        matches.append(
+            {
+                "kind": "page",
+                "title": p["title"],
+                "excerpt": (p.get("excerpt") or "").strip(),
+                "href": href_with_lang(p["url"], "", lang),
+            }
+        )
+    for n in news_results:
+        desc = n.localized_description(lang)
+        matches.append(
+            {
+                "kind": "news",
+                "title": n.localized_name(lang),
+                "excerpt": _make_excerpt(desc, query),
+                "href": href_with_lang(f"/news/{n.id}", "", lang),
+            }
+        )
+    for h in locale_results:
+        matches.append(
+            {
+                "kind": "locale",
+                "title": h["title"],
+                "excerpt": (h.get("excerpt") or "").strip(),
+                "href": h["href"],
+            }
+        )
+    return matches
 
 logger = logging.getLogger(__name__)
 
@@ -86,9 +121,11 @@ def search_handler(request):
     except Exception as e:
         logger.error(f"DB: Ошибка поиска по вкладкам (БД отключена?): {e}")
 
+    locale_results = search_locale_strings(query, lang)
+    all_matches = _unified_search_matches(query, lang, news_results, page_results, locale_results)
+
     return render_template(
         'search/results.html',
         query=query,
-        results=news_results,
-        page_results=page_results,
+        all_matches=all_matches,
     )

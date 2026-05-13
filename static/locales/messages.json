@@ -1508,6 +1508,21 @@
       "RU": "Открыть страницу",
       "BY": "Адкрыць старонку",
       "EN": "Open page"
+    },
+    "all_matches_title": {
+      "RU": "Все вхождения на сайте",
+      "BY": "Усе супадзенні на сайце",
+      "EN": "All matches on the site"
+    },
+    "all_matches_hint": {
+      "RU": "Ссылки на разделы сайта, где встречается ваш запрос.",
+      "BY": "Спасылкі на раздзелы сайта, дзе сустракаецца ваш запыт.",
+      "EN": "Links to site sections where your query appears."
+    },
+    "all_matches_open": {
+      "RU": "Открыть",
+      "BY": "Адкрыць",
+      "EN": "Open"
     }
   },
   "news_detail": {

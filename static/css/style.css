@@ -2906,6 +2906,34 @@ html.dark-mode-early body {
     margin-top: 48px;
 }
 
+.search-locale-section .search-locale-hint {
+    font-size: 0.9rem;
+    color: var(--clr-text-muted);
+    margin: -8px 0 16px;
+    line-height: 1.45;
+}
+
+.search-all-matches-section {
+    margin-top: 8px;
+}
+
+.search-all-matches-title {
+    margin-bottom: 8px;
+}
+
+.search-all-matches-hint {
+    font-size: 0.9rem;
+    color: var(--clr-text-muted);
+    margin: 0 0 20px;
+    line-height: 1.45;
+    max-width: 48rem;
+}
+
+.search-all-match-item .search-page-content {
+    flex: 1;
+    min-width: 0;
+}
+
 .search-pages-title {
     font-family: var(--ff-display);
     font-size: 1.1rem;

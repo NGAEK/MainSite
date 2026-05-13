@@ -50,6 +50,28 @@
         } catch(e) {}
     })();
 </script>
+<script>
+/* Scroll reveal: .reveal → .visible (на всех страницах, не только index) */
+(function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!els.length) return;
+    function revealEntry(e) {
+        if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+        }
+    }
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(revealEntry);
+    }, { threshold: 0.12 });
+    els.forEach(function (el) {
+        io.observe(el);
+    });
+    try {
+        io.takeRecords().forEach(revealEntry);
+    } catch (ignore) {}
+})();
+</script>
 {% block extra_js %}{% endblock %}
 </body>
 </html>
