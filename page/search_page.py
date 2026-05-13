@@ -51,7 +51,7 @@ def search_handler(request):
     try:
         news_results = news_repository.search_news(query)
     except Exception as e:
-        logger.error(f"Ошибка поиска по новостям: {e}")
+        logger.error(f"DB: Ошибка поиска по новостям (БД отключена?): {e}")
 
     try:
         raw_pages = pages_repository.search_pages(query)
@@ -64,7 +64,7 @@ def search_handler(request):
                 'url':     f"/pages/{p['slug']}",
             })
     except Exception as e:
-        logger.error(f"Ошибка поиска по страницам: {e}")
+        logger.error(f"DB: Ошибка поиска по страницам (БД отключена?): {e}")
 
     return render_template(
         'search/results.html',

@@ -11,8 +11,8 @@ def home_handler(request):
     try:
         all_news = news_repository.get_all_news()
     except Exception as e:
-        logger.error(f"Ошибка загрузки новостей: {e}")
-        return "500 Internal Server Error", 500
+        logger.warning(f"DB: Ошибка загрузки новостей (БД отключена?): {e}. Используется пустой список.")
+        all_news = []
     
     query = request.args.get('q', '').strip()
     logger.info(f"Search query: '{query}'")
@@ -26,8 +26,8 @@ def home_handler(request):
             db_results = news_repository.search_news(query)
             filtered_news = db_results
         except Exception as e:
-            logger.error(f"Ошибка поиска в БД: {e}")
-            # Если ошибка в БД, фильтруем локально
+            logger.warning(f"DB: Ошибка поиска в БД (БД отключена?): {e}")
+            # Если ошибка в БД, фильтруем локально (из пустого списка ничего не найдётся)
             query_lower = query.lower()
 
             def _texts(n):

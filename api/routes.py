@@ -122,26 +122,53 @@ def _validate_date(raw) -> tuple:
     return None, "Поле date должно быть строкой YYYY-MM-DD"
 
 
+# DB: ↓↓↓ _collect_main_metrics — защищена от выключенной БД ↓↓↓
 def _collect_main_metrics() -> dict:
     now = datetime.now(timezone.utc)
     uptime_seconds = int((now - API_STARTED_AT).total_seconds())
-    db_tables = get_table_names()
-    user_metrics = visitor_metrics_repository.get_user_metrics()
+    try:
+        db_tables = get_table_names()
+    except Exception:
+        db_tables = []
+    try:
+        user_metrics = visitor_metrics_repository.get_user_metrics()
+    except Exception:
+        user_metrics = {"users_today": 0, "users_month": 0, "users_year": 0, "users_total": 0}
+    try:
+        news_total = news_repository.count_news()
+    except Exception:
+        news_total = 0
+    try:
+        admin_users_total = admin_users_repository.count_admin_users(active_only=False)
+    except Exception:
+        admin_users_total = 0
+    try:
+        admin_users_active = admin_users_repository.count_admin_users(active_only=True)
+    except Exception:
+        admin_users_active = 0
+    try:
+        tabs_total = len(tabs_repository.get_all_tabs())
+    except Exception:
+        tabs_total = 0
+    try:
+        pages_total = len(pages_repository.get_all_pages())
+    except Exception:
+        pages_total = 0
     return {
         "generated_at": now.isoformat(),
         "api_uptime_seconds": uptime_seconds,
         "db_alive": is_db_alive(),
         "db_table_count": len(db_tables),
         "db_tables": db_tables,
-        "news_total": news_repository.count_news(),
-        "admin_users_total": admin_users_repository.count_admin_users(active_only=False),
-        "admin_users_active": admin_users_repository.count_admin_users(active_only=True),
+        "news_total": news_total,
+        "admin_users_total": admin_users_total,
+        "admin_users_active": admin_users_active,
         "users_today": user_metrics["users_today"],
         "users_month": user_metrics["users_month"],
         "users_year": user_metrics["users_year"],
         "users_total": user_metrics["users_total"],
-        "tabs_total": len(tabs_repository.get_all_tabs()),
-        "pages_total": len(pages_repository.get_all_pages()),
+        "tabs_total": tabs_total,
+        "pages_total": pages_total,
     }
 
 
@@ -174,10 +201,11 @@ def auth_login():
     if not username or not password:
         return _json_error(400, "validation_error", "Поля username и password обязательны")
     try:
+        # DB: без БД всегда ошибка
         user = admin_users_repository.get_admin_user_by_username(username)
     except Exception as e:
-        logger.exception("API auth_login get_admin_user_by_username")
-        return _json_error(500, "database_error", str(e))
+        logger.exception("DB: API auth_login get_admin_user_by_username (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна — войдите позже, либо включите БД")
     if not user or not bool(user.get("is_active")):
         return _json_error(401, "unauthorized", "Неверный логин или пароль")
     expected_username = str(user.get("username") or "").strip()
@@ -340,13 +368,19 @@ def update_page_template(slug):
     return jsonify({"data": {"slug": slug, "updated": True}}), 200
 
 
+# DB: ↓↓↓ API эндпоинты с БД — обёрнуты в try/except ↓↓↓
+
 @api_bp.route("/tabs", methods=["GET"])
 def list_tabs():
     err = _require_auth()
     if err:
         return err
     include_inactive = _parse_bool(request.args.get("include_inactive"), default=True)
-    items = tabs_repository.get_all_tabs() if include_inactive else tabs_repository.get_active_tabs()
+    try:
+        items = tabs_repository.get_all_tabs() if include_inactive else tabs_repository.get_active_tabs()
+    except Exception as e:
+        logger.exception("DB: API list_tabs (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
     return jsonify({"data": items}), 200
 
 
@@ -375,8 +409,8 @@ def create_tab():
     try:
         new_id = tabs_repository.create_tab(row)
     except Exception as e:
-        logger.exception("API create_tab")
-        return _json_error(500, "database_error", str(e))
+        logger.exception("DB: API create_tab (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
     return jsonify({"data": {"id": new_id}}), 201
 
 
@@ -405,8 +439,8 @@ def update_tab(tab_id):
     try:
         tabs_repository.update_tab(tab_id, row)
     except Exception as e:
-        logger.exception("API update_tab")
-        return _json_error(500, "database_error", str(e))
+        logger.exception("DB: API update_tab (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
     return jsonify({"data": {"id": tab_id, "updated": True}}), 200
 
 
@@ -418,8 +452,8 @@ def delete_tab(tab_id):
     try:
         deleted = tabs_repository.delete_tab(tab_id)
     except Exception as e:
-        logger.exception("API delete_tab")
-        return _json_error(500, "database_error", str(e))
+        logger.exception("DB: API delete_tab (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
     if not deleted:
         return _json_error(404, "not_found", "Вкладка не найдена")
     return "", 204
@@ -430,7 +464,12 @@ def list_pages():
     err = _require_auth()
     if err:
         return err
-    return jsonify({"data": pages_repository.get_all_pages()}), 200
+    try:
+        items = pages_repository.get_all_pages()
+    except Exception as e:
+        logger.exception("DB: API list_pages (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
+    return jsonify({"data": items}), 200
 
 
 @api_bp.route("/pages", methods=["POST"])
@@ -455,8 +494,8 @@ def create_page():
     try:
         page_id = pages_repository.create_page(row)
     except Exception as e:
-        logger.exception("API create_page")
-        return _json_error(500, "database_error", str(e))
+        logger.exception("DB: API create_page (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
     return jsonify({"data": {"id": page_id}}), 201
 
 
@@ -482,8 +521,8 @@ def update_page(page_id):
     try:
         pages_repository.update_page(page_id, row)
     except Exception as e:
-        logger.exception("API update_page")
-        return _json_error(500, "database_error", str(e))
+        logger.exception("DB: API update_page (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
     return jsonify({"data": {"id": page_id, "updated": True}}), 200
 
 
@@ -495,8 +534,8 @@ def delete_page(page_id):
     try:
         deleted = pages_repository.delete_page(page_id)
     except Exception as e:
-        logger.exception("API delete_page")
-        return _json_error(500, "database_error", str(e))
+        logger.exception("DB: API delete_page (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
     if not deleted:
         return _json_error(404, "not_found", "Страница не найдена")
     return "", 204
@@ -508,12 +547,16 @@ def system_status():
     if err:
         return err
     service = _file_service()
+    try:
+        db_tables = get_table_names()
+    except Exception:
+        db_tables = []
     return (
         jsonify(
             {
                 "data": {
                     "db_alive": is_db_alive(),
-                    "db_tables": get_table_names(),
+                    "db_tables": db_tables,
                     "file_scopes": service.scopes(),
                 }
             }
@@ -595,6 +638,8 @@ def delete_file():
     return "", 204
 
 
+# DB: ↓↓↓ news эндпоинты — обёрнуты в try/except ↓↓↓
+
 @api_bp.route("/news", methods=["GET"])
 def list_news():
     err = _require_auth()
@@ -603,8 +648,8 @@ def list_news():
     try:
         items = news_repository.get_all_news()
     except Exception as e:
-        logger.exception("API list_news")
-        return _json_error(500, "database_error", str(e))
+        logger.exception("DB: API list_news (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
     return jsonify({"data": [news_repository.news_to_dict(n) for n in items]}), 200
 
 
@@ -616,8 +661,8 @@ def get_news(news_id):
     try:
         n = news_repository.get_news_by_id(news_id)
     except Exception as e:
-        logger.exception("API get_news")
-        return _json_error(500, "database_error", str(e))
+        logger.exception("DB: API get_news (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
     if not n:
         return _json_error(404, "not_found", "Новость не найдена")
     return jsonify({"data": news_repository.news_to_dict(n)}), 200
@@ -651,8 +696,8 @@ def create_news():
     try:
         new_id = news_repository.insert_news(row)
     except Exception as e:
-        logger.exception("API create_news")
-        return _json_error(500, "database_error", str(e))
+        logger.exception("DB: API create_news (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
     return jsonify({"data": {"id": new_id}}), 201
 
 
@@ -661,7 +706,12 @@ def put_news(news_id):
     err = _require_auth()
     if err:
         return err
-    if not news_repository.news_exists(news_id):
+    try:
+        exists = news_repository.news_exists(news_id)
+    except Exception as e:
+        logger.exception("DB: API put_news news_exists (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
+    if not exists:
         return _json_error(404, "not_found", "Новость не найдена")
     payload, err = _parse_json_body()
     if err:
@@ -686,8 +736,8 @@ def put_news(news_id):
     try:
         news_repository.update_news_full(news_id, row)
     except Exception as e:
-        logger.exception("API put_news")
-        return _json_error(500, "database_error", str(e))
+        logger.exception("DB: API put_news update_news_full (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
     return jsonify({"data": {"id": news_id, "updated": True}}), 200
 
 
@@ -696,7 +746,12 @@ def patch_news(news_id):
     err = _require_auth()
     if err:
         return err
-    if not news_repository.news_exists(news_id):
+    try:
+        exists = news_repository.news_exists(news_id)
+    except Exception as e:
+        logger.exception("DB: API patch_news news_exists (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
+    if not exists:
         return _json_error(404, "not_found", "Новость не найдена")
     payload, err = _parse_json_body()
     if err:
@@ -725,8 +780,8 @@ def patch_news(news_id):
     try:
         news_repository.update_news_partial(news_id, patch)
     except Exception as e:
-        logger.exception("API patch_news")
-        return _json_error(500, "database_error", str(e))
+        logger.exception("DB: API patch_news update_news_partial (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
     return jsonify({"data": {"id": news_id, "updated": True}}), 200
 
 
@@ -738,8 +793,8 @@ def delete_news(news_id):
     try:
         deleted = news_repository.delete_news(news_id)
     except Exception as e:
-        logger.exception("API delete_news")
-        return _json_error(500, "database_error", str(e))
+        logger.exception("DB: API delete_news (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
     if not deleted:
         return _json_error(404, "not_found", "Новость не найдена")
     return "", 204
