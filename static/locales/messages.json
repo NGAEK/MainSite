@@ -82,14 +82,14 @@
       "EN": "Secondary specialized education institution"
     },
     "search_placeholder": {
-      "RU": "Поиск новостей...",
-      "BY": "Пошук навін...",
-      "EN": "Search news..."
+      "RU": "Поиск по сайту...",
+      "BY": "Пошук па сайце...",
+      "EN": "Search the site..."
     },
     "search_aria": {
-      "RU": "Поиск по новостям",
-      "BY": "Пошук па навінах",
-      "EN": "Search news"
+      "RU": "Поиск по сайту",
+      "BY": "Пошук па сайце",
+      "EN": "Site search"
     },
     "search_btn_aria": {
       "RU": "Искать",
@@ -127,6 +127,11 @@
       "RU": "Главная",
       "BY": "Галоўная",
       "EN": "Home"
+    },
+    "news": {
+      "RU": "Новости",
+      "BY": "Навіны",
+      "EN": "News"
     },
     "history_traditions_achievements": {
       "RU": "История, традиции, достижения",
@@ -689,6 +694,36 @@
       "RU": "Показать все новости",
       "BY": "Паказаць усе навіны",
       "EN": "Show all news"
+    },
+    "all_news_link": {
+      "RU": "Все новости",
+      "BY": "Усе навіны",
+      "EN": "All news"
+    },
+    "list_page_title": {
+      "RU": "Новости колледжа",
+      "BY": "Навіны каледжа",
+      "EN": "College news"
+    },
+    "list_page_lead": {
+      "RU": "Актуальные объявления и события. Для подробностей откройте материал.",
+      "BY": "Актуальныя абвесткі і падзеі. Каб убачыць падрабязнасці, адкрыйце матэрыял.",
+      "EN": "Announcements and events. Open an item to read the full story."
+    },
+    "list_empty_title": {
+      "RU": "Новостей нет",
+      "BY": "Навін няма",
+      "EN": "No news yet"
+    },
+    "list_empty_text": {
+      "RU": "Список пуст или база данных временно недоступна.",
+      "BY": "Спіс пусты або база даных часова недаступная.",
+      "EN": "The list is empty or the database is temporarily unavailable."
+    },
+    "back_to_home": {
+      "RU": "На главную",
+      "BY": "На галоўную",
+      "EN": "Back to home"
     }
   },
   "specialties": {
@@ -1420,9 +1455,9 @@
   },
   "search": {
     "results_title": {
-      "RU": "Результаты поиска",
-      "BY": "Вынікі пошуку",
-      "EN": "Search results"
+      "RU": "Поиск по сайту",
+      "BY": "Пошук па сайце",
+      "EN": "Site search"
     },
     "back_home": {
       "RU": "Вернуться на главную",
@@ -1430,9 +1465,9 @@
       "EN": "Back to home"
     },
     "found_news": {
-      "RU": "Найдено новостей",
-      "BY": "Знойдзена навін",
-      "EN": "News found"
+      "RU": "Новости",
+      "BY": "Навіны",
+      "EN": "News"
     },
     "read_more": {
       "RU": "Читать далее",
@@ -1445,9 +1480,9 @@
       "EN": "Nothing found"
     },
     "no_results_text": {
-      "RU": "не найдено ни одной новости.",
-      "BY": "не знойдзена ніводнай навіны.",
-      "EN": "no news matched your query."
+      "RU": "по сайту ничего не найдено.",
+      "BY": "па сайце нічога не знойдзена.",
+      "EN": "nothing was found on this site."
     },
     "show_all_news": {
       "RU": "Показать все новости",
@@ -1465,9 +1500,9 @@
       "EN": "Pages found"
     },
     "pages_section_title": {
-      "RU": "Страницы сайта",
-      "BY": "Старонкі сайта",
-      "EN": "Site pages"
+      "RU": "Страницы и разделы сайта",
+      "BY": "Старонкі і раздзелы сайта",
+      "EN": "Pages and site sections"
     },
     "page_go": {
       "RU": "Открыть страницу",

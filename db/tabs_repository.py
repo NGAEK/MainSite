@@ -30,6 +30,28 @@ def ensure_tabs_table() -> None:
         )
 
 
+def search_tabs(query: str) -> list[dict]:
+    """Поиск по заголовку, пункту меню и содержимому активных вкладок (ILIKE)."""
+    db = get_db()
+    with db.cursor() as c:
+        like = f"%{query}%"
+        c.execute(
+            """
+            SELECT id, slug, title, menu_title, content_html
+            FROM site_tabs
+            WHERE is_active = TRUE
+              AND (
+                title ILIKE %s
+                OR menu_title ILIKE %s
+                OR COALESCE(content_html, '') ILIKE %s
+              )
+            ORDER BY sort_order ASC, id ASC
+            """,
+            (like, like, like),
+        )
+        return c.fetchall()
+
+
 def get_active_tabs() -> list[dict]:
     db = get_db()
     with db.cursor() as c:

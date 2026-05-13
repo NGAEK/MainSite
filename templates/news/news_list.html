@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% from 'macros/url.html' import u %}
+{% block breadcrumbs %}
+{% set breadcrumbs = [
+  {'label': t.nav.home, 'url': u('/')},
+  {'label': t.news.list_page_title, 'url': None}
+] %}
+{% include 'partials/breadcrumbs.html' %}
+{% endblock %}
+{% block content %}
+<section class="section news-section news-list-page">
+    <div class="container">
+        <div class="section-title">
+            <h1>{{ t.news.list_page_title }}</h1>
+            <p class="section-title-more"><a href="{{ u('/') }}"><i class="fas fa-arrow-left"></i> {{ t.news.back_to_home }}</a></p>
+        </div>
+        <p class="news-list-lead">{{ t.news.list_page_lead }}</p>
+
+        {% if news_list %}
+        <div class="news-grid news-grid-list">
+            {% for news in news_list %}
+            <div class="news-card reveal">
+                <div class="news-img">
+                    <img src="{{ news.image_path }}" alt="{{ news.localized_name(current_lang) }}">
+                </div>
+                <div class="news-content">
+                    <span class="news-date">{{ news.formatted_date(current_lang) }}</span>
+                    <h3 class="news-title">{{ news.localized_name(current_lang) }}</h3>
+                    <p class="news-excerpt">{{ news.localized_description(current_lang) }}</p>
+                    <a href="{{ u('/news/' ~ news.id) }}" class="read-more">{{ t.news.read_more }} <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-results">
+            <div class="no-results-icon"><i class="fas fa-newspaper"></i></div>
+            <h2>{{ t.news.list_empty_title }}</h2>
+            <p>{{ t.news.list_empty_text }}</p>
+            <a href="{{ u('/') }}" class="btn">{{ t.news.back_to_home }}</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -39,8 +39,8 @@ for k, en in [
 header_map = {
     "title": "Novopolsky State Agrarian and Economic College",
     "subtitle": "Secondary specialized education institution",
-    "search_placeholder": "Search news...",
-    "search_aria": "Search news",
+    "search_placeholder": "Search the site...",
+    "search_aria": "Site search",
     "search_btn_aria": "Search",
     "lang_be_aria": "Belarusian",
     "lang_ru_aria": "Russian",
@@ -90,12 +90,12 @@ for k, v in news_block.items():
     data["news"][k]["EN"] = v
 
 search_block = {
-    "results_title": "Search results",
+    "results_title": "Site search",
     "back_home": "Back to home",
-    "found_news": "News found",
+    "found_news": "News",
     "read_more": "Read more",
     "no_results_title": "Nothing found",
-    "no_results_text": "no news matched your query.",
+    "no_results_text": "nothing was found on this site.",
     "show_all_news": "Show all news",
     "news_alt": "News item",
 }

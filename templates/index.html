@@ -45,14 +45,10 @@
 <section class="section news-section" id="news">
     <div class="container">
         <div class="section-title">
-            <h2>
-                {% if is_search_results %}
-                {{ t.news.search_results }}: "{{ query }}" ({{ t.news.found_count }} {{ search_count }})
-                {% else %}
-                {{ t.news.title }}
-                {% endif %}
-            </h2>
-            {% if not is_search_results %}
+            <div class="news-section-title-block">
+                <h2>{{ t.news.title }}</h2>
+                <p class="section-title-more"><a href="{{ u('/news') }}" class="news-all-link">{{ t.news.all_news_link }}</a></p>
+            </div>
             <div class="news-navigation">
                 <button class="news-prev" aria-label="{{ t.news.prev_aria }}">
                     <i class="fas fa-chevron-left"></i>
@@ -61,16 +57,7 @@
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
-            {% endif %}
         </div>
-
-        {% if is_search_results %}
-        <div class="search-actions">
-            <a href="/{% if current_lang != 'ru' %}?lang={{ current_lang }}{% endif %}" class="btn btn-outline">
-                <i class="fas fa-arrow-left"></i> {{ t.news.back_to_news }}
-            </a>
-        </div>
-        {% endif %}
 
         {% if search_count > 0 %}
         <div class="news-grid">
@@ -83,19 +70,10 @@
                     <span class="news-date">{{ news.formatted_date(current_lang) }}</span>
                     <h3 class="news-title">{{ news.localized_name(current_lang) }}</h3>
                     <p class="news-excerpt">{{ news.localized_description(current_lang) }}</p>
-                    <a href="/news/{{ news.id }}{% if current_lang != 'ru' %}?lang={{ current_lang }}{% endif %}" class="read-more">{{ t.news.read_more }} <i class="fas fa-arrow-right"></i></a>
+                    <a href="{{ u('/news/' ~ news.id) }}" class="read-more">{{ t.news.read_more }} <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
             {% endfor %}
-        </div>
-        {% elif is_search_results %}
-        <div class="no-results">
-            <div class="no-results-icon">
-                <i class="fas fa-search"></i>
-            </div>
-            <h3>{{ t.news.no_results_title }}</h3>
-            <p>«{{ query }}» — {{ t.news.no_results_text }}</p>
-            <a href="/{% if current_lang != 'ru' %}?lang={{ current_lang }}{% endif %}" class="btn">{{ t.news.show_all }}</a>
         </div>
         {% endif %}
     </div>
