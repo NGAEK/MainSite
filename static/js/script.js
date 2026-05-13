@@ -10,35 +10,54 @@
 
     const MOBILE = () => window.innerWidth <= 768;
 
-    /* ── Close button внутри ящика ── */
+    /* ── Close button (fixed, top-left of nav area) ── */
     let closeBtn = document.getElementById('drawerCloseBtn');
     if (!closeBtn) {
         closeBtn = document.createElement('button');
         closeBtn.id   = 'drawerCloseBtn';
         closeBtn.type = 'button';
-        closeBtn.innerHTML = '<i class="fas fa-times"></i><span style="font-size:0.78rem;letter-spacing:0.03em">Закрыть</span>';
+        closeBtn.setAttribute('aria-label', 'Закрыть меню');
+        closeBtn.innerHTML = '<i class="fas fa-times"></i>';
         Object.assign(closeBtn.style, {
             display:        'none',
             alignItems:     'center',
-            gap:            '8px',
-            background:     'none',
-            border:         'none',
-            borderBottom:   '1px solid rgba(255,255,255,0.08)',
+            justifyContent: 'center',
+            background:     'rgba(255,255,255,0.08)',
+            border:         '1px solid rgba(255,255,255,0.13)',
             color:          'rgba(255,255,255,0.7)',
             cursor:         'pointer',
             fontFamily:     'var(--ff-body)',
-            padding:        '0 20px',
-            height:         '56px',
-            width:          '100%',
-            justifyContent: 'flex-start',
-            flexShrink:     '0',
-            transition:     'color 0.15s',
-            boxSizing:      'border-box',
+            fontSize:       '1.1rem',
+            width:          '38px',
+            height:         '38px',
+            borderRadius:   '10px',
+            position:       'fixed',
+            top:            '115px',
+            left:           '12px',
+            zIndex:         '99999',
+            transition:     'background 0.15s, color 0.15s',
+            border:         'none',
         });
-        closeBtn.addEventListener('mouseenter', () => closeBtn.style.color = '#fff');
-        closeBtn.addEventListener('mouseleave', () => closeBtn.style.color = 'rgba(255,255,255,0.7)');
+        closeBtn.addEventListener('mouseenter', () => {
+            closeBtn.style.background = 'rgba(255,255,255,0.2)';
+            closeBtn.style.color = '#fff';
+        });
+        closeBtn.addEventListener('mouseleave', () => {
+            closeBtn.style.background = 'rgba(255,255,255,0.08)';
+            closeBtn.style.color = 'rgba(255,255,255,0.7)';
+        });
         closeBtn.addEventListener('click', closeDrawer);
-        mainNav.prepend(closeBtn);
+        document.body.appendChild(closeBtn);
+    }
+
+    /* ── Close drawer when clicking outside ── */
+    function handleOutsideClick(e) {
+        if (!MOBILE()) return;
+        if (!mainNav.classList.contains('active')) return;
+        if (mainNav.contains(e.target)) return;
+        if (mobileMenuBtn.contains(e.target)) return;
+        if (closeBtn.contains(e.target)) return;
+        closeDrawer();
     }
 
     /* ── Open ── */
@@ -49,6 +68,10 @@
         mobileMenuBtn.classList.add('active');
         document.body.style.overflow = 'hidden';
         mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        // Delay to avoid capturing the click that opened
+        requestAnimationFrame(() => {
+            document.addEventListener('click', handleOutsideClick);
+        });
     }
 
     /* ── Close ── */
@@ -60,11 +83,13 @@
         mobileMenuBtn.setAttribute('aria-expanded', 'false');
         document.querySelectorAll('.main-nav > li.active')
             .forEach(li => li.classList.remove('active'));
+        document.removeEventListener('click', handleOutsideClick);
     }
 
     /* ── Burger ── */
     mobileMenuBtn.setAttribute('aria-expanded', 'false');
-    mobileMenuBtn.addEventListener('click', () => {
+    mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         mainNav.classList.contains('active') ? closeDrawer() : openDrawer();
     });
 

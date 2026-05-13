@@ -2032,132 +2032,7 @@ footer {
         margin-right: 2px;
     }
 
-    nav {
-        position: sticky;
-        top: 0;
-        height: var(--nav-h);
-    }
-
-    .nav-container {
-        min-height: var(--nav-h);
-    }
-
-    .mobile-menu-btn {
-        display: block;
-        position: fixed;
-        left: 14px;
-        top: 20px;
-        z-index: 1001;
-        background: none;
-        border: none;
-        padding: 4px;
-        color: #fff;
-        font-size: 1.6rem;
-        cursor: pointer;
-        transition: transform var(--tr);
-    }
-
-    .mobile-menu-btn.active {
-        transform: rotate(90deg);
-    }
-
-    .main-nav-grid {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: min(300px, 88vw);
-        height: 100vh;
-        background: var(--clr-primary-dark);
-        flex-direction: column;
-        padding: 72px 0 24px;
-        overflow-y: auto;
-        z-index: 1000;
-        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.35);
-        align-items: stretch;
-        border-top: none;
-    }
-
-    .main-nav-grid.active {
-        display: flex;
-    }
-
-    .main-nav-row + .main-nav-row {
-        border-top: 1px solid rgba(255, 255, 255, 0.12);
-        margin-top: 10px;
-        padding-top: 8px;
-    }
-
-    .main-nav {
-        height: auto;
-    }
-
-    .main-nav>li {
-        height: auto;
-        flex-direction: column;
-        align-items: stretch;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    }
-
-    .main-nav>li>a {
-        padding: 13px 20px;
-        font-size: 0.9rem;
-        height: auto;
-        justify-content: space-between;
-    }
-
-    .main-nav>li>a::after {
-        display: none;
-    }
-
-    .dropdown-menu {
-        position: static;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        box-shadow: none;
-        border-radius: 0;
-        background: rgba(0, 0, 0, 0.15);
-        display: none;
-        border: none;
-        border-top: 1px solid rgba(255, 255, 255, 0.06);
-        border-left: 2px solid var(--clr-gold);
-        margin-left: 16px;
-        min-width: unset;
-    }
-
-    .main-nav li.active .dropdown-menu {
-        display: block;
-        animation: slideDown 0.25s ease;
-    }
-
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-6px)
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0)
-        }
-    }
-
-    .dropdown-menu a {
-        color: rgba(255, 255, 255, 0.68);
-        border-color: rgba(255, 255, 255, 0.06);
-    }
-
-    .dropdown-menu a:hover {
-        background: rgba(255, 255, 255, 0.05);
-        padding-left: 24px;
-        color: #fff;
-    }
-
-    .nav-group-label span {
-        background: rgba(0, 0, 0, 0.2);
-        color: rgba(255, 255, 255, 0.32);
-    }
+    /* Navigation styles are now in the MOBILE OVERHAUL section below */
 
     .hero-slider {
         height: 300px;
@@ -3451,44 +3326,35 @@ html.dark-mode-early body {
         transform: rotate(90deg);
     }
 
-    /* ── Sidebar drawer ── */
+    /* ── Fullscreen overlay menu ── */
     .main-nav-grid {
-        /* Slide-in panel */
-        display: block !important; /* Always in DOM, toggled by transform */
+        display: block !important;
         position: fixed;
         top: 0;
         left: 0;
-        width: min(320px, 90vw);
-        height: 100dvh; /* dynamic viewport height for iOS */
+        width: 100%;
+        height: 100dvh;
         height: 100vh; /* fallback */
         background: var(--clr-primary-dark);
         flex-direction: column;
         overflow-y: auto;
         overflow-x: hidden;
         z-index: 1020;
-        padding: 0;
-        box-shadow: 4px 0 40px rgba(0, 0, 0, 0.5);
-        /* Slide out left by default */
-        transform: translateX(-100%);
+        padding: 100px 0 80px;
+        box-shadow: 0 4px 40px rgba(0, 0, 0, 0.5);
+        /* Slide up hidden by default */
+        transform: translateY(-100%);
         visibility: hidden;
-        transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
-                    visibility 0.32s;
+        pointer-events: none;
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                    visibility 0.35s;
         -webkit-overflow-scrolling: touch;
     }
 
     .main-nav-grid.active {
-        transform: translateX(0);
+        transform: translateY(0);
         visibility: visible;
-    }
-
-    /* ── Drawer header (branding strip) ── */
-    .main-nav-grid::before {
-        content: '';
-        display: block;
-        height: 72px;
-        background: var(--clr-primary);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        flex-shrink: 0;
+        pointer-events: auto;
     }
 
     /* ── Nav row separators ── */
