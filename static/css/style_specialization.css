@@ -1,4 +1,4 @@
-/* style_specialization.css
+вости н/* style_specialization.css
    Specialization / specialties pages.
    Relies on CSS variables defined in style.css (:root and .dark-mode).
 */
@@ -6,13 +6,13 @@
 /* ── Specialty navigation cards (shown at top of each spec page) ── */
 .specialties-grid {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: stretch;
     gap: 1.25rem;
     padding: 0.5rem 0 2rem;
     max-width: 100%;
     margin: 0 auto;
-    flex-wrap: wrap;
 }
 
 .specialty-card {
@@ -22,13 +22,12 @@
     box-shadow: var(--shadow-sm);
     padding: 1.5rem 1.25rem;
     transition: transform var(--tr), box-shadow var(--tr), border-color var(--tr);
-    width: 180px;
     min-height: 140px;
+    width: 170px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    flex-shrink: 0;
     color: var(--clr-text);
     text-decoration: none;
     cursor: pointer;
@@ -136,14 +135,15 @@
 /* ── Responsive ── */
 @media (max-width: 768px) {
     .specialties-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
         padding: 0.5rem 0 1.5rem;
-        justify-content: space-around;
     }
 
     .specialty-card {
-        width: calc(50% - 0.75rem);
-        min-width: 130px;
+        width: auto;
+        min-width: 0;
         padding: 1rem 0.75rem;
     }
 
@@ -162,12 +162,5 @@
 
     .entry-content h2 {
         font-size: 1.1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .specialty-card {
-        width: calc(50% - 0.5rem);
-        min-width: 110px;
     }
 }
