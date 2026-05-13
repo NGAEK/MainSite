@@ -7,9 +7,18 @@ logger = logging.getLogger(__name__)
 _db_connection = None
 _db_config: dict = {}  # Сохраняем конфигурацию для переподключения
 
+# DB: ↓↓↓ Раскомментируй для включения PostgreSQL ↓↓↓
+# 1) Установи USE_DB = True
+# 2) Убедись что connection.py не импортируется раньше config.py с настройками БД
+USE_DB = False  # ← False = работаем без БД
+
 
 def init_db(user, password, host, port, db_name):
     """Инициализирует подключение к базе данных PostgreSQL."""
+    if not USE_DB:
+        logger.info("DB: init_db пропущен — приложение работает без БД (USE_DB=False)")
+        return None
+    # DB: → раскомментируй ниже если USE_DB = True ←
     global _db_connection, _db_config
 
     _db_config = {
@@ -41,6 +50,8 @@ def _new_connection():
 
 
 def get_db():
+    if not USE_DB:
+        raise RuntimeError("DB: База данных отключена (USE_DB=False). Чтобы включить — установи USE_DB=True в db/connection.py")
     """Возвращает рабочее подключение к БД, автоматически переподключаясь при обрыве."""
     global _db_connection
 
@@ -68,6 +79,9 @@ def get_db():
 
 
 def is_db_alive() -> bool:
+    if not USE_DB:
+        return False
+    # DB: раскомментируй ↓ если USE_DB = True
     """Проверяет доступность БД простым SELECT 1."""
     try:
         db = get_db()
@@ -81,6 +95,9 @@ def is_db_alive() -> bool:
 
 
 def get_table_names() -> list[str]:
+    if not USE_DB:
+        return []
+    # DB: раскомментируй ↓ если USE_DB = True
     """Возвращает список таблиц текущей схемы (public)."""
     db = get_db()
     with db.cursor() as cursor:

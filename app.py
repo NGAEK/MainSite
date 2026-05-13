@@ -110,16 +110,18 @@ def inject_site_public():
     )
 
 
+# DB: ↓↓↓ inject_dynamic_tabs — без БД возвращает пустой список ↓↓↓
 @app.context_processor
 def inject_dynamic_tabs():
     try:
         tabs = tabs_repository.get_active_tabs()
     except Exception as exc:
-        logger.warning(f"Не удалось загрузить динамические вкладки: {exc}")
+        logger.warning(f"DB: Не удалось загрузить динамические вкладки (БД отключена?): {exc}")
         tabs = []
     return dict(dynamic_tabs=tabs)
 
 
+# DB: ↓↓↓ collect_site_user_metrics — без БД просто пропускает ↓↓↓
 @app.after_request
 def set_locale_cookie(response):
     """Сохраняем выбранный язык в cookie при ?lang=."""
@@ -144,6 +146,7 @@ def add_api_cors_headers(response):
     return response
 
 
+# DB: ↓↓↓ collect_site_user_metrics — без БД просто пропускает ↓↓↓
 @app.after_request
 def collect_site_user_metrics(response):
     """Собирает метрики уникальных пользователей по посещениям."""
@@ -157,7 +160,7 @@ def collect_site_user_metrics(response):
         visitor_key = visitor_metrics_repository.build_visitor_key(ip, ua)
         visitor_metrics_repository.record_visit(visitor_key)
     except Exception as exc:
-        logger.warning(f"Не удалось сохранить метрику посещения: {exc}")
+        logger.warning(f"DB: Не удалось сохранить метрику посещения (БД отключена?): {exc}")
     return response
 
 
@@ -188,7 +191,8 @@ app.config["ADMIN_API_KEY"] = config.admin_api_key
 app.config["ADMIN_AUTH"] = config.admin_auth
 app.config["SITE"] = config.site or {}
 
-# Инициализация базы данных
+# DB: ↓↓↓ Инициализация базы данных — если USE_DB=False, init_db вернёт None ↓↓↓
+from db.connection import USE_DB  # noqa: флаг для проверки
 init_db(
     config.database.user,
     config.database.password,
@@ -197,18 +201,23 @@ init_db(
     config.database.name
 )
 
-admin_users_repository.ensure_admin_users_table()
-visitor_metrics_repository.ensure_site_visits_table()
-tabs_repository.ensure_tabs_table()
-pages_repository.ensure_pages_table()
-seed_auth = config.admin_auth or {}
-seed_username = str(seed_auth.get("username") or "").strip()
-seed_password_hash = str(seed_auth.get("password_hash") or "").strip()
-if seed_username and seed_password_hash:
-    existing_admin = admin_users_repository.get_admin_user_by_username(seed_username)
-    if not existing_admin:
-        admin_users_repository.create_admin_user(seed_username, seed_password_hash)
-        logger.info("Bootstrap admin user created in PostgreSQL")
+# DB: ↓↓↓ Создание таблиц и seed-админа — только если БД включена ↓↓↓
+if USE_DB:
+    admin_users_repository.ensure_admin_users_table()
+    visitor_metrics_repository.ensure_site_visits_table()
+    tabs_repository.ensure_tabs_table()
+    pages_repository.ensure_pages_table()
+    seed_auth = config.admin_auth or {}
+    seed_username = str(seed_auth.get("username") or "").strip()
+    seed_password_hash = str(seed_auth.get("password_hash") or "").strip()
+    if seed_username and seed_password_hash:
+        existing_admin = admin_users_repository.get_admin_user_by_username(seed_username)
+        if not existing_admin:
+            admin_users_repository.create_admin_user(seed_username, seed_password_hash)
+            logger.info("Bootstrap admin user created in PostgreSQL")
+else:
+    logger.info("DB: Пропущено создание таблиц и seed-админа — БД отключена")
+# DB: ↑↑↑ конец блока с БД ↑↑↑
 
 app.register_blueprint(api_bp)
 

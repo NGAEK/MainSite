@@ -8,12 +8,12 @@ logger = logging.getLogger(__name__)
 def news_detail_handler(request, news_id):
     """Обработчик страницы детального просмотра новости"""
     try:
-        # Проверяем существование новости
+        # DB: Проверяем существование новости — без БД всегда 404
         exists = news_repository.news_exists(news_id)
         if not exists:
             abort(404)
         
-        # Получаем новость из БД
+        # DB: Получаем новость из БД — без БД всегда None → 404
         news = news_repository.get_news_by_id(news_id)
         if not news:
             abort(404)
@@ -28,6 +28,6 @@ def news_detail_handler(request, news_id):
         return render_template('news_detail.html', **data)
     
     except Exception as e:
-        logger.error(f"Ошибка получения новости: {e}")
-        abort(500)
+        logger.warning(f"DB: Ошибка получения новости (БД отключена?): {e}")
+        abort(404)
 
