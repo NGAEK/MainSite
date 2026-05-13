@@ -1,58 +1,32 @@
-from flask import render_template
+from urllib.parse import urlencode
+
+from flask import redirect, render_template
 import logging
+
 from db import news_repository
-import re
 
 logger = logging.getLogger(__name__)
 
 
 def home_handler(request):
-    """Обработчик главной страницы"""
+    """Обработчик главной страницы. Запрос ?q= перенаправляется на полнотекстовый поиск по сайту."""
+    query = request.args.get("q", "").strip()
+    if query:
+        params = {"q": query}
+        lang = request.args.get("lang")
+        if lang in ("ru", "be", "en"):
+            params["lang"] = lang
+        return redirect("/search?" + urlencode(params))
+
     try:
         all_news = news_repository.get_all_news()
     except Exception as e:
         logger.warning(f"DB: Ошибка загрузки новостей (БД отключена?): {e}. Используется пустой список.")
         all_news = []
-    
-    query = request.args.get('q', '').strip()
-    logger.info(f"Search query: '{query}'")
-    
-    filtered_news = []
-    is_search_results = False
-    
-    if query:
-        is_search_results = True
-        try:
-            db_results = news_repository.search_news(query)
-            filtered_news = db_results
-        except Exception as e:
-            logger.warning(f"DB: Ошибка поиска в БД (БД отключена?): {e}")
-            # Если ошибка в БД, фильтруем локально (из пустого списка ничего не найдётся)
-            query_lower = query.lower()
 
-            def _texts(n):
-                for attr in (
-                    "name", "description", "name_be", "name_en",
-                    "description_be", "description_en",
-                ):
-                    val = getattr(n, attr, None)
-                    if val:
-                        yield val.lower()
-
-            for news in all_news:
-                if any(query_lower in t for t in _texts(news)):
-                    filtered_news.append(news)
-        
-        logger.info(f"Found {len(filtered_news)} results for query '{query}'")
-    else:
-        filtered_news = all_news
-        is_search_results = False
-    
     data = {
-        'news_list': filtered_news,
-        'query': query,
-        'is_search_results': is_search_results,
-        'search_count': len(filtered_news)
+        "news_list": all_news,
+        "search_count": len(all_news),
     }
     
     try:

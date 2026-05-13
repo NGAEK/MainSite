@@ -10,6 +10,7 @@ from db import tabs_repository
 from db import pages_repository
 from page import (
     main_page,
+    news_list_page,
     news_detail_page,
     search_page,
     spec_page,
@@ -23,6 +24,7 @@ from util.i18n_url import build_hreflang_url
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
+logging.getLogger("werkzeug").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
@@ -243,6 +245,11 @@ def home():
 @app.route('/search')
 def search():
     return search_page.search_handler(request)
+
+
+@app.route('/news')
+def news_list():
+    return news_list_page.news_list_handler(request)
 
 
 @app.route('/news/<int:news_id>')

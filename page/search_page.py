@@ -1,7 +1,7 @@
 import re
 from flask import render_template, redirect
 import logging
-from db import news_repository, pages_repository
+from db import news_repository, pages_repository, tabs_repository
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ def _make_excerpt(text: str, query: str, length: int = _EXCERPT_LEN) -> str:
 
 
 def search_handler(request):
-    """Обработчик страницы поиска. Ищет по новостям и страницам сайта."""
+    """Обработчик страницы поиска: новости, страницы site_pages и динамические вкладки site_tabs."""
     query = request.args.get('q', '').strip()
     lang = request.args.get('lang') or request.cookies.get('locale', 'ru')
     if lang not in _SUPPORTED:
@@ -47,6 +47,7 @@ def search_handler(request):
 
     news_results = []
     page_results = []
+    seen_page_slugs: set[str] = set()
 
     try:
         news_results = news_repository.search_news(query)
@@ -56,15 +57,34 @@ def search_handler(request):
     try:
         raw_pages = pages_repository.search_pages(query)
         for p in raw_pages:
+            slug = p["slug"]
+            seen_page_slugs.add(slug)
             page_results.append({
-                'id':      p['id'],
-                'slug':    p['slug'],
-                'title':   p['title'],
-                'excerpt': _make_excerpt(p.get('content_html') or '', query),
-                'url':     f"/pages/{p['slug']}",
+                "id": p["id"],
+                "slug": slug,
+                "title": p["title"],
+                "excerpt": _make_excerpt(p.get("content_html") or "", query),
+                "url": f"/pages/{slug}",
             })
     except Exception as e:
         logger.error(f"DB: Ошибка поиска по страницам (БД отключена?): {e}")
+
+    try:
+        raw_tabs = tabs_repository.search_tabs(query)
+        for t in raw_tabs:
+            slug = t["slug"]
+            if slug in seen_page_slugs:
+                continue
+            seen_page_slugs.add(slug)
+            page_results.append({
+                "id": t["id"],
+                "slug": slug,
+                "title": t["title"],
+                "excerpt": _make_excerpt(t.get("content_html") or "", query),
+                "url": f"/pages/{slug}",
+            })
+    except Exception as e:
+        logger.error(f"DB: Ошибка поиска по вкладкам (БД отключена?): {e}")
 
     return render_template(
         'search/results.html',

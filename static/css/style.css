@@ -673,6 +673,57 @@ nav {
     margin-bottom: 32px;
 }
 
+.news-section-title-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+}
+
+.news-section-title-block .section-title-more {
+    margin-top: 0;
+}
+
+.news-list-page .section-title h1 {
+    font-family: var(--ff-display);
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: var(--clr-text);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 12px;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.news-list-page .section-title h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 52px;
+    height: 3px;
+    background: var(--clr-accent);
+    border-radius: 2px;
+}
+
+.news-list-lead {
+    color: var(--clr-text-muted, #5a6570);
+    font-size: 1rem;
+    line-height: 1.55;
+    margin: -12px 0 28px;
+    max-width: 52rem;
+}
+
+/* Полный список новостей: сетка с переносом, не карусель */
+.news-grid-list {
+    flex-wrap: wrap;
+    overflow: visible;
+    justify-content: flex-start;
+}
+
 .news-section .section-title h2::after {
     left: 0;
     transform: none;
