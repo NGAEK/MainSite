@@ -8,34 +8,11 @@ import json
 import re
 from pathlib import Path
 
+from util.locale_routes import resolve_locale_key_path
+
 _MESSAGES_PATH = Path(__file__).resolve().parent.parent / "static" / "locales" / "messages.json"
 
 _LANG_UI_TO_JSON = {"ru": "RU", "be": "BY", "en": "EN"}
-
-# Корневой ключ messages.json -> путь на сайте (без учёта языка; якорь отдельно)
-_ROOT_ROUTES: dict[str, tuple[str, str]] = {
-    "teachers": ("/", "administration"),
-    "contact": ("/", "contact"),
-    "achievements": ("/", ""),
-    "gallery": ("/", ""),
-    "hero": ("/", ""),
-    "specialties": ("/specialties", ""),
-    "students": ("/students", ""),
-    "applicants": ("/applicants", ""),
-    "footer": ("/", ""),
-    "header": ("/", ""),
-    "nav": ("/", ""),
-    "common": ("/", ""),
-    "cookies": ("/cookies", ""),
-    "404": ("/", ""),
-    "errors": ("/", ""),
-    "accessibility": ("/", ""),
-    "breadcrumbs": ("/", ""),
-    "news": ("/news", ""),
-    "search": ("/search", ""),
-    "news_detail": ("/news", ""),
-    "pages": ("/", ""),
-}
 
 
 def href_with_lang(path: str, fragment: str, lang_ui: str) -> str:
@@ -45,34 +22,6 @@ def href_with_lang(path: str, fragment: str, lang_ui: str) -> str:
         return path + frag
     sep = "&" if "?" in path else "?"
     return f"{path}{sep}lang={lang_ui}{frag}"
-
-
-def _route_for_key_path(key_path: str) -> tuple[str, str]:
-    """
-    Возвращает (path, fragment) для ссылки.
-    pages.* — эвристика по имени ключа (контакты, политика и т.д.).
-    """
-    parts = key_path.split(".")
-    root = parts[0] if parts else ""
-
-    if root == "pages" and len(parts) > 1:
-        tail = ".".join(parts[1:]).lower()
-        if "contact" in tail:
-            return ("/contacts", "")
-        if "privacy" in tail:
-            return ("/privacy", "")
-        if "cookie" in tail:
-            return ("/cookies", "")
-        if "specialt" in tail or "spec" in tail:
-            return ("/specialties", "")
-        if "sitemap" in tail:
-            return ("/sitemap", "")
-        if "one_window" in tail or "one-window" in tail:
-            return ("/one-window", "")
-        return ("/", "")
-
-    base = _ROOT_ROUTES.get(root, ("/", ""))
-    return base
 
 
 def _is_i18n_leaf(node: object) -> bool:
@@ -129,7 +78,7 @@ def search_locale_strings(query: str, lang_ui: str, messages_path: Path | None =
                 if q_lower not in blob.lower():
                     return
                 seen_paths.add(key_path)
-                base, frag = _route_for_key_path(key_path)
+                base, frag = resolve_locale_key_path(key_path)
                 title = _title_for_lang(obj, lang_ui)
                 excerpt = _make_excerpt_plain(blob, q)
                 href = href_with_lang(base, frag, lang_ui)
@@ -151,7 +100,14 @@ def search_locale_strings(query: str, lang_ui: str, messages_path: Path | None =
                 walk(item, parts + [str(i)])
 
     walk(data, [])
-    return hits
+    # Одна ссылка — один пункт (убираем дубли с разных ключей, напр. nav.* и applicants.pages.*)
+    by_href: dict[str, dict] = {}
+    for h in hits:
+        href = h["href"]
+        prev = by_href.get(href)
+        if prev is None or len(h["path"]) > len(prev["path"]):
+            by_href[href] = h
+    return sorted(by_href.values(), key=lambda x: (x["title"].lower(), x["path"]))
 
 
 _EXCERPT_LEN = 200
