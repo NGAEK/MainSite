@@ -246,6 +246,181 @@
         startAutoplay();
     })();
 
+/* ══════════════════════════════════════════════════════════════
+   THEME TOGGLE (DARK MODE)
+   ══════════════════════════════════════════════════════════════ */
+(function initThemeToggle() {
+    const themeBtn = document.getElementById('themeToggle');
+    if (!themeBtn) return;
+
+    function applyDarkMode(enabled) {
+        if (enabled) {
+            document.body.classList.add('dark-mode');
+            themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            document.body.classList.remove('dark-mode');
+            themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+        try {
+            localStorage.setItem('darkMode', enabled ? 'true' : 'false');
+        } catch(e) {}
+    }
+
+    // Sync initial state from localStorage
+    try {
+        const isDark = localStorage.getItem('darkMode') === 'true';
+        applyDarkMode(isDark);
+    } catch(e) {}
+
+    themeBtn.addEventListener('click', function() {
+        const isDark = document.body.classList.contains('dark-mode');
+        applyDarkMode(!isDark);
+    });
+})();
+
+/* ══════════════════════════════════════════════════════════════
+   ACCESSIBILITY MODAL
+   ══════════════════════════════════════════════════════════════ */
+(function initAccessibilityModal() {
+    const modal         = document.getElementById('accessibilityModal');
+    const openBtn       = document.getElementById('accessibilityBtn');
+    const closeBtn      = document.getElementById('closeModal');
+    const saveBtn       = document.getElementById('saveAccessibility');
+    const resetBtn      = document.getElementById('resetAccessibility');
+    const highContrast  = document.getElementById('highContrastToggle');
+    const largeText     = document.getElementById('largeTextToggle');
+    const darkModeChk   = document.getElementById('darkModeToggle');
+
+    if (!modal || !openBtn) return;
+
+    function openModal() {
+        // Load current settings into modal
+        try {
+            if (highContrast) highContrast.checked = localStorage.getItem('highContrast') === 'true';
+            if (largeText) largeText.checked       = localStorage.getItem('largeText') === 'true';
+            if (darkModeChk) darkModeChk.checked   = localStorage.getItem('darkMode') === 'true';
+        } catch(e) {}
+
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModalFn() {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    openBtn.addEventListener('click', openModal);
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModalFn);
+    // Close modal when clicking on the dark backdrop (not on modal content)
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModalFn();
+        }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.style.display !== 'none') {
+            closeModalFn();
+        }
+    });
+
+    // Save
+    if (saveBtn) {
+        saveBtn.addEventListener('click', function() {
+            try {
+                if (highContrast) localStorage.setItem('highContrast', highContrast.checked ? 'true' : 'false');
+                if (largeText) localStorage.setItem('largeText', largeText.checked ? 'true' : 'false');
+                if (darkModeChk) localStorage.setItem('darkMode', darkModeChk.checked ? 'true' : 'false');
+            } catch(e) {}
+
+            // Apply dark mode
+            if (darkModeChk) {
+                const themeBtn = document.getElementById('themeToggle');
+                if (darkModeChk.checked) {
+                    document.body.classList.add('dark-mode');
+                    if (themeBtn) themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    if (themeBtn) themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            }
+
+            // Apply high contrast
+            if (highContrast) {
+                document.body.classList.toggle('high-contrast', highContrast.checked);
+            }
+
+            // Apply large text
+            if (largeText) {
+                document.body.classList.toggle('large-text', largeText.checked);
+            }
+
+            closeModalFn();
+        });
+    }
+
+    // Reset
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            try {
+                if (highContrast) localStorage.removeItem('highContrast');
+                if (largeText) localStorage.removeItem('largeText');
+                localStorage.removeItem('darkMode');
+            } catch(e) {}
+
+            if (highContrast) highContrast.checked = false;
+            if (largeText) largeText.checked = false;
+            if (darkModeChk) darkModeChk.checked = false;
+
+            document.body.classList.remove('high-contrast', 'large-text', 'dark-mode');
+
+            const themeBtn = document.getElementById('themeToggle');
+            if (themeBtn) themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+
+            closeModalFn();
+        });
+    }
+
+    // Apply saved settings on page load
+    try {
+        if (localStorage.getItem('highContrast') === 'true') {
+            document.body.classList.add('high-contrast');
+        }
+        if (localStorage.getItem('largeText') === 'true') {
+            document.body.classList.add('large-text');
+        }
+    } catch(e) {}
+})();
+
+/* ══════════════════════════════════════════════════════════════
+   LANGUAGE SWITCHER
+   ══════════════════════════════════════════════════════════════ */
+(function initLanguageSwitcher() {
+    const langBtns = document.querySelectorAll('.lang-btn');
+    if (!langBtns.length) return;
+
+    langBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var lang = this.getAttribute('data-lang');
+            if (!lang) return;
+
+            // Show loader
+            var loader = document.createElement('div');
+            loader.className = 'language-loader';
+            loader.innerHTML = '<div class="loader-spinner"></div>';
+            document.body.appendChild(loader);
+
+            var url = new URL(window.location.href);
+            url.searchParams.set('lang', lang);
+            window.location.href = url.toString();
+        });
+    });
+})();
+
+
     /* ── 2. Gallery Slider (dot navigation) ── */
     (function initGallerySlider() {
         const gallerySlider = document.getElementById('gallerySlider');
