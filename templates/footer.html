@@ -105,37 +105,124 @@
 </footer>
 
 <!-- Accessibility Modal -->
-<div class="modal" id="accessibilityModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">{{ t.accessibility.title }}</h3>
-            <button class="close-modal" id="closeModal">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="accessibility-option">
-                <label>
-                    <input type="checkbox" id="highContrastToggle">
-                    {{ t.accessibility.high_contrast }}
-                </label>
-            </div>
-            <div class="accessibility-option">
-                <label>
-                    <input type="checkbox" id="largeTextToggle">
-                    {{ t.accessibility.large_text }}
-                </label>
-            </div>
-            <div class="accessibility-option">
-                <label>
-                    <input type="checkbox" id="darkModeToggle">
-                    {{ t.accessibility.dark_mode }}
-                </label>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-outline" id="resetAccessibility">{{ t.accessibility.reset }}</button>
-            <button class="btn" id="saveAccessibility">{{ t.accessibility.save }}</button>
-        </div>
+<div id="vaOverlay" role="presentation" aria-hidden="true"></div>
+ 
+{# --- Панель --- #}
+<div
+    id="vaPanel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="vaPanelTitle"
+    tabindex="-1"
+>
+    <div class="va-header">
+        <h2 id="vaPanelTitle">⚙️ Версия для слабовидящих</h2>
+        <button class="va-close-btn" id="vaCloseBtn" aria-label="Закрыть панель настроек">✕</button>
     </div>
+ 
+    <div class="va-body">
+ 
+        {# --- Размер шрифта --- #}
+        <div class="va-section" role="group" aria-labelledby="va-label-font-size">
+            <span class="va-section-label" id="va-label-font-size">Размер текста</span>
+            <div class="va-font-row">
+                <button class="va-font-btn" data-action="decrease" aria-label="Уменьшить шрифт" title="Уменьшить (A-)">A−</button>
+                <button class="va-font-btn" data-action="reset"    aria-label="Сбросить размер шрифта" title="Сбросить">A</button>
+                <button class="va-font-btn" data-action="increase" aria-label="Увеличить шрифт" title="Увеличить (A+)">A+</button>
+                <span class="va-font-scale-display" aria-live="polite" aria-atomic="true" id="vaFontDisplay">100%</span>
+            </div>
+        </div>
+ 
+        {# --- Контрастность --- #}
+        <div class="va-section" role="group" aria-labelledby="va-label-contrast">
+            <span class="va-section-label" id="va-label-contrast">Цветовая схема и контрастность</span>
+            <div class="va-contrast-row">
+                <button class="va-contrast-btn va-on" data-va-contrast="none"
+                    aria-pressed="true" title="Обычный режим">
+                    Обычный
+                </button>
+                <button class="va-contrast-btn" data-va-contrast="bw"
+                    aria-pressed="false" title="Чёрно-белый (оттенки серого)">
+                    Ч/Б
+                </button>
+                <button class="va-contrast-btn" data-va-contrast="black-yellow"
+                    aria-pressed="false" title="Чёрный фон — жёлтый текст">
+                    ◑ Жёлтый
+                </button>
+                <button class="va-contrast-btn" data-va-contrast="black-white"
+                    aria-pressed="false" title="Чёрный фон — белый текст">
+                    ◑ Белый
+                </button>
+                <button class="va-contrast-btn" data-va-contrast="dark-blue"
+                    aria-pressed="false" title="Тёмно-синий фон — голубой текст">
+                    ◑ Синий
+                </button>
+            </div>
+        </div>
+ 
+        {# --- Шрифт --- #}
+        <div class="va-section" role="group" aria-labelledby="va-label-font-family">
+            <span class="va-section-label" id="va-label-font-family">Гарнитура шрифта</span>
+            <div class="va-font-family-row">
+                <button class="va-font-family-btn va-on" data-va-font="default"
+                    aria-pressed="true" style="font-family:inherit">Исходный</button>
+                <button class="va-font-family-btn" data-va-font="arial"
+                    aria-pressed="false" style="font-family:Arial,sans-serif">Arial</button>
+                <button class="va-font-family-btn" data-va-font="verdana"
+                    aria-pressed="false" style="font-family:Verdana,sans-serif">Verdana</button>
+                <button class="va-font-family-btn" data-va-font="times"
+                    aria-pressed="false" style="font-family:'Times New Roman',serif">Times</button>
+            </div>
+        </div>
+ 
+        {# --- Прочие переключатели --- #}
+        <div class="va-section" role="group" aria-labelledby="va-label-other">
+            <span class="va-section-label" id="va-label-other">Дополнительные параметры</span>
+            <div class="va-toggles-grid">
+ 
+                <button class="va-toggle-btn" data-va-mode="va-no-images"
+                    aria-pressed="false" id="vaBtnNoImages">
+                    <span class="va-toggle-icon" aria-hidden="true">🚫🖼</span>
+                    <span class="va-toggle-name">Скрыть изображения</span>
+                    <span class="va-toggle-desc">Убирает все картинки</span>
+                </button>
+ 
+                <button class="va-toggle-btn" data-va-mode="va-simplified"
+                    aria-pressed="false" id="vaBtnSimplified">
+                    <span class="va-toggle-icon" aria-hidden="true">📄</span>
+                    <span class="va-toggle-name">Упростить структуру</span>
+                    <span class="va-toggle-desc">Скрывает слайдеры и декор</span>
+                </button>
+ 
+                <button class="va-toggle-btn" data-va-mode="va-keyboard-enhanced"
+                    aria-pressed="false" id="vaBtnKeyboard">
+                    <span class="va-toggle-icon" aria-hidden="true">⌨️</span>
+                    <span class="va-toggle-name">Фокус-рамки</span>
+                    <span class="va-toggle-desc">Яркие рамки при Tab‑навигации</span>
+                </button>
+ 
+                <button class="va-toggle-btn" data-va-mode="va-line-height"
+                    aria-pressed="false" id="vaBtnLineHeight">
+                    <span class="va-toggle-icon" aria-hidden="true">↕️</span>
+                    <span class="va-toggle-name">Увеличить интерлиньяж</span>
+                    <span class="va-toggle-desc">Больший промежуток между строк</span>
+                </button>
+ 
+            </div>
+        </div>
+ 
+    </div>{# /.va-body #}
+ 
+    <div class="va-footer">
+        <button class="va-reset-btn" id="vaResetBtn">Сбросить все настройки</button>
+    </div>
+</div>
+ 
+{# --- Строка активных режимов (статус-бар внизу страницы) --- #}
+<div id="vaStatusBar" role="status" aria-live="polite" aria-label="Активные режимы доступности">
+    <span style="font-weight:700; font-size:0.78rem; flex-shrink:0">👁 Версия для слабовидящих:</span>
+    <span id="vaBarItems"></span>
+    <button class="va-bar-close" id="vaBarClose" aria-label="Открыть настройки доступности">Настройки ▲</button>
 </div>
 <script src="/static/js/script.js"></script>
 <script src="/static/js/search.js"></script>

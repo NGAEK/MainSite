@@ -71,6 +71,366 @@
         io.takeRecords().forEach(revealEntry);
     } catch (ignore) {}
 })();
+/* ═══════════════════════════════════════════════════════════════
+   VISION ACCESSIBILITY PANEL — vision-panel.js  v1.0
+   Вставить в base.html ПОСЛЕ основного main.js (или подключить
+   отдельным тегом <script src="...vision-panel.js">.
+
+   Зависимости: нет (ванильный JS, ES5-совместимый).
+   ═══════════════════════════════════════════════════════════════ */
+(function () {
+    'use strict';
+
+    /* ─── КОНСТАНТЫ ХРАНИЛИЩА ─── */
+    var STORAGE_KEY = 'vaSettings_v1';
+
+    /* ─── ДЕФОЛТНЫЕ НАСТРОЙКИ ─── */
+    var DEFAULT = {
+        fontScale:   100,        // % от базового (100-220, шаг 20)
+        fontFamily:  'default',  // default | arial | verdana | times
+        contrast:    'none',     // none | bw | black-yellow | black-white | dark-blue
+        noImages:    false,
+        simplified:  false,
+        keyboard:    false,
+        lineHeight:  false,
+    };
+
+    /* ─── ЗАГРУЗИТЬ НАСТРОЙКИ ─── */
+    function loadSettings() {
+        try {
+            var raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) {
+                var parsed = JSON.parse(raw);
+                return Object.assign({}, DEFAULT, parsed);
+            }
+        } catch (e) {}
+        return Object.assign({}, DEFAULT);
+    }
+
+    /* ─── СОХРАНИТЬ НАСТРОЙКИ ─── */
+    function saveSettings(s) {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch (e) {}
+    }
+
+    /* ─── ПРИМЕНИТЬ ВСЕ НАСТРОЙКИ К <body> ─── */
+    function applyAll(s) {
+        applyFontScale(s.fontScale);
+        applyFontFamily(s.fontFamily);
+        applyContrast(s.contrast);
+        applyMode('va-no-images',      s.noImages);
+        applyMode('va-simplified',     s.simplified);
+        applyMode('va-keyboard-enhanced', s.keyboard);
+        applyMode('va-line-height',    s.lineHeight);
+        updateStatusBar(s);
+    }
+
+    function applyFontScale(pct) {
+        document.documentElement.style.fontSize = (pct / 100) + 'rem';
+        /* Если rem-base переопределён — лучше так: */
+        document.documentElement.style.setProperty('--va-font-scale', pct + '%');
+        /* Применяем через body напрямую */
+        document.body.style.fontSize = pct + '%';
+    }
+
+    function applyFontFamily(family) {
+        /* Убираем все va-font-* классы */
+        document.body.classList.remove('va-font-arial', 'va-font-verdana', 'va-font-times');
+        if (family !== 'default') {
+            document.body.classList.add('va-font-' + family);
+        }
+    }
+
+    var CONTRAST_CLASSES = [
+        'va-mode-bw',
+        'va-contrast-black-yellow',
+        'va-contrast-black-white',
+        'va-contrast-dark-blue',
+    ];
+
+    function applyContrast(mode) {
+        CONTRAST_CLASSES.forEach(function (c) {
+            document.body.classList.remove(c);
+        });
+        if (mode === 'bw')           document.body.classList.add('va-mode-bw');
+        if (mode === 'black-yellow') document.body.classList.add('va-contrast-black-yellow');
+        if (mode === 'black-white')  document.body.classList.add('va-contrast-black-white');
+        if (mode === 'dark-blue')    document.body.classList.add('va-contrast-dark-blue');
+    }
+
+    function applyMode(cls, enabled) {
+        document.body.classList.toggle(cls, enabled);
+
+        /* Дополнительно: увеличенный интерлиньяж */
+        if (cls === 'va-line-height') {
+            if (enabled) {
+                var style = document.getElementById('vaLineHeightStyle');
+                if (!style) {
+                    style = document.createElement('style');
+                    style.id = 'vaLineHeightStyle';
+                    style.textContent = 'body.va-line-height, body.va-line-height p, body.va-line-height li, body.va-line-height td { line-height: 2.1 !important; letter-spacing: 0.06em !important; }';
+                    document.head.appendChild(style);
+                }
+            }
+        }
+    }
+
+    /* ─── СТАТУС-БАР ─── */
+    var LABELS = {
+        bw:            'Ч/Б',
+        'black-yellow': 'Жёлтый контраст',
+        'black-white':  'Белый контраст',
+        'dark-blue':    'Синий контраст',
+        noImages:      'Без картинок',
+        simplified:    'Упрощённый вид',
+        keyboard:      'Яркий фокус',
+        lineHeight:    'Увеличен интерлиньяж',
+        arial:         'Шрифт: Arial',
+        verdana:       'Шрифт: Verdana',
+        times:         'Шрифт: Times',
+    };
+
+    function updateStatusBar(s) {
+        var bar     = document.getElementById('vaStatusBar');
+        var items   = document.getElementById('vaBarItems');
+        if (!bar || !items) return;
+
+        var active = [];
+
+        if (s.fontScale !== 100) active.push('Текст: ' + s.fontScale + '%');
+        if (s.fontFamily !== 'default') active.push(LABELS[s.fontFamily] || s.fontFamily);
+        if (s.contrast !== 'none')  active.push(LABELS[s.contrast] || s.contrast);
+        if (s.noImages)    active.push(LABELS.noImages);
+        if (s.simplified)  active.push(LABELS.simplified);
+        if (s.keyboard)    active.push(LABELS.keyboard);
+        if (s.lineHeight)  active.push(LABELS.lineHeight);
+
+        if (active.length === 0) {
+            bar.classList.remove('va-bar-visible');
+            items.innerHTML = '';
+        } else {
+            items.innerHTML = active.map(function (t) {
+                return '<span class="va-bar-item">' + t + '</span>';
+            }).join('');
+            bar.classList.add('va-bar-visible');
+        }
+    }
+
+    /* ─── ОТКРЫТЬ / ЗАКРЫТЬ ПАНЕЛЬ ─── */
+    var panelOpen = false;
+
+    function openPanel() {
+        var panel   = document.getElementById('vaPanel');
+        var overlay = document.getElementById('vaOverlay');
+        var openBtn = document.getElementById('accessibilityBtn');
+        if (!panel) return;
+
+        panel.classList.add('va-active');
+        overlay.classList.add('va-active');
+        openBtn && openBtn.classList.add('va-panel-open');
+        document.body.style.overflow = 'hidden';
+        panelOpen = true;
+
+        /* Фокус на панель для screen readers */
+        setTimeout(function () { panel.focus(); }, 50);
+
+        syncUI();
+    }
+
+    function closePanel() {
+        var panel   = document.getElementById('vaPanel');
+        var overlay = document.getElementById('vaOverlay');
+        var openBtn = document.getElementById('accessibilityBtn');
+        if (!panel) return;
+
+        panel.classList.remove('va-active');
+        overlay.classList.remove('va-active');
+        openBtn && openBtn.classList.remove('va-panel-open');
+        document.body.style.overflow = '';
+        panelOpen = false;
+
+        openBtn && openBtn.focus();
+    }
+
+    /* ─── СИНХРОНИЗИРОВАТЬ UI С ТЕКУЩИМИ НАСТРОЙКАМИ ─── */
+    function syncUI() {
+        var s = loadSettings();
+
+        /* Размер шрифта */
+        var disp = document.getElementById('vaFontDisplay');
+        if (disp) disp.textContent = s.fontScale + '%';
+
+        /* Контраст */
+        document.querySelectorAll('[data-va-contrast]').forEach(function (btn) {
+            var on = btn.getAttribute('data-va-contrast') === s.contrast;
+            btn.classList.toggle('va-on', on);
+            btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+
+        /* Шрифт */
+        document.querySelectorAll('[data-va-font]').forEach(function (btn) {
+            var on = btn.getAttribute('data-va-font') === s.fontFamily;
+            btn.classList.toggle('va-on', on);
+            btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+
+        /* Булевы переключатели */
+        var MAP = {
+            'va-no-images':         'noImages',
+            'va-simplified':        'simplified',
+            'va-keyboard-enhanced': 'keyboard',
+            'va-line-height':       'lineHeight',
+        };
+        document.querySelectorAll('[data-va-mode]').forEach(function (btn) {
+            var cls = btn.getAttribute('data-va-mode');
+            var key = MAP[cls];
+            var on  = key ? !!s[key] : false;
+            btn.classList.toggle('va-on', on);
+            btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+    }
+
+    /* ─── ИНИЦИАЛИЗАЦИЯ ─── */
+    function init() {
+        var s = loadSettings();
+        applyAll(s);        /* применяем сохранённые настройки сразу */
+
+        /* Кнопка открытия (уже существует в шапке) */
+        var openBtn = document.getElementById('accessibilityBtn');
+        if (openBtn) {
+            openBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                panelOpen ? closePanel() : openPanel();
+            });
+        }
+
+        /* Закрыть крестиком */
+        var closeBtn = document.getElementById('vaCloseBtn');
+        if (closeBtn) closeBtn.addEventListener('click', closePanel);
+
+        /* Закрыть оверлеем */
+        var overlay = document.getElementById('vaOverlay');
+        if (overlay) overlay.addEventListener('click', closePanel);
+
+        /* Escape */
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && panelOpen) closePanel();
+
+            /* Tab-цикл внутри панели (trap focus) */
+            if (e.key === 'Tab' && panelOpen) {
+                var panel = document.getElementById('vaPanel');
+                if (!panel) return;
+                var focusable = panel.querySelectorAll(
+                    'button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+                );
+                var first = focusable[0];
+                var last  = focusable[focusable.length - 1];
+                if (e.shiftKey) {
+                    if (document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    }
+                } else {
+                    if (document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
+            }
+        });
+
+        /* ── Размер шрифта ── */
+        document.querySelectorAll('[data-action]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var st = loadSettings();
+                if (this.getAttribute('data-action') === 'increase') {
+                    st.fontScale = Math.min(220, st.fontScale + 20);
+                } else if (this.getAttribute('data-action') === 'decrease') {
+                    st.fontScale = Math.max(80, st.fontScale - 20);
+                } else {
+                    st.fontScale = 100;
+                }
+                saveSettings(st);
+                applyAll(st);
+                syncUI();
+            });
+        });
+
+        /* ── Контраст ── */
+        document.querySelectorAll('[data-va-contrast]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var st = loadSettings();
+                st.contrast = this.getAttribute('data-va-contrast');
+                saveSettings(st);
+                applyAll(st);
+                syncUI();
+            });
+        });
+
+        /* ── Шрифт ── */
+        document.querySelectorAll('[data-va-font]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var st = loadSettings();
+                st.fontFamily = this.getAttribute('data-va-font');
+                saveSettings(st);
+                applyAll(st);
+                syncUI();
+            });
+        });
+
+        /* ── Булевы режимы ── */
+        var MODE_MAP = {
+            'va-no-images':         'noImages',
+            'va-simplified':        'simplified',
+            'va-keyboard-enhanced': 'keyboard',
+            'va-line-height':       'lineHeight',
+        };
+        document.querySelectorAll('[data-va-mode]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var cls = this.getAttribute('data-va-mode');
+                var key = MODE_MAP[cls];
+                if (!key) return;
+                var st = loadSettings();
+                st[key] = !st[key];
+                saveSettings(st);
+                applyAll(st);
+                syncUI();
+            });
+        });
+
+        /* ── Сброс ── */
+        var resetBtn = document.getElementById('vaResetBtn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', function () {
+                var st = Object.assign({}, DEFAULT);
+                saveSettings(st);
+                applyAll(st);
+                syncUI();
+            });
+        }
+
+        /* ── Статус-бар → открыть панель ── */
+        var barClose = document.getElementById('vaBarClose');
+        if (barClose) {
+            barClose.addEventListener('click', function () {
+                openPanel();
+            });
+        }
+
+        /* ── Совместимость с уже существующим accessibilityModal ── */
+        /* Если в вашем main.js есть initAccessibilityModal(), отключите её
+           или оставьте — она управляет #accessibilityModal (другой id),
+           а этот модуль управляет #vaPanel. Конфликтов нет. */
+    }
+
+    /* ─── СТАРТ ─── */
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+})();
+
 </script>
 {% block extra_js %}{% endblock %}
 </body>

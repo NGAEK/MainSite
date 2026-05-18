@@ -2031,6 +2031,483 @@ footer {
     transition-delay: 0.3s;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   VISION ACCESSIBILITY PANEL — version 1.0
+   Подключить ПОСЛЕ основного style.css.
+   Все правила изолированы префиксами .va-* и body-классами.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. КНОПКА ВЫЗОВА (уже существует — только добавляем активное состояние) ─── */
+#accessibilityBtn.va-panel-open {
+    background: rgba(255, 200, 0, 0.22);
+    color: #ffd700;
+    border-color: rgba(255, 200, 0, 0.45);
+}
+
+/* ─── 2. OVERLAY ─── */
+#vaOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 10000;
+    backdrop-filter: blur(3px);
+}
+#vaOverlay.va-active { display: block; }
+
+/* ─── 3. ПАНЕЛЬ ─── */
+#vaPanel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -56%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity  0.24s ease;
+    z-index: 10001;
+
+    background: #fff;
+    color: #111;
+    border-radius: 18px;
+    width: min(560px, 95vw);
+    max-height: 90dvh;
+    overflow-y: auto;
+    padding: 0;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    font-family: Arial, Verdana, sans-serif;
+}
+#vaPanel.va-active {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* scrollbar */
+#vaPanel::-webkit-scrollbar { width: 6px; }
+#vaPanel::-webkit-scrollbar-track { background: transparent; }
+#vaPanel::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+/* ─── 4. ШАПКА ПАНЕЛИ ─── */
+.va-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    background: inherit;
+    border-radius: 18px 18px 0 0;
+    z-index: 1;
+}
+.va-header h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0;
+    letter-spacing: 0.01em;
+}
+.va-close-btn {
+    background: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: #555;
+    transition: background 0.15s, color 0.15s;
+    flex-shrink: 0;
+}
+.va-close-btn:hover { background: #e74c3c; color: #fff; }
+.va-close-btn:focus-visible {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
+}
+
+/* ─── 5. ТЕЛО ПАНЕЛИ ─── */
+.va-body { padding: 18px 22px 20px; }
+
+/* ─── 6. СЕКЦИЯ ─── */
+.va-section {
+    margin-bottom: 20px;
+}
+.va-section-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* ─── 7. РАЗМЕР ШРИФТА ─── */
+.va-font-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f6f6f6;
+    border-radius: 10px;
+    padding: 8px 12px;
+}
+.va-font-btn {
+    background: #fff;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    color: #222;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 10px;
+    flex-shrink: 0;
+}
+.va-font-btn:hover { background: #1a3a5c; color: #fff; border-color: #1a3a5c; }
+.va-font-btn:focus-visible { outline: 3px solid #005fcc; outline-offset: 2px; }
+.va-font-btn[data-action="reset"] { font-size: 0.85rem; }
+.va-font-btn[data-action="decrease"] { font-size: 1rem; }
+.va-font-btn[data-action="increase"] { font-size: 1.15rem; }
+.va-font-scale-display {
+    flex: 1;
+    text-align: center;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #333;
+    min-width: 50px;
+}
+
+/* ─── 8. КНОПКИ-ПЕРЕКЛЮЧАТЕЛИ (toggle) ─── */
+.va-toggles-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+@media (max-width: 400px) {
+    .va-toggles-grid { grid-template-columns: 1fr; }
+}
+
+.va-toggle-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 12px 14px;
+    background: #f6f6f6;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    font-family: Arial, sans-serif;
+    transition: background 0.15s, border-color 0.15s;
+    min-height: 64px;
+}
+.va-toggle-btn:hover {
+    background: #e8f0fb;
+    border-color: #1a3a5c;
+}
+.va-toggle-btn.va-on {
+    background: #e8f0fb;
+    border-color: #1a3a5c;
+}
+.va-toggle-btn:focus-visible { outline: 3px solid #005fcc; outline-offset: 2px; }
+
+.va-toggle-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+.va-toggle-name {
+    font-size: 0.80rem;
+    font-weight: 700;
+    color: #222;
+    line-height: 1.2;
+}
+.va-toggle-desc {
+    font-size: 0.70rem;
+    color: #777;
+    line-height: 1.3;
+}
+.va-toggle-btn.va-on .va-toggle-name { color: #1a3a5c; }
+.va-toggle-btn.va-on .va-toggle-desc { color: #2563eb; }
+
+/* Индикатор «вкл» */
+.va-toggle-btn::after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ccc;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    transition: background 0.15s;
+}
+.va-toggle-btn { position: relative; }
+.va-toggle-btn.va-on::after { background: #1a9e4a; }
+
+/* ─── 9. ШРИФТ-СЕЛЕКТОР ─── */
+.va-font-family-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.va-font-family-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1.5px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.83rem;
+    color: #222;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.va-font-family-btn:hover { background: #eef2ff; border-color: #1a3a5c; }
+.va-font-family-btn.va-on {
+    background: #1a3a5c;
+    color: #fff;
+    border-color: #1a3a5c;
+}
+.va-font-family-btn:focus-visible { outline: 3px solid #005fcc; outline-offset: 2px; }
+[data-va-font="default"] { font-family: inherit; }
+[data-va-font="arial"]   { font-family: Arial, sans-serif; }
+[data-va-font="verdana"] { font-family: Verdana, Geneva, sans-serif; }
+[data-va-font="times"]   { font-family: 'Times New Roman', Times, serif; }
+
+/* ─── 10. КОНТРАСТ-КНОПКИ ─── */
+.va-contrast-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.va-contrast-btn {
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-size: 0.80rem;
+    font-weight: 700;
+    transition: border-color 0.15s, opacity 0.15s;
+}
+.va-contrast-btn:focus-visible { outline: 3px solid #005fcc; outline-offset: 2px; }
+.va-contrast-btn.va-on { border-color: #005fcc !important; }
+
+[data-va-contrast="none"]      { background: #fff; color: #111; border-color: #ccc; }
+[data-va-contrast="bw"]        { background: #fff; color: #000; border-color: #000; filter: none; }
+[data-va-contrast="black-yellow"] { background: #000; color: #ff0; border-color: #ff0; }
+[data-va-contrast="black-white"]  { background: #000; color: #fff; border-color: #fff; }
+[data-va-contrast="dark-blue"]    { background: #003366; color: #87ceeb; border-color: #87ceeb; }
+
+/* ─── 11. КНОПКА СБРОСА ─── */
+.va-footer {
+    padding: 12px 22px 18px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.va-reset-btn {
+    padding: 9px 22px;
+    border-radius: 8px;
+    border: 1.5px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #444;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.va-reset-btn:hover { background: #e74c3c; color: #fff; border-color: #e74c3c; }
+.va-reset-btn:focus-visible { outline: 3px solid #005fcc; outline-offset: 2px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   РЕЖИМЫ — применяются к <body> через JS (добавление классов)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── ЧЁРНО-БЕЛЫЙ РЕЖИМ ─── */
+body.va-mode-bw {
+    filter: grayscale(100%) !important;
+}
+body.va-mode-bw * {
+    filter: none !important; /* дочерние не накапливают */
+}
+/* но родительский filter уже применён — работает корректно */
+
+/* ─── ВЫСОКОКОНТРАСТНЫЙ: ЧЁРНЫЙ ФОН + ЖЁЛТЫЙ ТЕКСТ ─── */
+body.va-contrast-black-yellow,
+body.va-contrast-black-yellow * {
+    background: #000 !important;
+    color: #ff0 !important;
+    border-color: #ff0 !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+body.va-contrast-black-yellow a,
+body.va-contrast-black-yellow button { color: #ff0 !important; }
+body.va-contrast-black-yellow img { filter: brightness(0.8) contrast(1.2); }
+body.va-contrast-black-yellow ::placeholder { color: #cc0 !important; }
+
+/* ─── ВЫСОКОКОНТРАСТНЫЙ: ЧЁРНЫЙ ФОН + БЕЛЫЙ ТЕКСТ ─── */
+body.va-contrast-black-white,
+body.va-contrast-black-white * {
+    background: #000 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+body.va-contrast-black-white a { color: #7fd4ff !important; }
+body.va-contrast-black-white button { color: #fff !important; }
+body.va-contrast-black-white img { filter: brightness(0.75) contrast(1.2); }
+
+/* ─── ВЫСОКОКОНТРАСТНЫЙ: ТЁМНО-СИНИЙ + ГОЛУБОЙ ─── */
+body.va-contrast-dark-blue,
+body.va-contrast-dark-blue * {
+    background: #003366 !important;
+    color: #87ceeb !important;
+    border-color: #4a9eca !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+body.va-contrast-dark-blue a { color: #7fd4ff !important; }
+body.va-contrast-dark-blue button { color: #87ceeb !important; }
+body.va-contrast-dark-blue img { filter: brightness(0.7) contrast(1.1); }
+
+/* ─── ЧЁРНО-БЕЛЫЙ (Ч/Б) — используем отдельный класс чтоб не конфликтовать ─── */
+/* уже описан выше через body.va-mode-bw */
+
+/* ─── СКРЫТЬ ИЗОБРАЖЕНИЯ ─── */
+body.va-no-images img {
+    visibility: hidden !important;
+    /* Показываем alt-текст через псевдоэлемент (только Chromium) */
+    min-height: 32px;
+}
+body.va-no-images figure { display: none !important; }
+body.va-no-images .hero-slider .slid img,
+body.va-no-images .gallery-slider .slide img,
+body.va-no-images .news-img img,
+body.va-no-images .teacher-img img {
+    visibility: hidden !important;
+}
+
+/* ─── УПРОЩЁННЫЙ ВИД (убрать декоративные элементы) ─── */
+body.va-simplified .hero-slider,
+body.va-simplified .gallery-slider,
+body.va-simplified .partners-container {
+    display: none !important;
+}
+body.va-simplified .section-title h2::after,
+body.va-simplified .main-nav > li > a::after,
+body.va-simplified .achievement-item::before,
+body.va-simplified .specialty-card::before {
+    display: none !important;
+}
+body.va-simplified * {
+    animation: none !important;
+    transition: none !important;
+    background-image: none !important;
+}
+body.va-simplified .slide-content { display: none !important; }
+
+/* ─── СМЕНА ШРИФТА — применяется через JS (style.setProperty) ─── */
+body.va-font-arial,
+body.va-font-arial * {
+    font-family: Arial, sans-serif !important;
+}
+body.va-font-verdana,
+body.va-font-verdana * {
+    font-family: Verdana, Geneva, sans-serif !important;
+}
+body.va-font-times,
+body.va-font-times * {
+    font-family: 'Times New Roman', Times, serif !important;
+}
+
+/* ─── PANELI — тоже должны оставаться читаемыми в любом контраст-режиме ─── */
+body.va-contrast-black-yellow #vaPanel,
+body.va-contrast-black-yellow #vaPanel * {
+    background: #111 !important;
+    color: #ff0 !important;
+    border-color: #ff0 !important;
+}
+body.va-contrast-black-white #vaPanel,
+body.va-contrast-black-white #vaPanel * {
+    background: #111 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+}
+body.va-contrast-dark-blue #vaPanel,
+body.va-contrast-dark-blue #vaPanel * {
+    background: #001f40 !important;
+    color: #87ceeb !important;
+    border-color: #4a9eca !important;
+}
+
+/* Сама панель никогда не применяет grayscale */
+body.va-mode-bw #vaPanel { filter: none !important; }
+
+/* ─── ФОКУС — улучшенная видимость для клавиатурной навигации ─── */
+body.va-keyboard-enhanced *:focus-visible {
+    outline: 4px solid #ff6600 !important;
+    outline-offset: 3px !important;
+    border-radius: 3px;
+}
+
+/* ─── СТРОКА СОСТОЯНИЯ (статус-бар) ─── */
+#vaStatusBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1a3a5c;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 0.82rem;
+    padding: 6px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 9999;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    flex-wrap: wrap;
+}
+#vaStatusBar.va-bar-visible {
+    transform: translateY(0);
+}
+#vaStatusBar .va-bar-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.12);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+#vaStatusBar .va-bar-close {
+    margin-left: auto;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    padding: 2px 10px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-family: Arial, sans-serif;
+}
+
 /* RESPONSIVE */
 @media (max-width:1100px) {
     .footer-container {
