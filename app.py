@@ -96,7 +96,7 @@ def inject_site_public():
     show_ph = gris.get("show_placeholder_if_empty", True)
     if isinstance(show_ph, str):
         show_ph = show_ph.lower() in ("1", "true", "yes", "on")
-    phone_display = str(s.get("phone") or "").strip() or "+375 (17) 123-45-67"
+    phone_display = str(s.get("phone") or "").strip() or "8-017-505-45-48"
     phone_tel = str(s.get("phone_tel") or "").strip()
     if not phone_tel:
         digits = "".join(c for c in phone_display if c.isdigit())
@@ -445,6 +445,16 @@ def page_struktura_kolledzha():
 @app.route('/pages/telefony-spravochnyh-sluzhb')
 def page_telefony_spravochnyh_sluzhb():
     return render_template('migrated/telefony-spravochnyh-sluzhb.html')
+
+
+@app.route('/pages/kabinet-proforientatsii')
+def page_kabinet_proforientatsii():
+    return render_template('migrated/kabinet-proforientatsii.html')
+
+
+@app.route('/pages/kontakty')
+def page_kontakty():
+    return render_template('migrated/kontakty.html')
 
 if __name__ == '__main__':
     port = config.server.port.lstrip(':') if config.server.port.startswith(':') else config.server.port

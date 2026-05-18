@@ -242,6 +242,34 @@
             heroSlider.addEventListener('mouseleave', startAutoplay);
         }
 
+        /* ── Touch swipe for hero slider ── */
+        var heroTouchStartX = 0;
+        var heroTouchStartY = 0;
+        var heroSwiped = false;
+
+        if (heroSlider) {
+            heroSlider.addEventListener('touchstart', function(e) {
+                heroTouchStartX = e.changedTouches[0].screenX;
+                heroTouchStartY = e.changedTouches[0].screenY;
+                heroSwiped = false;
+            }, { passive: true });
+
+            heroSlider.addEventListener('touchmove', function(e) {
+                if (heroSwiped) return;
+                var dx = e.changedTouches[0].screenX - heroTouchStartX;
+                var dy = e.changedTouches[0].screenY - heroTouchStartY;
+                if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+                    heroSwiped = true;
+                    if (dx < 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                    startAutoplay();
+                }
+            }, { passive: true });
+        }
+
         goToSlide(0);
         startAutoplay();
     })();
@@ -421,27 +449,54 @@
 })();
 
 
-    /* ── 2. Gallery Slider (dot navigation) ── */
+    /* ── 2. Gallery Slider (dot navigation + arrows) ── */
     (function initGallerySlider() {
-        const gallerySlider = document.getElementById('gallerySlider');
-        const galleryDots   = document.querySelectorAll('#sliderNav .slider-dot');
+        var gallerySlider = document.getElementById('gallerySlider');
+        var galleryDots   = document.querySelectorAll('#sliderNav .slider-dot');
+        var prevBtn       = document.querySelector('.gallery-prev-btn');
+        var nextBtn       = document.querySelector('.gallery-next-btn');
 
         if (!gallerySlider || !galleryDots.length) return;
+
+        function goToGallerySlide(index) {
+            var slides = gallerySlider.children;
+            if (index < 0) index = slides.length - 1;
+            if (index >= slides.length) index = 0;
+            var slide = slides[index];
+            if (slide) {
+                slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            }
+            galleryDots.forEach(function(d) { d.classList.remove('active'); });
+            galleryDots[index].classList.add('active');
+        }
 
         galleryDots.forEach(function(dot) {
             dot.addEventListener('click', function() {
                 var idx = parseInt(this.getAttribute('data-slide'), 10);
                 if (isNaN(idx)) return;
-
-                var slide = gallerySlider.children[idx];
-                if (slide) {
-                    slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-                }
-
-                galleryDots.forEach(function(d) { d.classList.remove('active'); });
-                this.classList.add('active');
+                goToGallerySlide(idx);
             });
         });
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function() {
+                var activeIndex = 0;
+                galleryDots.forEach(function(dot, i) {
+                    if (dot.classList.contains('active')) activeIndex = i;
+                });
+                goToGallerySlide(activeIndex - 1);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function() {
+                var activeIndex = 0;
+                galleryDots.forEach(function(dot, i) {
+                    if (dot.classList.contains('active')) activeIndex = i;
+                });
+                goToGallerySlide(activeIndex + 1);
+            });
+        }
 
         /* Update active dot on scroll */
         gallerySlider.addEventListener('scroll', function() {
@@ -455,6 +510,35 @@
                 dot.classList.toggle('active', i === activeIndex);
             });
         });
+
+        /* ── Touch swipe for gallery slider ── */
+        var galleryTouchStartX = 0;
+        var galleryTouchStartY = 0;
+        var gallerySwiped = false;
+
+        gallerySlider.addEventListener('touchstart', function(e) {
+            galleryTouchStartX = e.changedTouches[0].screenX;
+            galleryTouchStartY = e.changedTouches[0].screenY;
+            gallerySwiped = false;
+        }, { passive: true });
+
+        gallerySlider.addEventListener('touchmove', function(e) {
+            if (gallerySwiped) return;
+            var dx = e.changedTouches[0].screenX - galleryTouchStartX;
+            var dy = e.changedTouches[0].screenY - galleryTouchStartY;
+            if (Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy)) {
+                gallerySwiped = true;
+                var activeIndex = 0;
+                galleryDots.forEach(function(dot, i) {
+                    if (dot.classList.contains('active')) activeIndex = i;
+                });
+                if (dx < 0) {
+                    goToGallerySlide(activeIndex + 1);
+                } else {
+                    goToGallerySlide(activeIndex - 1);
+                }
+            }
+        }, { passive: true });
     })();
 
     /* ── 3. News Slider (prev/next scroll) ── */

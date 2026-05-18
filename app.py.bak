@@ -10,6 +10,7 @@ from db import tabs_repository
 from db import pages_repository
 from page import (
     main_page,
+    news_list_page,
     news_detail_page,
     search_page,
     spec_page,
@@ -23,6 +24,7 @@ from util.i18n_url import build_hreflang_url
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
+logging.getLogger("werkzeug").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
@@ -94,7 +96,7 @@ def inject_site_public():
     show_ph = gris.get("show_placeholder_if_empty", True)
     if isinstance(show_ph, str):
         show_ph = show_ph.lower() in ("1", "true", "yes", "on")
-    phone_display = str(s.get("phone") or "").strip() or "+375 (17) 123-45-67"
+    phone_display = str(s.get("phone") or "").strip() or "8-017-505-45-48"
     phone_tel = str(s.get("phone_tel") or "").strip()
     if not phone_tel:
         digits = "".join(c for c in phone_display if c.isdigit())
@@ -110,16 +112,18 @@ def inject_site_public():
     )
 
 
+# DB: ↓↓↓ inject_dynamic_tabs — без БД возвращает пустой список ↓↓↓
 @app.context_processor
 def inject_dynamic_tabs():
     try:
         tabs = tabs_repository.get_active_tabs()
     except Exception as exc:
-        logger.warning(f"Не удалось загрузить динамические вкладки: {exc}")
+        logger.warning(f"DB: Не удалось загрузить динамические вкладки (БД отключена?): {exc}")
         tabs = []
     return dict(dynamic_tabs=tabs)
 
 
+# DB: ↓↓↓ collect_site_user_metrics — без БД просто пропускает ↓↓↓
 @app.after_request
 def set_locale_cookie(response):
     """Сохраняем выбранный язык в cookie при ?lang=."""
@@ -144,6 +148,7 @@ def add_api_cors_headers(response):
     return response
 
 
+# DB: ↓↓↓ collect_site_user_metrics — без БД просто пропускает ↓↓↓
 @app.after_request
 def collect_site_user_metrics(response):
     """Собирает метрики уникальных пользователей по посещениям."""
@@ -157,7 +162,7 @@ def collect_site_user_metrics(response):
         visitor_key = visitor_metrics_repository.build_visitor_key(ip, ua)
         visitor_metrics_repository.record_visit(visitor_key)
     except Exception as exc:
-        logger.warning(f"Не удалось сохранить метрику посещения: {exc}")
+        logger.warning(f"DB: Не удалось сохранить метрику посещения (БД отключена?): {exc}")
     return response
 
 
@@ -188,7 +193,8 @@ app.config["ADMIN_API_KEY"] = config.admin_api_key
 app.config["ADMIN_AUTH"] = config.admin_auth
 app.config["SITE"] = config.site or {}
 
-# Инициализация базы данных
+# DB: ↓↓↓ Инициализация базы данных — если USE_DB=False, init_db вернёт None ↓↓↓
+from db.connection import USE_DB  # noqa: флаг для проверки
 init_db(
     config.database.user,
     config.database.password,
@@ -197,18 +203,23 @@ init_db(
     config.database.name
 )
 
-admin_users_repository.ensure_admin_users_table()
-visitor_metrics_repository.ensure_site_visits_table()
-tabs_repository.ensure_tabs_table()
-pages_repository.ensure_pages_table()
-seed_auth = config.admin_auth or {}
-seed_username = str(seed_auth.get("username") or "").strip()
-seed_password_hash = str(seed_auth.get("password_hash") or "").strip()
-if seed_username and seed_password_hash:
-    existing_admin = admin_users_repository.get_admin_user_by_username(seed_username)
-    if not existing_admin:
-        admin_users_repository.create_admin_user(seed_username, seed_password_hash)
-        logger.info("Bootstrap admin user created in MySQL")
+# DB: ↓↓↓ Создание таблиц и seed-админа — только если БД включена ↓↓↓
+if USE_DB:
+    admin_users_repository.ensure_admin_users_table()
+    visitor_metrics_repository.ensure_site_visits_table()
+    tabs_repository.ensure_tabs_table()
+    pages_repository.ensure_pages_table()
+    seed_auth = config.admin_auth or {}
+    seed_username = str(seed_auth.get("username") or "").strip()
+    seed_password_hash = str(seed_auth.get("password_hash") or "").strip()
+    if seed_username and seed_password_hash:
+        existing_admin = admin_users_repository.get_admin_user_by_username(seed_username)
+        if not existing_admin:
+            admin_users_repository.create_admin_user(seed_username, seed_password_hash)
+            logger.info("Bootstrap admin user created in PostgreSQL")
+else:
+    logger.info("DB: Пропущено создание таблиц и seed-админа — БД отключена")
+# DB: ↑↑↑ конец блока с БД ↑↑↑
 
 app.register_blueprint(api_bp)
 
@@ -234,6 +245,11 @@ def home():
 @app.route('/search')
 def search():
     return search_page.search_handler(request)
+
+
+@app.route('/news')
+def news_list():
+    return news_list_page.news_list_handler(request)
 
 
 @app.route('/news/<int:news_id>')
@@ -422,8 +438,18 @@ def page_interaktivnaya_karta():
 
 
 @app.route('/pages/struktura-kolledzha')
-def page_struktura-kolledzha():
+def page_struktura_kolledzha():
     return render_template('migrated/struktura-kolledzha.html')
+
+
+@app.route('/pages/telefony-spravochnyh-sluzhb')
+def page_telefony_spravochnyh_sluzhb():
+    return render_template('migrated/telefony-spravochnyh-sluzhb.html')
+
+
+@app.route('/pages/kabinet-proforientatsii')
+def page_kabinet-proforientatsii():
+    return render_template('migrated/kabinet-proforientatsii.html')
 
 if __name__ == '__main__':
     port = config.server.port.lstrip(':') if config.server.port.startswith(':') else config.server.port

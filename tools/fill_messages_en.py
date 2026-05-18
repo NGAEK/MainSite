@@ -246,10 +246,10 @@ for k, v in ach_en.items():
 contact_en = {
     "title": "Contacts",
     "address_title": "Address",
-    "address_value": "220005, Minsk, Sverdlova st., 15",
+    "address_value": "d. Novoye Pole, ul. Studencheskaya, 1",
     "phones_title": "Phones",
-    "phone_reception": "Reception: +375 (17) 123-45-67",
-    "phone_admission": "Admission office: +375 (17) 123-45-68",
+    "phone_reception": "Reception: 8-017-505-45-48",
+    "phone_admission": "Admission office: 8-017-505-45-48",
     "email_title": "Email",
     "schedule_title": "Opening hours",
     "schedule_week": "Mon–Fri: 8:30 – 17:30",

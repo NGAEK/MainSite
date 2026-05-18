@@ -1043,9 +1043,9 @@
       "EN": "Address"
     },
     "address_value": {
-      "RU": "220005, г. Минск, ул. Свердлова, 15",
-      "BY": "220005, г. Мінск, вул. Свярдлова, 15",
-      "EN": "220005, Minsk, Sverdlova st., 15"
+      "RU": "223025, д. Новое Поле, ул. Студенческая, 1",
+      "BY": "223025, д. Новое Поле, ул. Студенческая, 1",
+      "EN": "223025, d. Novoye Pole, ul. Studencheskaya, 1"
     },
     "phones_title": {
       "RU": "Телефоны",
@@ -1053,14 +1053,14 @@
       "EN": "Phones"
     },
     "phone_reception": {
-      "RU": "Приемная: +375 (17) 123-45-67",
-      "BY": "Прыёмная: +375 (17) 123-45-67",
-      "EN": "Reception: +375 (17) 123-45-67"
+      "RU": "Приемная: 8-017-505-45-48",
+      "BY": "Прыёмная: 8-017-505-45-48",
+      "EN": "Reception: 8-017-505-45-48"
     },
     "phone_admission": {
-      "RU": "Приемная комиссия: +375 (17) 123-45-68",
-      "BY": "Прыёмная камісія: +375 (17) 123-45-68",
-      "EN": "Admission office: +375 (17) 123-45-68"
+      "RU": "Приемная комиссия: 8-017-505-45-48",
+      "BY": "Прыёмная камісія: 8-017-505-45-48",
+      "EN": "Admission office: 8-017-505-45-48"
     },
     "email_title": {
       "RU": "Email",
@@ -1210,9 +1210,9 @@
       "EN": "Sports clubs"
     },
     "address": {
-      "RU": "г. Минск, ул. Свердлова, 15",
-      "BY": "г. Мінск, вул. Свярдлова, 15",
-      "EN": "Minsk, Sverdlova st., 15"
+      "RU": "д. Новое Поле, ул. Студенческая, 1",
+      "BY": "д. Новое Поле, ул. Студенческая, 1",
+      "EN": "d. Novoye Pole, ul. Studencheskaya, 1  "
     },
     "work_hours": {
       "RU": "Пн-Пт: 8:30 - 17:30",
@@ -1253,6 +1253,76 @@
       "RU": "Политика cookie",
       "BY": "Палітыка cookie",
       "EN": "Cookie policy"
+    },
+    "traditions": {
+      "RU": "Традиции колледжа",
+      "BY": "Традыцыі каледжа",
+      "EN": "College traditions"
+    },
+    "achievements": {
+      "RU": "Наши достижения",
+      "BY": "Нашы дасягненні",
+      "EN": "Our achievements"
+    },
+    "goals": {
+      "RU": "Цель и задачи",
+      "BY": "Мэта і задачы",
+      "EN": "Goals and objectives"
+    },
+    "famous_graduates": {
+      "RU": "Знаменитые выпускники",
+      "BY": "Знакамітыя выпускнікі",
+      "EN": "Famous graduates"
+    },
+    "anti_corruption": {
+      "RU": "Антикоррупция",
+      "BY": "Антыкарупцыя",
+      "EN": "Anti-corruption"
+    },
+    "admission_docs": {
+      "RU": "Документы для поступления",
+      "BY": "Дакументы для паступлення",
+      "EN": "Admission documents"
+    },
+    "tuition": {
+      "RU": "Стоимость обучения",
+      "BY": "Кошт навучання",
+      "EN": "Tuition fees"
+    },
+    "admission_quotas": {
+      "RU": "Контрольные цифры приема",
+      "BY": "Кантрольныя лічбы прыёму",
+      "EN": "Admission quotas"
+    },
+    "hotline": {
+      "RU": "Горячая линия",
+      "BY": "Гарачая лінія",
+      "EN": "Hotline"
+    },
+    "education_process": {
+      "RU": "График учебного процесса",
+      "BY": "Графік вучэбнага працэсу",
+      "EN": "Academic schedule"
+    },
+    "industrial_training": {
+      "RU": "Производственное обучение",
+      "BY": "Вытворчае навучанне",
+      "EN": "Industrial training"
+    },
+    "student_memo": {
+      "RU": "Памятка учащемуся",
+      "BY": "Памятка вучню",
+      "EN": "Student memo"
+    },
+    "doc_samples": {
+      "RU": "Образцы документов",
+      "BY": "Узоры дакументаў",
+      "EN": "Document samples"
+    },
+    "graduate_distribution": {
+      "RU": "Распределение выпускников",
+      "BY": "Размеркаванне выпускнікоў",
+      "EN": "Graduate employment"
     }
   },
   "legal": {

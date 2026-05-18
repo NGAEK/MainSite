@@ -3,28 +3,26 @@
   "total_pages": 2,
   "pages": [
     {
-      "slug": "struktura-kolledzha",
-      "title": "Структура колледжа",
-      "url": "/index.php/ru/kontakty/administratsiya-kolledzha",
+      "slug": "kabinet-proforientatsii",
+      "title": "Профориентация",
+      "url": "/index.php/ru/kabinet-proforientatsii",
       "nav_section": null,
       "breadcrumbs": [
-        "Главная/",
-        "КОНТАКТЫ",
-        "/Структура колледжа"
+        "Главная",
+        "/ПРОФОРИЕНТАЦИЯ"
       ],
-      "template_path": "templates\\migrated\\struktura-kolledzha.html"
+      "template_path": "templates\\migrated\\kabinet-proforientatsii.html"
     },
     {
-      "slug": "telefony-spravochnyh-sluzhb",
-      "title": "Телефоны справочных служб",
-      "url": "/index.php/ru/kontakty/telefony-spravochnykh-sluzhb",
+      "slug": "kontakty",
+      "title": "Контакты",
+      "url": "/index.php/ru/kontakty",
       "nav_section": null,
       "breadcrumbs": [
-        "Главная/",
-        "КОНТАКТЫ",
-        "/Телефоны справочных служб"
+        "Главная",
+        "/КОНТАКТЫ"
       ],
-      "template_path": "templates\\migrated\\telefony-spravochnyh-sluzhb.html"
+      "template_path": "templates\\migrated\\kontakty.html"
     }
   ]
 }

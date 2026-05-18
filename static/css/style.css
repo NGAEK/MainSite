@@ -332,10 +332,6 @@ nav {
     min-height: var(--nav-h);
 }
 
-.main-nav-row + .main-nav-row {
-    border-top: 1px solid rgba(255, 255, 255, 0.10);
-}
-
 .main-nav {
     display: flex;
     list-style: none;
@@ -1040,6 +1036,41 @@ nav {
     position: relative;
     max-width: 1240px;
     margin: 0 auto;
+}
+
+.gallery-slider-controls {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.gallery-slider-controls .slider-btn {
+    pointer-events: all;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: white;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: all var(--tr);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
+
+.gallery-slider-controls .slider-btn:hover {
+    background: rgba(0, 0, 0, 0.55);
+    transform: scale(1.08);
 }
 
 .gallery-slider {
@@ -3394,7 +3425,7 @@ html.dark-mode-early body {
         /* Only show the mobile hamburger bar, no double-height */
         min-height: var(--nav-h);
         background: var(--clr-primary);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: none;
         transition: transform 0.28s ease, opacity 0.28s ease, background var(--tr);
     }
 
@@ -3479,11 +3510,11 @@ html.dark-mode-early body {
         pointer-events: auto;
     }
 
-    /* ── Nav row separators ── */
+    /* ── Nav row separators (hidden on mobile) ── */
     .main-nav-row + .main-nav-row {
-        border-top: 1px solid rgba(255, 255, 255, 0.07);
-        margin-top: 8px;
-        padding-top: 8px;
+        border-top: none;
+        margin-top: 0;
+        padding-top: 0;
     }
 
     /* ── Nav list ── */
@@ -3499,6 +3530,7 @@ html.dark-mode-early body {
         flex-direction: column;
         align-items: stretch;
         border-bottom: none;
+        border-top: none;
     }
 
     /* ── Nav links — generous touch targets ── */
@@ -3841,6 +3873,16 @@ html.dark-mode-early body {
     .slider-nav {
         gap: 6px;
         margin-top: 10px;
+    }
+
+    .gallery-slider-controls {
+        padding: 0 8px;
+    }
+
+    .gallery-slider-controls .slider-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 0.78rem;
     }
 }
 

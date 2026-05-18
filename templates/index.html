@@ -42,7 +42,7 @@
     </section>
 
 <!-- News Section -->
-<section class="section news-section" id="news">
+<section class="section news-section reveal" id="news">
     <div class="container">
         <div class="section-title">
             <div class="news-section-title-block">
@@ -80,7 +80,7 @@
 </section>
 
     <!-- Specialties Section -->
-    <section class="section bg-light" id="specialties">
+    <section class="section bg-light reveal" id="specialties">
         <div class="container">
             <div class="section-title">
                 <h2>{{ t.specialties.title }}</h2>
@@ -91,7 +91,7 @@
     </section>
 
     <!-- Gallery Section -->
-    <section class="section">
+    <section class="section reveal">
         <div class="container">
             <div class="section-title">
                 <h2>{{ t.gallery.title }}</h2>
@@ -123,6 +123,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="slider-controls gallery-slider-controls">
+                    <button class="slider-btn gallery-prev-btn" aria-label="{{ t.hero.prev_aria }}">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-btn gallery-next-btn" aria-label="{{ t.hero.next_aria }}">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
                 <div class="slider-nav" id="sliderNav">
                     <div class="slider-dot active" data-slide="0"></div>
                     <div class="slider-dot" data-slide="1"></div>
@@ -134,7 +142,7 @@
     </section>
 
     <!-- Teachers Section -->
-    <section class="section bg-light" id="administration">
+    <section class="section bg-light reveal" id="administration">
         <div class="container">
             <div class="section-title">
                 <h2>{{ t.teachers.title }}</h2>
@@ -201,7 +209,7 @@
     </section>
 
     <!-- Achievements Section -->
-    <section class="section">
+    <section class="section reveal">
         <div class="container">
             <div class="section-title">
                 <h2>{{ t.achievements.title }}</h2>
@@ -231,7 +239,7 @@
         </div>
     </section>
 
-    <section class="section bg-light" id="contact">
+    <section class="section bg-light reveal" id="contact">
         <div class="container">
             <div class="section-title">
                 <h2>{{ t.contact.title }}</h2>

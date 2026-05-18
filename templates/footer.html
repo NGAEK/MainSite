@@ -45,31 +45,31 @@
             <div class="footer-col">
                 <h3>{{ t.footer.about_college }}</h3>
                 <ul class="footer-links">
-                    <li><a href="#">{{ t.footer.history }}</a></li>
-                    <li><a href="#">{{ t.footer.administration }}</a></li>
-                    <li><a href="#">{{ t.footer.documents }}</a></li>
-                    <li><a href="#">{{ t.footer.vacancies }}</a></li>
-                    <li><a href="#">{{ t.footer.photo_gallery }}</a></li>
+                    <li><a href="{{ u('/pages/istoriya') }}">{{ t.footer.history }}</a></li>
+                    <li><a href="{{ u('/pages/traditsii-kolledzha') }}">{{ t.footer.traditions }}</a></li>
+                    <li><a href="{{ u('/pages/nashi-dostizheniya') }}">{{ t.footer.achievements }}</a></li>
+                    <li><a href="{{ u('/pages/znamenitye-vypuskniki') }}">{{ t.footer.famous_graduates }}</a></li>
+                    <li><a href="{{ u('/pages/nashi-tsel-i-zadachi') }}">{{ t.footer.goals }}</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h3>{{ t.footer.enrollee }}</h3>
                 <ul class="footer-links">
-                    <li><a href="#">{{ t.footer.specialties }}</a></li>
-                    <li><a href="#">{{ t.footer.admission_rules }}</a></li>
-                    <li><a href="#">{{ t.footer.open_doors }}</a></li>
-                    <li><a href="#">{{ t.footer.prep_courses }}</a></li>
-                    <li><a href="#">{{ t.footer.faq }}</a></li>
+                    <li><a href="{{ u('/specialties') }}">{{ t.footer.specialties }}</a></li>
+                    <li><a href="{{ u('/applicants/kontrolnye-tsifry-priema') }}">{{ t.footer.admission_quotas }}</a></li>
+                    <li><a href="{{ u('/applicants/dokumenty-dlya-postupleniya') }}">{{ t.footer.admission_docs }}</a></li>
+                    <li><a href="{{ u('/applicants/stoimost-obucheniya') }}">{{ t.footer.tuition }}</a></li>
+                    <li><a href="{{ u('/applicants/chasto-zadavaemye-voprosy') }}">{{ t.footer.faq }}</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h3>{{ t.footer.student }}</h3>
                 <ul class="footer-links">
-                    <li><a href="#">{{ t.footer.schedule }}</a></li>
-                    <li><a href="#">{{ t.footer.e_learning }}</a></li>
-                    <li><a href="#">{{ t.footer.library }}</a></li>
-                    <li><a href="#">{{ t.footer.student_council }}</a></li>
-                    <li><a href="#">{{ t.footer.sport_sections }}</a></li>
+                    <li><a href="{{ u('/students/grafik-uchebnogo-protsessa') }}">{{ t.footer.education_process }}</a></li>
+                    <li><a href="{{ u('/students/proizvodstvennoe-obuchenie') }}">{{ t.footer.industrial_training }}</a></li>
+                    <li><a href="{{ u('/students/pamyatka-uchashchemusya') }}">{{ t.footer.student_memo }}</a></li>
+                    <li><a href="{{ u('/students/obraztsy-dokumentov') }}">{{ t.footer.doc_samples }}</a></li>
+                    <li><a href="{{ u('/students/raspredelenie-i-trudoustrojstvo-vypusknikov') }}">{{ t.footer.graduate_distribution }}</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -97,29 +97,9 @@
                 </div>
             </div>
         </div>
-        <div class="footer-meta">
-            <div class="footer-meta-links">
-                <span class="footer-meta-label">{{ t.footer.legal_links_title }}</span>
-                <a href="{{ u('/privacy') }}">{{ t.footer.link_privacy }}</a>
-                <span class="footer-meta-sep">·</span>
-                <a href="{{ u('/one-window') }}">{{ t.footer.link_one_window }}</a>
-                <span class="footer-meta-sep">·</span>
-                <a href="{{ u('/cookies') }}">{{ t.footer.link_cookies }}</a>
-                <span class="footer-meta-sep">·</span>
-                <a href="{{ u('/sitemap') }}">{{ t.footer.link_sitemap }}</a>
-                <span class="footer-meta-sep">·</span>
-                <a href="mailto:{{ site_admin_email }}">{{ t.footer.link_admin_site }}</a>
-            </div>
-            <div class="footer-gris">
-                {% if site_gris_number and site_gris_date %}
-                <p>{{ t.legal.gris_prefix }} № {{ site_gris_number }}, {{ t.legal.gris_dated }} {{ site_gris_date }}</p>
-                {% elif site_gris_show_placeholder %}
-                <p>{{ t.legal.gris_placeholder }}</p>
-                {% endif %}
-            </div>
-        </div>
+        
         <div class="footer-bottom">
-            <p>&copy; 2025 {{ t.footer.copyright }}</p>
+            <p>&copy; 2026 {{ t.footer.copyright }}</p>
         </div>
     </div>
 </footer>

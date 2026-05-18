@@ -491,14 +491,14 @@ if __name__ == '__main__':
     PAGES_TO_MIGRATE = [
         # КОНТАКТЫ И СЕТЕВАЯ ФОРМА
         {
-            "url": "/index.php/ru/kontakty/administratsiya-kolledzha",
-            "slug": "struktura-kolledzha",
-            "title": "Структура колледжа"
+            "url": "/index.php/ru/kabinet-proforientatsii",
+            "slug": "kabinet-proforientatsii",
+            "title": "Кабинет профориентации"
         },
         {
-            "url": "/index.php/ru/kontakty/telefony-spravochnykh-sluzhb",
-            "slug": "telefony-spravochnyh-sluzhb",
-            "title": "Телефоны справочных служб"
+            "url": "/index.php/ru/kontakty",
+            "slug": "kontakty",
+            "title": "Контакты"
         },
     ]
 
