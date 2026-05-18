@@ -1,18 +1,3 @@
--- PostgreSQL schema for ngaek project
--- Replaces ngaek.sql (MariaDB/MySQL dump)
---
--- Применить к чистой БД:
---   psql -U ngaek -d ngaek -f schema.sql
---
--- Создать БД и пользователя (от имени postgres):
---   CREATE USER ngaek WITH PASSWORD 'ngaek';
---   CREATE DATABASE ngaek OWNER ngaek;
---   \c ngaek
---   \i schema.sql
-
--- ─────────────────────────────────────────────
--- Общая триггерная функция для updated_at
--- ─────────────────────────────────────────────
 CREATE OR REPLACE FUNCTION set_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -21,11 +6,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- ─────────────────────────────────────────────
--- news
--- name / description — русский
--- *_be — белорусский, *_en — английский
--- ─────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS news (
   id             SERIAL PRIMARY KEY,
   name           VARCHAR(255)  NOT NULL,
@@ -38,9 +18,6 @@ CREATE TABLE IF NOT EXISTS news (
   image_path     VARCHAR(255)
 );
 
--- ─────────────────────────────────────────────
--- admin_users
--- ─────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS admin_users (
   id            SERIAL PRIMARY KEY,
   username      VARCHAR(64)   NOT NULL,
@@ -55,9 +32,6 @@ CREATE OR REPLACE TRIGGER trg_admin_users_updated_at
   BEFORE UPDATE ON admin_users
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
--- ─────────────────────────────────────────────
--- site_visits  (метрики уникальных посетителей)
--- ─────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS site_visits (
   id           BIGSERIAL PRIMARY KEY,
   visit_date   DATE         NOT NULL,
@@ -70,9 +44,6 @@ CREATE TABLE IF NOT EXISTS site_visits (
 
 CREATE INDEX IF NOT EXISTS idx_site_visits_visit_date ON site_visits (visit_date);
 
--- ─────────────────────────────────────────────
--- site_tabs  (динамические вкладки меню)
--- ─────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS site_tabs (
   id              SERIAL PRIMARY KEY,
   slug            VARCHAR(120)  NOT NULL,
@@ -93,9 +64,6 @@ CREATE OR REPLACE TRIGGER trg_site_tabs_updated_at
   BEFORE UPDATE ON site_tabs
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
--- ─────────────────────────────────────────────
--- site_pages  (произвольные страницы сайта)
--- ─────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS site_pages (
   id           SERIAL PRIMARY KEY,
   slug         VARCHAR(120)  NOT NULL,
@@ -114,9 +82,6 @@ CREATE OR REPLACE TRIGGER trg_site_pages_updated_at
   BEFORE UPDATE ON site_pages
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
--- ─────────────────────────────────────────────
--- Seed-данные (новости)
--- ─────────────────────────────────────────────
 INSERT INTO news (id, name, date, description, name_be, name_en, description_be, description_en, image_path)
 VALUES
   (1,
@@ -139,13 +104,8 @@ VALUES
    '/static/images/news_images/images.png')
 ON CONFLICT DO NOTHING;
 
--- Сбрасываем sequence чтобы следующий INSERT получил id=3
 SELECT setval('news_id_seq', (SELECT COALESCE(MAX(id), 0) FROM news));
 
--- ─────────────────────────────────────────────
--- Seed-данные (admin)
--- Пароль задаётся через config.yml / NGAEK_ADMIN_PASSWORD_HASH
--- ─────────────────────────────────────────────
 INSERT INTO admin_users (username, password_hash, is_active)
 VALUES ('admin', '$2b$12$k7dOeMUC/9L4i8Vx9Z9zku.I9M9ygis1WF0QAP8z668UYZLTKzvRa', TRUE)
 ON CONFLICT DO NOTHING;

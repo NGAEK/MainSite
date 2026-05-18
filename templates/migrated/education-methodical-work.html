@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from 'macros/url.html' import u %}
+
+{% block content %}
+
+<div class="breadcrumbs-wrap">
+    <div class="container">
+        <ul class="breadcrumbs">
+            <li><a href="{{ u('/') }}">Главная/</a></li>            <li><a href="{{ u('/') }}">ОБРАЗОВАНИЕ/</a></li>            <li><span aria-current="page">/Методическая работа</span></li>
+        </ul>
+    </div>
+</div>
+
+<section class="static-page migrated-page">
+    <div class="container static-page-inner">
+        <h1 class="static-page-title">Методическая работа</h1>
+
+        <div class="static-page-body">
+            <html><body><section>
+
+<p>Методическая работа в колледже направлена на повышение качества образования, совершенствование форм и методов обучения, внедрение современных образовательных технологий и обмен опытом между педагогами.</p>
+<p>На сайте размещены разделы: <a href="{{ u('/pages/education-teaching-materials') }}">учебно-методические материалы</a>, <a href="{{ u('/pages/education-teacher-rules') }}">правила педагогических работников</a>, <a href="{{ u('/pages/education-cycle-commissions') }}">цикловые комиссии</a>, <a href="{{ u('/pages/education-qualification-plan') }}">план повышения квалификации</a>, <a href="{{ u('/pages/education-pedagogical-council-plan') }}">план работы педагогического совета</a>, <a href="{{ u('/pages/education-professional-development') }}">повышение квалификации</a>, <a href="{{ u('/pages/education-legal-acts') }}">нормативные правовые акты</a>.</p>
+
+</section></body></html>
+        </div>
+    </div>
+</section>
+{% endblock %}
