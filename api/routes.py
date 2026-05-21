@@ -27,6 +27,7 @@ from api.security import (
     validate_access_token,
 )
 from api.openapi_spec import build_openapi_spec
+from api.template_guard import extract_editable_content, merge_jinja_template
 
 logger = logging.getLogger(__name__)
 
@@ -339,7 +340,16 @@ def get_page_template(slug):
         content = service.read_text("templates", meta["template_path"])
     except Exception as e:
         return _json_error(500, "file_error", str(e))
-    return jsonify({"data": {"slug": slug, **meta, "content": content}}), 200
+    return jsonify(
+        {
+            "data": {
+                "slug": slug,
+                **meta,
+                "content": content,
+                "editable_content": extract_editable_content(content),
+            }
+        }
+    ), 200
 
 
 @api_bp.route("/page-templates/<slug>", methods=["PUT"])
@@ -358,10 +368,26 @@ def update_page_template(slug):
         return _json_error(400, "validation_error", "Поле content должно быть строкой")
     service = _file_service()
     try:
-        service.write_text("templates", meta["template_path"], content)
+        try:
+            original = service.read_text("templates", meta["template_path"])
+        except FileMissingError:
+            original = ""
+        merged = merge_jinja_template(original, content)
+        service.write_text("templates", meta["template_path"], merged)
     except Exception as e:
         return _json_error(500, "file_error", str(e))
     return jsonify({"data": {"slug": slug, "updated": True}}), 200
+
+
+def _merge_template_file_content(service, scope: str, rel_path: str, content: str) -> str:
+    """Для .html в templates — сохраняет служебные {% block %}."""
+    if scope != "templates" or not rel_path.lower().endswith(".html"):
+        return content
+    try:
+        original = service.read_text(scope, rel_path)
+    except FileMissingError:
+        original = ""
+    return merge_jinja_template(original, content)
 
 
 # DB: ↓↓↓ API эндпоинты с БД — обёрнуты в try/except ↓↓↓
@@ -619,7 +645,8 @@ def put_file():
         return _json_error(400, "validation_error", "Поле content должно быть строкой")
     service = _file_service()
     try:
-        service.write_text(scope, rel_path, content)
+        merged = _merge_template_file_content(service, scope, rel_path, content)
+        service.write_text(scope, rel_path, merged)
     except InvalidScopeError as e:
         return _json_error(400, "invalid_scope", str(e))
     except UnsafePathError as e:
