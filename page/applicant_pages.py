@@ -50,8 +50,8 @@ def applicants_article_handler(request, slug: str):
 
     page_title = title_override or tr["applicants_mirror"][slug]["title"]
     breadcrumbs = [
-        {"label": tr["nav"]["home"], "url": href_with_lang("/", lang)},
-        {"label": tr["nav"]["enrollee"], "url": href_with_lang("/applicants", lang)},
+        {"label": tr["nav"]["home"], "url": href_with_lang("/", "", lang)},
+        {"label": tr["nav"]["enrollee"], "url": href_with_lang("/applicants", "", lang)},
         {"label": page_title, "url": None},
     ]
 
@@ -65,7 +65,7 @@ def applicants_article_handler(request, slug: str):
         inner_class="container",
         title_class="branch-page-title",
         body_class="legacy-article-content static-page-body branch-page-panel branch-page-panel--article",
-        back_href=href_with_lang("/applicants", lang),
+        back_href=href_with_lang("/applicants", "", lang),
         back_label=tr.get("applicants", {}).get("back_to_hub"),
         back_class="branch-page-actions",
     )

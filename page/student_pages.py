@@ -49,8 +49,8 @@ def students_article_handler(request, slug: str):
 
     page_title = title_override or tr["students_mirror"][slug]["title"]
     breadcrumbs = [
-        {"label": tr["nav"]["home"], "url": href_with_lang("/", lang)},
-        {"label": tr["nav"]["students"], "url": href_with_lang("/students", lang)},
+        {"label": tr["nav"]["home"], "url": href_with_lang("/", "", lang)},
+        {"label": tr["nav"]["students"], "url": href_with_lang("/students", "", lang)},
         {"label": page_title, "url": None},
     ]
 
@@ -64,7 +64,7 @@ def students_article_handler(request, slug: str):
         inner_class="container",
         title_class="branch-page-title",
         body_class="legacy-article-content static-page-body branch-page-panel branch-page-panel--article",
-        back_href=href_with_lang("/students", lang),
+        back_href=href_with_lang("/students", "", lang),
         back_label=tr.get("students", {}).get("back_to_hub"),
         back_class="branch-page-actions",
     )
