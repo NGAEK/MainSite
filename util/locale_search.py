@@ -1,6 +1,5 @@
 """
-Поиск по строкам локализации (static/locales/messages.json).
-Основной контент сайта в БД не дублируется — фамилии, подписи и т.п. часто лежат только в JSON.
+Поиск по локализации: static/locales/messages.json (UI, меню) и content.json (тела страниц).
 """
 from __future__ import annotations
 
@@ -10,9 +9,15 @@ from pathlib import Path
 
 from util.locale_routes import resolve_locale_key_path
 
-_MESSAGES_PATH = Path(__file__).resolve().parent.parent / "static" / "locales" / "messages.json"
+_LOCALES_DIR = Path(__file__).resolve().parent.parent / "static" / "locales"
+_MESSAGES_PATH = _LOCALES_DIR / "messages.json"
+_CONTENT_PATH = _LOCALES_DIR / "content.json"
 
 _LANG_UI_TO_JSON = {"ru": "RU", "be": "BY", "en": "EN"}
+
+_CONTENT_NAMESPACES = ("migrated", "students_mirror", "applicants_mirror", "site_mirror")
+
+_HTML_TAG_RE = re.compile(r"<[^>]+>")
 
 
 def href_with_lang(path: str, fragment: str, lang_ui: str) -> str:
@@ -44,6 +49,35 @@ def _blob_for_match(node: dict) -> str:
 def _title_for_lang(node: dict, lang_ui: str) -> str:
     jk = _LANG_UI_TO_JSON.get(lang_ui, "RU")
     return (node.get(jk) or node.get("RU") or "").strip() or "…"
+
+
+def _strip_html(html: str) -> str:
+    return _HTML_TAG_RE.sub(" ", html or "").strip()
+
+
+def content_page_href(namespace: str, slug: str) -> str:
+    """URL страницы по ключу в content.json."""
+    if namespace == "students_mirror":
+        return f"/students/{slug}"
+    if namespace == "applicants_mirror":
+        return f"/applicants/{slug}"
+    return f"/pages/{slug}"
+
+
+def _hit_priority(path: str) -> int:
+    if path.startswith(_CONTENT_NAMESPACES):
+        return 10_000 + len(path)
+    return len(path)
+
+
+def _dedupe_hits(hits: list[dict]) -> list[dict]:
+    by_href: dict[str, dict] = {}
+    for h in hits:
+        href = h["href"]
+        prev = by_href.get(href)
+        if prev is None or _hit_priority(h["path"]) > _hit_priority(prev["path"]):
+            by_href[href] = h
+    return sorted(by_href.values(), key=lambda x: (x["title"].lower(), x["path"]))
 
 
 def search_locale_strings(query: str, lang_ui: str, messages_path: Path | None = None) -> list[dict]:
@@ -100,14 +134,61 @@ def search_locale_strings(query: str, lang_ui: str, messages_path: Path | None =
                 walk(item, parts + [str(i)])
 
     walk(data, [])
-    # Одна ссылка — один пункт (убираем дубли с разных ключей, напр. nav.* и applicants.pages.*)
-    by_href: dict[str, dict] = {}
-    for h in hits:
-        href = h["href"]
-        prev = by_href.get(href)
-        if prev is None or len(h["path"]) > len(prev["path"]):
-            by_href[href] = h
-    return sorted(by_href.values(), key=lambda x: (x["title"].lower(), x["path"]))
+    return _dedupe_hits(hits)
+
+
+def search_content_pages(query: str, lang_ui: str, content_path: Path | None = None) -> list[dict]:
+    """
+    Ищет подстроку в title/body страниц из content.json
+    (migrated, students_mirror, applicants_mirror, site_mirror).
+    """
+    q = (query or "").strip()
+    if not q:
+        return []
+
+    path = content_path or _CONTENT_PATH
+    if not path.is_file():
+        return []
+
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+
+    q_lower = q.lower()
+    hits: list[dict] = []
+
+    for namespace in _CONTENT_NAMESPACES:
+        bucket = data.get(namespace)
+        if not isinstance(bucket, dict):
+            continue
+        for slug, page in bucket.items():
+            if not isinstance(page, dict):
+                continue
+            title_node = page.get("title")
+            body_node = page.get("body")
+            title = _title_for_lang(title_node, lang_ui) if _is_i18n_leaf(title_node) else ""
+            body_raw = _blob_for_match(body_node) if _is_i18n_leaf(body_node) else ""
+            body_plain = _strip_html(body_raw)
+            blob = f"{title} {body_plain}".strip()
+            if not blob or q_lower not in blob.lower():
+                continue
+            key_path = f"{namespace}.{slug}"
+            hits.append(
+                {
+                    "path": key_path,
+                    "title": title or slug.replace("-", " "),
+                    "excerpt": _make_excerpt_plain(blob, q),
+                    "href": href_with_lang(content_page_href(namespace, slug), "", lang_ui),
+                }
+            )
+
+    return _dedupe_hits(hits)
+
+
+def search_localized_site(query: str, lang_ui: str) -> list[dict]:
+    """messages.json (UI) + content.json (тела страниц), без дублей по href."""
+    return _dedupe_hits(search_locale_strings(query, lang_ui) + search_content_pages(query, lang_ui))
 
 
 _EXCERPT_LEN = 200

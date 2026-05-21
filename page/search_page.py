@@ -2,7 +2,7 @@ import re
 from flask import render_template, redirect
 import logging
 from db import news_repository, pages_repository, tabs_repository
-from util.locale_search import href_with_lang, search_locale_strings
+from util.locale_search import href_with_lang, search_localized_site
 
 
 def _unified_search_matches(query: str, lang: str, news_results, page_results, locale_results) -> list[dict]:
@@ -121,7 +121,7 @@ def search_handler(request):
     except Exception as e:
         logger.error(f"DB: Ошибка поиска по вкладкам (БД отключена?): {e}")
 
-    locale_results = search_locale_strings(query, lang)
+    locale_results = search_localized_site(query, lang)
     all_matches = _unified_search_matches(query, lang, news_results, page_results, locale_results)
 
     return render_template(
