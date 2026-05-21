@@ -90,14 +90,11 @@ def inject_locale_and_query():
         t=tr,
         current_lang=get_locale(),
         query=request.args.get('q', ''),
-        ui_i18n_json=json.dumps(
-            {
-                'close_menu': js.get('close_menu', ''),
-                'clear_search': js.get('clear_search', ''),
-                'va': acc,
-            },
-            ensure_ascii=False,
-        ),
+        ui_i18n={
+            'close_menu': js.get('close_menu', ''),
+            'clear_search': js.get('clear_search', ''),
+            'va': acc,
+        },
     )
 
 

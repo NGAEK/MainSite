@@ -2008,13 +2008,19 @@ footer {
 }
 
 /* REVEAL ANIMATIONS */
+/* Без JS контент виден; класс html.js-reveal добавляет анимацию появления */
 .reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+html.js-reveal .reveal {
     opacity: 0;
     transform: translateY(18px);
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.reveal.visible {
+html.js-reveal .reveal.visible {
     opacity: 1;
     transform: translateY(0);
 }
