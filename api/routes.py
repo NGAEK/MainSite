@@ -5,6 +5,7 @@ import uuid
 from datetime import date, datetime, timezone
 from flask import Blueprint, request, jsonify, current_app
 from werkzeug.utils import secure_filename
+from psycopg2 import errorcodes
 
 from api.file_service import (
     build_default_file_service,
@@ -25,6 +26,7 @@ from api.security import (
     issue_access_token,
     validate_access_token,
 )
+from api.openapi_spec import build_openapi_spec
 
 logger = logging.getLogger(__name__)
 
@@ -58,6 +60,27 @@ def _expected_key():
 def _json_error(status: int, code: str, message: str):
     body = {"error": {"code": code, "message": message}}
     return jsonify(body), status
+
+
+def _is_pg_unique_violation(exc: BaseException) -> bool:
+    """Проверяет UniqueViolation PostgreSQL (в т.ч. во вложенной причине)."""
+    while exc is not None:
+        if getattr(exc, "pgcode", None) == errorcodes.UNIQUE_VIOLATION:
+            return True
+        exc = getattr(exc, "__cause__", None)
+    return False
+
+
+def _db_write_error_response(exc: Exception, *, slug: str | None = None):
+    """Ответ API при ошибке записи в БД: конфликт slug или недоступность БД."""
+    if slug and _is_pg_unique_violation(exc):
+        return _json_error(
+            409,
+            "slug_conflict",
+            f'Страница со slug «{slug}» уже существует. Укажите другой slug или измените существующую страницу.',
+        )
+    logger.exception("DB: ошибка записи")
+    return _json_error(503, "database_unavailable", "База данных недоступна")
 
 
 def _parse_bool(value: str, default: bool = False) -> bool:
@@ -236,35 +259,8 @@ def auth_login():
 
 @api_bp.route("/openapi.json", methods=["GET"])
 def openapi_schema():
-    schema = {
-        "openapi": "3.0.3",
-        "info": {"title": "MainSite Admin API", "version": "1.0.0"},
-        "servers": [{"url": "/api/v1"}],
-        "components": {
-            "securitySchemes": {
-                "ApiKeyAuth": {"type": "apiKey", "in": "header", "name": API_KEY_HEADER},
-                "BearerAuth": {"type": "http", "scheme": "bearer", "bearerFormat": "token"},
-            }
-        },
-        "security": [{"ApiKeyAuth": []}, {"BearerAuth": []}],
-        "paths": {
-            "/health": {"get": {"summary": "API health"}},
-            "/auth/login": {"post": {"summary": "Login and receive bearer token"}},
-            "/metrics/main": {"get": {"summary": "Main operational metrics"}},
-            "/media/news-image": {"post": {"summary": "Upload news image"}},
-            "/page-templates": {"get": {"summary": "List editable page templates"}},
-            "/page-templates/{slug}": {"get": {"summary": "Get template content"}, "put": {"summary": "Update template content"}},
-            "/tabs": {"get": {"summary": "List tabs"}, "post": {"summary": "Create tab"}},
-            "/tabs/{tab_id}": {"put": {"summary": "Update tab"}, "delete": {"summary": "Delete tab"}},
-            "/pages": {"get": {"summary": "List pages"}, "post": {"summary": "Create page"}},
-            "/pages/{page_id}": {"put": {"summary": "Update page"}, "delete": {"summary": "Delete page"}},
-            "/system/status": {"get": {"summary": "System status"}},
-            "/files": {"get": {"summary": "List files or read file"}, "put": {"summary": "Write file"}, "delete": {"summary": "Delete file"}},
-            "/news": {"get": {"summary": "List news"}, "post": {"summary": "Create news"}},
-            "/news/{news_id}": {"get": {"summary": "Get news"}, "put": {"summary": "Replace news"}, "patch": {"summary": "Patch news"}, "delete": {"summary": "Delete news"}},
-        },
-    }
-    return jsonify(schema), 200
+    """OpenAPI 3.0 (используется Swagger UI на /swagger)."""
+    return jsonify(build_openapi_spec(request.url_root)), 200
 
 
 @api_bp.route("/health", methods=["GET"])
@@ -492,10 +488,18 @@ def create_page():
         "is_active": bool(payload.get("is_active", True)),
     }
     try:
+        if pages_repository.slug_exists(slug):
+            return _json_error(
+                409,
+                "slug_conflict",
+                f'Страница со slug «{slug}» уже существует. Укажите другой slug или измените существующую страницу.',
+            )
         page_id = pages_repository.create_page(row)
     except Exception as e:
-        logger.exception("DB: API create_page (БД отключена?)")
-        return _json_error(503, "database_unavailable", "База данных недоступна")
+        resp = _db_write_error_response(e, slug=slug)
+        if resp[1] == 409:
+            logger.warning("API create_page: дубликат slug %s", slug)
+        return resp
     return jsonify({"data": {"id": page_id}}), 201
 
 
@@ -519,10 +523,18 @@ def update_page(page_id):
         "is_active": bool(payload.get("is_active", True)),
     }
     try:
+        if pages_repository.slug_exists(slug, exclude_id=page_id):
+            return _json_error(
+                409,
+                "slug_conflict",
+                f'Страница со slug «{slug}» уже существует. Укажите другой slug или измените существующую страницу.',
+            )
         pages_repository.update_page(page_id, row)
     except Exception as e:
-        logger.exception("DB: API update_page (БД отключена?)")
-        return _json_error(503, "database_unavailable", "База данных недоступна")
+        resp = _db_write_error_response(e, slug=slug)
+        if resp[1] == 409:
+            logger.warning("API update_page: дубликат slug %s (id=%s)", slug, page_id)
+        return resp
     return jsonify({"data": {"id": page_id, "updated": True}}), 200
 
 

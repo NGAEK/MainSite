@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         clearBtn.className = 'clear-search';
         clearBtn.innerHTML = '<i class="fas fa-times"></i>';
         clearBtn.style.display = 'none';
-        clearBtn.setAttribute('aria-label', 'Очистить поиск');
+        clearBtn.setAttribute('aria-label', (window.NGAEK_I18N && window.NGAEK_I18N.clear_search) || 'Clear search');
 
         clearBtn.addEventListener('click', function() {
             searchInput.value = '';

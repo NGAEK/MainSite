@@ -347,6 +347,161 @@
       "RU": "Контакты",
       "BY": "Кантакты",
       "EN": "Contacts"
+    },
+    "history_pages": {
+      "RU": "Страницы истории",
+      "BY": "Старонкі гісторыі",
+      "EN": "History pages"
+    },
+    "college_traditions": {
+      "RU": "Традиции колледжа",
+      "BY": "Традыцыі каледжа",
+      "EN": "College traditions"
+    },
+    "our_achievements": {
+      "RU": "Наши достижения",
+      "BY": "Нашы дасягненні",
+      "EN": "Our achievements"
+    },
+    "license_external": {
+      "RU": "Лицензия ↗",
+      "BY": "Ліцэнзія ↗",
+      "EN": "License ↗"
+    },
+    "college_history": {
+      "RU": "История колледжа",
+      "BY": "Гісторыя каледжа",
+      "EN": "College history"
+    },
+    "famous_graduates": {
+      "RU": "Знаменитые выпускники",
+      "BY": "Вядомыя выпускнікі",
+      "EN": "Famous graduates"
+    },
+    "goals_and_tasks": {
+      "RU": "Наши цель и задачи",
+      "BY": "Нашы мэта і задачы",
+      "EN": "Goals and objectives"
+    },
+    "press_about_us": {
+      "RU": "Про нас говорят и пишут ↗",
+      "BY": "Пра нас гавораць і пішуць ↗",
+      "EN": "Press about us ↗"
+    },
+    "anticorruption": {
+      "RU": "Антикоррупционная деятельность",
+      "BY": "Антыкарупцыйная дзейнасць",
+      "EN": "Anti-corruption"
+    },
+    "cookie_policy_nav": {
+      "RU": "Положение о политике в отношении обработки cookie",
+      "BY": "Палажэнне аб палітыцы ў дачыненні да апрацоўкі cookie",
+      "EN": "Cookie processing policy"
+    },
+    "edu_group_informatization": {
+      "RU": "Информатизация",
+      "BY": "Інфарматызацыя",
+      "EN": "Informatization"
+    },
+    "edu_informatization": {
+      "RU": "Информатизация",
+      "BY": "Інфарматызацыя",
+      "EN": "Informatization"
+    },
+    "edu_group_methodical": {
+      "RU": "Методическая работа",
+      "BY": "Метадычная работа",
+      "EN": "Methodical work"
+    },
+    "edu_methodical_work": {
+      "RU": "Методическая работа",
+      "BY": "Метадычная работа",
+      "EN": "Methodical work"
+    },
+    "edu_teaching_materials": {
+      "RU": "Учебно-методические материалы",
+      "BY": "Вучэбна-метадычныя матэрыялы",
+      "EN": "Teaching materials"
+    },
+    "edu_teacher_rules": {
+      "RU": "Правила педагогических работников",
+      "BY": "Правілы педагагічных работнікаў",
+      "EN": "Rules for teaching staff"
+    },
+    "edu_cycle_commissions": {
+      "RU": "Цикловые комиссии",
+      "BY": "Цыклавыя камісіі",
+      "EN": "Cycle commissions"
+    },
+    "edu_qualification_plan": {
+      "RU": "План повышения квалификации руководящих работников и специалистов",
+      "BY": "План павышэння кваліфікацыі кіраўнікоў і спецыялістаў",
+      "EN": "Staff qualification development plan"
+    },
+    "edu_pedagogical_council_plan": {
+      "RU": "План работы педагогического совета",
+      "BY": "План работы педагагічнага савета",
+      "EN": "Pedagogical council work plan"
+    },
+    "edu_professional_development": {
+      "RU": "Повышение квалификации",
+      "BY": "Павышэнне кваліфікацыі",
+      "EN": "Professional development"
+    },
+    "edu_legal_acts": {
+      "RU": "Нормативно правовые акты",
+      "BY": "Нарматыўна прававыя акты",
+      "EN": "Legal acts"
+    },
+    "edu_group_adult": {
+      "RU": "Дополнительное образование",
+      "BY": "Дадатковая адукацыя",
+      "EN": "Adult education"
+    },
+    "edu_adult_education": {
+      "RU": "Дополнительное образование взрослых",
+      "BY": "Дадатковая адукацыя дарослых",
+      "EN": "Adult education"
+    },
+    "edu_group_innovation": {
+      "RU": "Инновационная деятельность",
+      "BY": "Інавацыйная дзейнасць",
+      "EN": "Innovation"
+    },
+    "edu_innovative_activity": {
+      "RU": "Экспериментальная и инновационная деятельность",
+      "BY": "Эксперыментальная і інавацыйная дзейнасць",
+      "EN": "Experimental and innovative activity"
+    },
+    "college_structure": {
+      "RU": "Структура колледжа",
+      "BY": "Структура каледжа",
+      "EN": "College structure"
+    },
+    "site_map_nav": {
+      "RU": "Карта сайта",
+      "BY": "Карта сайта",
+      "EN": "Site map"
+    },
+    "social_protection_phones": {
+      "RU": "Справочник телефонов служб социальной защиты детей",
+      "BY": "Даведнік тэлефонаў службаў сацыяльнай аховы дзяцей",
+      "EN": "Child social protection phone directory"
+    },
+    "interactive_map": {
+      "RU": "Интерактивная карта",
+      "BY": "Інтэрактыўная карта",
+      "EN": "Interactive map"
+    },
+    "rating_portal_external": {
+      "RU": "Портал рейтинговой оценки ↗",
+      "BY": "Портал рэйтынгавай ацэнкі ↗",
+      "EN": "Rating portal ↗"
+    },
+    "reference_phones": {
+      "RU": "Телефоны справочных служб",
+      "BY": "Тэлефоны даведачных службаў",
+      "EN": "Directory service phones"
     }
   },
   "applicants": {
@@ -1002,6 +1157,11 @@
       "RU": "Заместитель директора",
       "BY": "Намеснік дырэктара",
       "EN": "Deputy director"
+    },
+    "phone_sample": {
+      "RU": "+375-29-123-45-67",
+      "BY": "+375-29-123-45-67",
+      "EN": "+375-29-123-45-67"
     }
   },
   "achievements": {
@@ -1475,35 +1635,200 @@
     }
   },
   "accessibility": {
-    "title": {
-      "RU": "Настройки доступности",
-      "BY": "Налады даступнасці",
-      "EN": "Accessibility settings"
+    "panel_title": {
+      "RU": "⚙️ Версия для слабовидящих",
+      "BY": "⚙️ Версія для слабавідзячых",
+      "EN": "⚙️ Low vision mode"
     },
-    "high_contrast": {
-      "RU": "Высокая контрастность",
-      "BY": "Высокая кантраснасць",
-      "EN": "High contrast"
+    "close_panel": {
+      "RU": "Закрыть панель настроек",
+      "BY": "Закрыць панэль налад",
+      "EN": "Close settings panel"
     },
-    "large_text": {
-      "RU": "Увеличенный шрифт",
-      "BY": "Павялічаны шрыфт",
-      "EN": "Large text"
+    "font_size_label": {
+      "RU": "Размер текста",
+      "BY": "Памер тэксту",
+      "EN": "Text size"
     },
-    "dark_mode": {
-      "RU": "Темный режим",
-      "BY": "Цёмны рэжым",
-      "EN": "Dark mode"
+    "font_decrease": {
+      "RU": "Уменьшить шрифт",
+      "BY": "Паменшыць шрыфт",
+      "EN": "Decrease font"
     },
-    "reset": {
-      "RU": "Сбросить",
-      "BY": "Скінуць",
-      "EN": "Reset"
+    "font_reset": {
+      "RU": "Сбросить размер шрифта",
+      "BY": "Скінуць памер шрыфту",
+      "EN": "Reset font size"
     },
-    "save": {
-      "RU": "Сохранить",
-      "BY": "Захаваць",
-      "EN": "Save"
+    "font_increase": {
+      "RU": "Увеличить шрифт",
+      "BY": "Павялічыць шрыфт",
+      "EN": "Increase font"
+    },
+    "contrast_label": {
+      "RU": "Цветовая схема и контрастность",
+      "BY": "Колеравая схема і кантраснасць",
+      "EN": "Color scheme and contrast"
+    },
+    "contrast_normal": {
+      "RU": "Обычный",
+      "BY": "Звычайны",
+      "EN": "Normal"
+    },
+    "contrast_bw": {
+      "RU": "Ч/Б",
+      "BY": "Ч/Б",
+      "EN": "B&W"
+    },
+    "contrast_yellow": {
+      "RU": "◑ Жёлтый",
+      "BY": "◑ Жоўты",
+      "EN": "◑ Yellow"
+    },
+    "contrast_white": {
+      "RU": "◑ Белый",
+      "BY": "◑ Белы",
+      "EN": "◑ White"
+    },
+    "contrast_blue": {
+      "RU": "◑ Синий",
+      "BY": "◑ Сіні",
+      "EN": "◑ Blue"
+    },
+    "font_family_label": {
+      "RU": "Гарнитура шрифта",
+      "BY": "Гарнітура шрыфту",
+      "EN": "Font family"
+    },
+    "font_default": {
+      "RU": "Исходный",
+      "BY": "Зыходны",
+      "EN": "Default"
+    },
+    "other_label": {
+      "RU": "Дополнительные параметры",
+      "BY": "Дадатковыя параметры",
+      "EN": "Additional options"
+    },
+    "hide_images": {
+      "RU": "Скрыть изображения",
+      "BY": "Схаваць выявы",
+      "EN": "Hide images"
+    },
+    "hide_images_desc": {
+      "RU": "Убирает все картинки",
+      "BY": "Прыбірае ўсе выявы",
+      "EN": "Removes all images"
+    },
+    "simplify": {
+      "RU": "Упростить структуру",
+      "BY": "Спростыць структуру",
+      "EN": "Simplify layout"
+    },
+    "simplify_desc": {
+      "RU": "Скрывает слайдеры и декор",
+      "BY": "Хавае слайдеры і дэкор",
+      "EN": "Hides sliders and decoration"
+    },
+    "keyboard_focus": {
+      "RU": "Фокус-рамки",
+      "BY": "Фокус-рамкі",
+      "EN": "Focus outlines"
+    },
+    "keyboard_focus_desc": {
+      "RU": "Яркие рамки при Tab‑навигации",
+      "BY": "Яркія рамкі пры Tab-навігацыі",
+      "EN": "Bright outlines on Tab navigation"
+    },
+    "line_height": {
+      "RU": "Увеличить интерлиньяж",
+      "BY": "Павялічыць міжрадковы інтэрвал",
+      "EN": "Increase line spacing"
+    },
+    "line_height_desc": {
+      "RU": "Больший промежуток между строк",
+      "BY": "Большы прамежак паміж радкамі",
+      "EN": "More space between lines"
+    },
+    "reset_all": {
+      "RU": "Сбросить все настройки",
+      "BY": "Скінуць усе налады",
+      "EN": "Reset all settings"
+    },
+    "status_bar_label": {
+      "RU": "Активные режимы доступности",
+      "BY": "Актыўныя рэжымы даступнасці",
+      "EN": "Active accessibility modes"
+    },
+    "status_bar_prefix": {
+      "RU": "👁 Версия для слабовидящих:",
+      "BY": "👁 Версія для слабавідзячых:",
+      "EN": "👁 Low vision mode:"
+    },
+    "status_open_settings": {
+      "RU": "Настройки ▲",
+      "BY": "Налады ▲",
+      "EN": "Settings ▲"
+    },
+    "status_text_scale": {
+      "RU": "Текст:",
+      "BY": "Тэкст:",
+      "EN": "Text:"
+    },
+    "status_bw": {
+      "RU": "Ч/Б",
+      "BY": "Ч/Б",
+      "EN": "B&W"
+    },
+    "status_black_yellow": {
+      "RU": "Жёлтый контраст",
+      "BY": "Жоўты кантраст",
+      "EN": "Yellow contrast"
+    },
+    "status_black_white": {
+      "RU": "Белый контраст",
+      "BY": "Белы кантраст",
+      "EN": "White contrast"
+    },
+    "status_dark_blue": {
+      "RU": "Синий контраст",
+      "BY": "Сіні кантраст",
+      "EN": "Blue contrast"
+    },
+    "status_no_images": {
+      "RU": "Без картинок",
+      "BY": "Без выяў",
+      "EN": "No images"
+    },
+    "status_simplified": {
+      "RU": "Упрощённый вид",
+      "BY": "Спрошаны выгляд",
+      "EN": "Simplified view"
+    },
+    "status_keyboard": {
+      "RU": "Яркий фокус",
+      "BY": "Яркі фокус",
+      "EN": "Strong focus"
+    },
+    "status_line_height": {
+      "RU": "Увеличен интерлиньяж",
+      "BY": "Павялічаны інтэрвал",
+      "EN": "Increased line spacing"
+    },
+    "status_font_arial": {
+      "RU": "Шрифт: Arial",
+      "BY": "Шрыфт: Arial",
+      "EN": "Font: Arial"
+    },
+    "status_font_verdana": {
+      "RU": "Шрифт: Verdana",
+      "BY": "Шрыфт: Verdana",
+      "EN": "Font: Verdana"
+    },
+    "status_font_times": {
+      "RU": "Шрифт: Times",
+      "BY": "Шрыфт: Times",
+      "EN": "Font: Times"
     }
   },
   "errors": {
@@ -1605,6 +1930,18 @@
       "RU": "Изображение галереи",
       "BY": "Выява галерэі",
       "EN": "Gallery image"
+    }
+  },
+  "js": {
+    "close_menu": {
+      "RU": "Закрыть меню",
+      "BY": "Закрыць меню",
+      "EN": "Close menu"
+    },
+    "clear_search": {
+      "RU": "Очистить поиск",
+      "BY": "Ачысціць пошук",
+      "EN": "Clear search"
     }
   }
 }

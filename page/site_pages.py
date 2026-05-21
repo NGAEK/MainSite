@@ -1,38 +1,33 @@
 """Статические страницы: политика ПДн, одно окно, карта сайта."""
 from flask import render_template
 import logging
-import os
 from db import news_repository
 from db import tabs_repository
 from db import pages_repository
-from page.site_mirror_config import SITE_PAGE_MIRROR
+from page.migrated_pages import migrated_slugs
 
 logger = logging.getLogger(__name__)
-_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-_MIRROR_DIR = os.path.join(_ROOT, "data", "site_pages_mirror")
+
+
+def _has_content(namespace: str, slug: str) -> bool:
+    from app import get_translations
+
+    bucket = (get_translations().get(namespace) or {})
+    return slug in bucket and bool(bucket[slug].get("body"))
 
 
 def _managed_page_or_template(slug: str, fallback_template: str):
     page = pages_repository.get_page_by_slug(slug)
     if page and bool(page.get("is_active")):
         return render_template("pages/managed_page.html", page=page)
-    mirrored = _mirrored_page(slug)
-    if mirrored:
-        return render_template("pages/managed_page.html", page=mirrored)
+    if _has_content("site_mirror", slug):
+        return render_template(
+            "pages/content_page.html",
+            content_namespace="site_mirror",
+            content_key=slug,
+            show_back_home=True,
+        )
     return render_template(fallback_template)
-
-
-def _mirrored_page(slug: str):
-    path = os.path.join(_MIRROR_DIR, f"{slug}.html")
-    if not os.path.isfile(path):
-        return None
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            content_html = f.read()
-    except OSError:
-        return None
-    title = (SITE_PAGE_MIRROR.get(slug) or {}).get("title") or slug.replace("-", " ").title()
-    return {"title": title, "content_html": content_html}
 
 
 def privacy_handler(request):
@@ -65,12 +60,30 @@ def specialties_handler(request):
 
 
 def custom_page_handler(request, slug: str):
+    if slug in migrated_slugs():
+        return render_template(
+            "pages/content_page.html",
+            content_namespace="migrated",
+            content_key=slug,
+            section_class="static-page migrated-page",
+            inner_class="static-page-inner",
+            title_class="static-page-title",
+            body_class="static-page-body",
+            parent_url=None,
+        )
+
     page = pages_repository.get_page_by_slug(slug)
     if page and bool(page.get("is_active")):
         return render_template("pages/managed_page.html", page=page)
-    mirrored = _mirrored_page(slug)
-    if mirrored:
-        return render_template("pages/managed_page.html", page=mirrored)
+
+    if _has_content("site_mirror", slug):
+        return render_template(
+            "pages/content_page.html",
+            content_namespace="site_mirror",
+            content_key=slug,
+            show_back_home=True,
+        )
+
     tab = tabs_repository.get_tab_by_slug(slug)
     if not tab or not bool(tab.get("is_active")):
         return render_template("errors/404.html"), 404

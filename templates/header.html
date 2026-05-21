@@ -53,21 +53,19 @@
                     
                     <!-- ИСТОРИЯ, ТРАДИЦИИ, ДОСТИЖЕНИЯ -->
                     <li>
-                        <a href="/pages/stranitsy-istorii">{{ t.nav.history_traditions_achievements }} <i class="fas fa-chevron-down"></i></a>
+                        <a href="{{ u('/pages/stranitsy-istorii') }}">{{ t.nav.history_traditions_achievements }} <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ u('/pages/stranitsy-istorii') }}">Страницы истории</a></li>
-                            <li><a href="{{ u('/pages/traditsii-kolledzha') }}">Традиции колледжа</a></li>
-                            <li><a href="{{ u('/pages/nashi-dostizheniya') }}">Наши достижения</a></li>
-                            <li><a href="https://license.gov.by/onelicense/178456" target="_blank">Лицензия ↗</a></li>
-                            <li><a href="{{ u('/pages/istoriya') }}">История колледжа</a></li>
-                            <li><a href="{{ u('/pages/znamenitye-vypuskniki') }}">Знаменитые выпускники</a></li>
-                            <li><a href="{{ u('/pages/nashi-tsel-i-zadachi') }}">Наши цель и задачи</a></li>
+                            <li><a href="{{ u('/pages/stranitsy-istorii') }}">{{ t.nav.history_pages }}</a></li>
+                            <li><a href="{{ u('/pages/traditsii-kolledzha') }}">{{ t.nav.college_traditions }}</a></li>
+                            <li><a href="{{ u('/pages/nashi-dostizheniya') }}">{{ t.nav.our_achievements }}</a></li>
+                            <li><a href="https://license.gov.by/onelicense/178456" target="_blank">{{ t.nav.license_external }}</a></li>
+                            <li><a href="{{ u('/pages/istoriya') }}">{{ t.nav.college_history }}</a></li>
+                            <li><a href="{{ u('/pages/znamenitye-vypuskniki') }}">{{ t.nav.famous_graduates }}</a></li>
+                            <li><a href="{{ u('/pages/nashi-tsel-i-zadachi') }}">{{ t.nav.goals_and_tasks }}</a></li>
                             <li><a href="https://pristalica.by/08112022/poznakomilis-s-yarkimi-studentami-novopolskogo-gaek-udostoennymi-speczialnoj-stipendii/"
-                                    target="_blank">Про нас говорят и пишут ↗</a></li>
-                            <li><a href="{{ u('/pages/antikorruptsionnaya-deyatelnost') }}">Антикоррупционная
-                                    деятельность</a></li>
-                            <li><a href="{{ u('/pages/polozhenie-o-politike-cookie') }}">Положение о политике в
-                                    отношении обработки cookie</a></li>
+                                    target="_blank">{{ t.nav.press_about_us }}</a></li>
+                            <li><a href="{{ u('/pages/antikorruptsionnaya-deyatelnost') }}">{{ t.nav.anticorruption }}</a></li>
+                            <li><a href="{{ u('/pages/polozhenie-o-politike-cookie') }}">{{ t.nav.cookie_policy_nav }}</a></li>
                         </ul>
                     </li>
                     
@@ -75,24 +73,24 @@
                     <li>
                         <a href="#">{{ t.nav.education }} <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu dropdown-menu-wide">
-                            <li class="nav-group-label"><span>Информатизация</span></li>
-                            <li><a href="{{ u('/pages/education-informatization') }}">Информатизация</a></li>
+                            <li class="nav-group-label"><span>{{ t.nav.edu_group_informatization }}</span></li>
+                            <li><a href="{{ u('/pages/education-informatization') }}">{{ t.nav.edu_informatization }}</a></li>
                             
-                            <li class="nav-group-label"><span>Методическая работа</span></li>
-                            <li><a href="{{ u('/pages/education-methodical-work') }}">Методическая работа</a></li>
-                            <li><a href="{{ u('/pages/education-teaching-materials') }}">Учебно-методические материалы</a></li>
-                            <li><a href="{{ u('/pages/education-teacher-rules') }}">Правила педагогических работников</a></li>
-                            <li><a href="{{ u('/pages/education-cycle-commissions') }}">Цикловые комиссии</a></li>
-                            <li><a href="{{ u('/pages/education-qualification-plan') }}">План повышения квалификации руководящих работников и специалистов</a></li>
-                            <li><a href="{{ u('/pages/education-pedagogical-council-plan') }}">План работы педагогического совета</a></li>
-                            <li><a href="{{ u('/pages/education-professional-development') }}">Повышение квалификации</a></li>
-                            <li><a href="{{ u('/pages/education-legal-acts') }}">Нормативно правовые акты</a></li>
+                            <li class="nav-group-label"><span>{{ t.nav.edu_group_methodical }}</span></li>
+                            <li><a href="{{ u('/pages/education-methodical-work') }}">{{ t.nav.edu_methodical_work }}</a></li>
+                            <li><a href="{{ u('/pages/education-teaching-materials') }}">{{ t.nav.edu_teaching_materials }}</a></li>
+                            <li><a href="{{ u('/pages/education-teacher-rules') }}">{{ t.nav.edu_teacher_rules }}</a></li>
+                            <li><a href="{{ u('/pages/education-cycle-commissions') }}">{{ t.nav.edu_cycle_commissions }}</a></li>
+                            <li><a href="{{ u('/pages/education-qualification-plan') }}">{{ t.nav.edu_qualification_plan }}</a></li>
+                            <li><a href="{{ u('/pages/education-pedagogical-council-plan') }}">{{ t.nav.edu_pedagogical_council_plan }}</a></li>
+                            <li><a href="{{ u('/pages/education-professional-development') }}">{{ t.nav.edu_professional_development }}</a></li>
+                            <li><a href="{{ u('/pages/education-legal-acts') }}">{{ t.nav.edu_legal_acts }}</a></li>
                             
-                            <li class="nav-group-label"><span>Дополнительное образование</span></li>
-                            <li><a href="{{ u('/pages/education-adult-education') }}">Дополнительное образование взрослых</a></li>
+                            <li class="nav-group-label"><span>{{ t.nav.edu_group_adult }}</span></li>
+                            <li><a href="{{ u('/pages/education-adult-education') }}">{{ t.nav.edu_adult_education }}</a></li>
                             
-                            <li class="nav-group-label"><span>Инновационная деятельность</span></li>
-                            <li><a href="{{ u('/pages/education-innovative-activity') }}">Экспериментальная и инновационная деятельность</a></li>
+                            <li class="nav-group-label"><span>{{ t.nav.edu_group_innovation }}</span></li>
+                            <li><a href="{{ u('/pages/education-innovative-activity') }}">{{ t.nav.edu_innovative_activity }}</a></li>
                         </ul>
                     </li>
                     
@@ -190,15 +188,14 @@
 
                     <!-- КОНТАКТЫ (теперь ВЫПАДАЮЩЕЕ МЕНЮ) -->
                     <li>
-                        <a href="/pages/kontakty">{{ t.nav.contacts }} <i class="fas fa-chevron-down"></i></a>
+                        <a href="{{ u('/pages/kontakty') }}">{{ t.nav.contacts }} <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
-                            <!-- Ссылки на вновь созданные страницы (и уже существующие) -->
-                            <li><a href="{{ u('/pages/struktura-kolledzha') }}">Структура колледжа</a></li>
-                            <li><a href="{{ u('/pages/karta-sajta') }}">Карта сайта</a></li>
-                            <li><a href="{{ u('/pages/spravochnik-telefonov-sotsialnoj-zashchity') }}">Справочник телефонов служб социальной защиты детей</a></li>
-                            <li><a href="{{ u('/pages/interaktivnaya-karta') }}">Интерактивная карта</a></li>
-                            <li><a href="http://xn----7sbgfh2alwzdhpc0c.xn--90ais/organization/23563/org-page" target="_blank">Портал рейтинговой оценки ↗</a></li>
-                            <li><a href="{{ u('/pages/telefony-spravochnyh-sluzhb') }}">Телефоны справочных служб</a></li>
+                            <li><a href="{{ u('/pages/struktura-kolledzha') }}">{{ t.nav.college_structure }}</a></li>
+                            <li><a href="{{ u('/pages/karta-sajta') }}">{{ t.nav.site_map_nav }}</a></li>
+                            <li><a href="{{ u('/pages/spravochnik-telefonov-sotsialnoj-zashchity') }}">{{ t.nav.social_protection_phones }}</a></li>
+                            <li><a href="{{ u('/pages/interaktivnaya-karta') }}">{{ t.nav.interactive_map }}</a></li>
+                            <li><a href="http://xn----7sbgfh2alwzdhpc0c.xn--90ais/organization/23563/org-page" target="_blank">{{ t.nav.rating_portal_external }}</a></li>
+                            <li><a href="{{ u('/pages/telefony-spravochnyh-sluzhb') }}">{{ t.nav.reference_phones }}</a></li>
                         </ul>
                     </li>
 

@@ -74,6 +74,28 @@ def get_page_by_slug(slug: str) -> dict | None:
         return c.fetchone()
 
 
+def slug_exists(slug: str, exclude_id: int | None = None) -> bool:
+    """True, если slug уже занят другой страницей."""
+    db = get_db()
+    with db.cursor() as c:
+        if exclude_id is not None:
+            c.execute(
+                """
+                SELECT EXISTS(
+                    SELECT 1 FROM site_pages WHERE slug = %s AND id <> %s
+                ) AS taken
+                """,
+                (slug, exclude_id),
+            )
+        else:
+            c.execute(
+                "SELECT EXISTS(SELECT 1 FROM site_pages WHERE slug = %s) AS taken",
+                (slug,),
+            )
+        row = c.fetchone()
+    return bool((row or {}).get("taken"))
+
+
 def create_page(row: dict) -> int:
     """Создаёт страницу; возвращает id новой записи."""
     db = get_db()

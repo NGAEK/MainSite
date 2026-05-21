@@ -16,7 +16,7 @@
         closeBtn = document.createElement('button');
         closeBtn.id   = 'drawerCloseBtn';
         closeBtn.type = 'button';
-        closeBtn.setAttribute('aria-label', 'Закрыть меню');
+        closeBtn.setAttribute('aria-label', (window.NGAEK_I18N && window.NGAEK_I18N.close_menu) || 'Close menu');
         closeBtn.innerHTML = '<i class="fas fa-times"></i>';
         Object.assign(closeBtn.style, {
             display:        'none',

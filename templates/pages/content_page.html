@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% from 'macros/url.html' import u %}
+{% set page = t[content_namespace][content_key] %}
+{% set page_title = title_override if title_override is defined and title_override else page.title %}
+{% block breadcrumbs %}
+{% if breadcrumbs is not defined %}
+{% set breadcrumbs = [
+  {'label': t.nav.home, 'url': u('/')},
+] %}
+{% if page.breadcrumbs is defined and page.breadcrumbs.parent %}
+{% set _ = breadcrumbs.append({'label': page.breadcrumbs.parent, 'url': parent_url if parent_url is defined and parent_url else none}) %}
+{% endif %}
+{% set _ = breadcrumbs.append({'label': page_title, 'url': none}) %}
+{% endif %}
+{% include 'partials/breadcrumbs.html' %}
+{% endblock %}
+{% block content %}
+<section class="{{ section_class if section_class is defined else 'section static-page' }}">
+    <div class="{{ inner_class if inner_class is defined else 'container static-page-inner' }}">
+        <h1 class="{{ title_class if title_class is defined else 'static-page-title' }}">{{ page_title }}</h1>
+        <div class="{{ body_class if body_class is defined else 'static-page-body' }}">
+            {{ page.body | safe }}
+        </div>
+        {% if back_href is defined and back_href %}
+        <p class="{{ back_class if back_class is defined else '' }}">
+            <a href="{{ back_href }}" class="btn btn-outline">{{ back_label if back_label is defined else t.pages.back_home }}</a>
+        </p>
+        {% elif show_back_home | default(false) %}
+        <p><a href="{{ u('/') }}" class="btn btn-outline">{{ t.pages.back_home }}</a></p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

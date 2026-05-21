@@ -71,6 +71,7 @@
         io.takeRecords().forEach(revealEntry);
     } catch (ignore) {}
 })();
+<script>window.NGAEK_I18N = {{ ui_i18n_json|safe }};</script>
 /* ═══════════════════════════════════════════════════════════════
    VISION ACCESSIBILITY PANEL — vision-panel.js  v1.0
    Вставить в base.html ПОСЛЕ основного main.js (или подключить
@@ -175,18 +176,19 @@
     }
 
     /* ─── СТАТУС-БАР ─── */
+    var VA = (window.NGAEK_I18N && window.NGAEK_I18N.va) || {};
     var LABELS = {
-        bw:            'Ч/Б',
-        'black-yellow': 'Жёлтый контраст',
-        'black-white':  'Белый контраст',
-        'dark-blue':    'Синий контраст',
-        noImages:      'Без картинок',
-        simplified:    'Упрощённый вид',
-        keyboard:      'Яркий фокус',
-        lineHeight:    'Увеличен интерлиньяж',
-        arial:         'Шрифт: Arial',
-        verdana:       'Шрифт: Verdana',
-        times:         'Шрифт: Times',
+        bw:            VA.status_bw || '',
+        'black-yellow': VA.status_black_yellow || '',
+        'black-white':  VA.status_black_white || '',
+        'dark-blue':    VA.status_dark_blue || '',
+        noImages:      VA.status_no_images || '',
+        simplified:    VA.status_simplified || '',
+        keyboard:      VA.status_keyboard || '',
+        lineHeight:    VA.status_line_height || '',
+        arial:         VA.status_font_arial || '',
+        verdana:       VA.status_font_verdana || '',
+        times:         VA.status_font_times || '',
     };
 
     function updateStatusBar(s) {
@@ -196,7 +198,7 @@
 
         var active = [];
 
-        if (s.fontScale !== 100) active.push('Текст: ' + s.fontScale + '%');
+        if (s.fontScale !== 100) active.push((VA.status_text_scale || '') + ' ' + s.fontScale + '%');
         if (s.fontFamily !== 'default') active.push(LABELS[s.fontFamily] || s.fontFamily);
         if (s.contrast !== 'none')  active.push(LABELS[s.contrast] || s.contrast);
         if (s.noImages)    active.push(LABELS.noImages);
