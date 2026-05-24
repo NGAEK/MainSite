@@ -29,6 +29,7 @@ from api.security import (
 from api.openapi_spec import build_openapi_spec
 from api.template_guard import extract_editable_content, merge_jinja_template
 from api import locale_content as locale_content_api
+from api.preview_render import render_route_preview
 
 logger = logging.getLogger(__name__)
 
@@ -422,6 +423,26 @@ def update_locale_page(slug):
     if not page:
         return _json_error(404, "not_found", "Страница не найдена в content.json")
     return jsonify({"data": page}), 200
+
+
+@api_bp.route("/preview", methods=["GET"])
+def preview_public_page():
+    """HTML тела страницы как на публичном сайте (для конструктора)."""
+    err = _require_auth()
+    if err:
+        return err
+    route = str(request.args.get("route") or "/").strip()
+    lang = str(request.args.get("lang") or "ru").strip().lower()
+    if lang not in ("ru", "be", "en"):
+        lang = "ru"
+    try:
+        rendered = render_route_preview(current_app, route, lang)
+    except Exception as e:
+        logger.exception("preview_public_page route=%s", route)
+        return _json_error(500, "render_error", str(e))
+    if not rendered:
+        return _json_error(404, "not_found", f"Не удалось отрисовать маршрут {route}")
+    return jsonify({"data": rendered}), 200
 
 
 def _merge_template_file_content(service, scope: str, rel_path: str, content: str) -> str:
