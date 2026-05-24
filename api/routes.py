@@ -28,6 +28,7 @@ from api.security import (
 )
 from api.openapi_spec import build_openapi_spec
 from api.template_guard import extract_editable_content, merge_jinja_template
+from api import locale_content as locale_content_api
 
 logger = logging.getLogger(__name__)
 
@@ -377,6 +378,50 @@ def update_page_template(slug):
     except Exception as e:
         return _json_error(500, "file_error", str(e))
     return jsonify({"data": {"slug": slug, "updated": True}}), 200
+
+
+@api_bp.route("/locale-pages", methods=["GET"])
+def list_locale_pages():
+    err = _require_auth()
+    if err:
+        return err
+    return jsonify({"data": locale_content_api.list_locale_pages()}), 200
+
+
+@api_bp.route("/locale-pages/<slug>", methods=["GET"])
+def get_locale_page(slug):
+    err = _require_auth()
+    if err:
+        return err
+    route_hint = str(request.args.get("route") or "").strip()
+    page = locale_content_api.get_locale_page(slug, route_hint)
+    if not page:
+        return _json_error(404, "not_found", "Страница не найдена в content.json")
+    return jsonify({"data": page}), 200
+
+
+@api_bp.route("/locale-pages/<slug>", methods=["PUT"])
+def update_locale_page(slug):
+    err = _require_auth()
+    if err:
+        return err
+    payload, err = _parse_json_body()
+    if err:
+        return err
+    route_hint = str(payload.get("route") or request.args.get("route") or "").strip()
+    title = payload.get("title")
+    content_html = payload.get("content_html")
+    if title is None and content_html is None:
+        return _json_error(400, "validation_error", "Укажите title и/или content_html")
+    page = locale_content_api.update_locale_page(
+        slug,
+        route=route_hint,
+        title=str(title).strip() if title is not None else None,
+        content_html=str(content_html) if content_html is not None else None,
+    )
+    if not page:
+        return _json_error(404, "not_found", "Страница не найдена в content.json")
+    return jsonify({"data": page}), 200
 
 
 def _merge_template_file_content(service, scope: str, rel_path: str, content: str) -> str:
