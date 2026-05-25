@@ -19,6 +19,32 @@ _BLOCK_RE = re.compile(
     re.DOTALL | re.IGNORECASE,
 )
 _EXTENDS_RE = re.compile(r"\{%-?\s*extends\b", re.IGNORECASE)
+_JINJA_TAG_RE = re.compile(r"(\{\{.*?\}\}|\{%-?.*?-?%\})", re.DOTALL)
+_HTML_ENTITIES_IN_JINJA = (
+    ("&gt;", ">"),
+    ("&lt;", "<"),
+    ("&amp;", "&"),
+    ("&quot;", '"'),
+    ("&#39;", "'"),
+)
+
+
+def sanitize_jinja_html_entities(template: str) -> str:
+    """В {% %} и {{ }} заменяет HTML-сущности (&gt; и т.д.) на символы для Jinja."""
+    if not template:
+        return template
+
+    def fix_tag(match: re.Match) -> str:
+        chunk = match.group(0)
+        for encoded, decoded in _HTML_ENTITIES_IN_JINJA:
+            chunk = chunk.replace(encoded, decoded)
+        return chunk
+
+    return _JINJA_TAG_RE.sub(fix_tag, template)
+
+
+def _finalize_template(text: str) -> str:
+    return sanitize_jinja_html_entities(text)
 
 
 def _find_blocks(text: str) -> dict[str, dict[str, str]]:
@@ -89,19 +115,19 @@ def merge_jinja_template(original: str, incoming: str) -> str:
     incoming = incoming or ""
 
     if not original.strip():
-        return incoming
+        return _finalize_template(incoming)
 
     orig_blocks = _find_blocks(original)
     inc_blocks = _find_blocks(incoming)
 
     if not orig_blocks:
-        return incoming
+        return _finalize_template(incoming)
 
     if _is_body_only(incoming):
         if EDITABLE_BLOCK in orig_blocks:
             new_inner = incoming.strip()
-            return _replace_block_inner(original, EDITABLE_BLOCK, new_inner)
-        return incoming
+            return _finalize_template(_replace_block_inner(original, EDITABLE_BLOCK, new_inner))
+        return _finalize_template(incoming)
 
     order = _block_order(original)
     preamble = _preamble(original)
@@ -134,7 +160,7 @@ def merge_jinja_template(original: str, incoming: str) -> str:
     tail = _tail_after_blocks(original)
     if tail:
         parts.append(tail)
-    return "".join(parts)
+    return _finalize_template("".join(parts))
 
 
 def _replace_block_inner(template: str, block_name: str, new_inner: str) -> str:
@@ -166,7 +192,7 @@ def extract_editable_content(template: str) -> str:
 
 def validate_jinja_syntax(template: str, *, source: str = "<template>") -> str | None:
     """Возвращает текст ошибки, если шаблон не парсится; иначе None."""
-    text = template or ""
+    text = sanitize_jinja_html_entities(template or "")
     if not text.strip():
         return None
     try:
