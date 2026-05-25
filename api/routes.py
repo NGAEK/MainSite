@@ -27,7 +27,7 @@ from api.security import (
     validate_access_token,
 )
 from api.openapi_spec import build_openapi_spec
-from api.template_guard import extract_editable_content, merge_jinja_template
+from api.template_guard import extract_editable_content, merge_jinja_template, validate_jinja_syntax
 from api import locale_content as locale_content_api
 from api.preview_render import render_route_preview
 
@@ -375,6 +375,9 @@ def update_page_template(slug):
         except FileMissingError:
             original = ""
         merged = merge_jinja_template(original, content)
+        syntax_err = validate_jinja_syntax(merged, source=meta["template_path"])
+        if syntax_err:
+            return _json_error(400, "template_syntax_error", syntax_err)
         service.write_text("templates", meta["template_path"], merged)
     except Exception as e:
         return _json_error(500, "file_error", str(e))
@@ -712,6 +715,10 @@ def put_file():
     service = _file_service()
     try:
         merged = _merge_template_file_content(service, scope, rel_path, content)
+        if scope == "templates" and rel_path.lower().endswith(".html"):
+            syntax_err = validate_jinja_syntax(merged, source=rel_path)
+            if syntax_err:
+                return _json_error(400, "template_syntax_error", syntax_err)
         service.write_text(scope, rel_path, merged)
     except InvalidScopeError as e:
         return _json_error(400, "invalid_scope", str(e))

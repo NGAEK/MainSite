@@ -1,4 +1,4 @@
-from api.template_guard import extract_editable_content, merge_jinja_template
+from api.template_guard import extract_editable_content, merge_jinja_template, validate_jinja_syntax
 
 ORIGINAL = """{% extends "base.html" %}
 {% from 'macros/url.html' import u %}
@@ -45,3 +45,15 @@ def test_merge_full_template_restores_empty_extra_css():
 def test_extract_editable_content():
     assert "Old body" in extract_editable_content(ORIGINAL)
     assert "{% block extra_css %}" not in extract_editable_content(ORIGINAL)
+
+
+def test_validate_jinja_syntax_rejects_bad_ampersand():
+    bad = '{% if a & b %}x{% endif %}'
+    err = validate_jinja_syntax(bad, source="test.html")
+    assert err is not None
+    assert "test.html" in err
+
+
+def test_validate_jinja_syntax_accepts_url_macro_style():
+    ok = '{{ path ~ "&lang=" ~ current_lang }}'
+    assert validate_jinja_syntax(ok) is None

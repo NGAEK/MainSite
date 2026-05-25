@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import re
 
+from jinja2 import Environment, TemplateSyntaxError
+
 # Блоки, которые всегда восстанавливаются из файла на диске, если в запросе пусты или отсутствуют.
 PROTECTED_BLOCKS = frozenset({"extra_css", "extra_js", "breadcrumbs"})
 EDITABLE_BLOCK = "content"
@@ -160,3 +162,15 @@ def extract_editable_content(template: str) -> str:
     if EDITABLE_BLOCK in blocks:
         return blocks[EDITABLE_BLOCK]["inner"]
     return template
+
+
+def validate_jinja_syntax(template: str, *, source: str = "<template>") -> str | None:
+    """Возвращает текст ошибки, если шаблон не парсится; иначе None."""
+    text = template or ""
+    if not text.strip():
+        return None
+    try:
+        Environment().parse(text)
+    except TemplateSyntaxError as exc:
+        return f"{source}: {exc.message} (строка {exc.lineno})"
+    return None
