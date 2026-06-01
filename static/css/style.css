@@ -151,7 +151,7 @@ header {
 }
 
 .logo img {
-    height: 46px;
+    height: 69px;
     width: auto;
 }
 
@@ -2775,7 +2775,7 @@ html.dark-mode-early body {
    Ensure nav uses dark variables when dark-mode is active
    ═══════════════════════════════════════════════════ */
 .dark-mode nav {
-    background: var(--clr-primary);
+    background: var(--header-bg);
     border-bottom-color: rgba(255, 255, 255, 0.06);
 }
 

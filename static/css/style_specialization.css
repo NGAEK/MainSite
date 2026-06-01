@@ -1,4 +1,4 @@
-вости н/* style_specialization.css
+/* style_specialization.css
    Specialization / specialties pages.
    Relies on CSS variables defined in style.css (:root and .dark-mode).
 */
@@ -11,8 +11,14 @@
     align-items: stretch;
     gap: 1.25rem;
     padding: 0.5rem 0 2rem;
-    max-width: 100%;
+    max-width: 1500px;
     margin: 0 auto;
+}
+
+.specialties-grid-link {
+    display: flex;
+    text-decoration: none;
+    color: inherit;
 }
 
 .specialty-card {
@@ -22,15 +28,17 @@
     box-shadow: var(--shadow-sm);
     padding: 1.5rem 1.25rem;
     transition: transform var(--tr), box-shadow var(--tr), border-color var(--tr);
-    min-height: 140px;
-    width: 170px;
+    width: 225px;
+    height: 250px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-align: center;
     color: var(--clr-text);
     text-decoration: none;
     cursor: pointer;
+    flex: 1;
 }
 
 .specialty-card:hover {
@@ -144,6 +152,7 @@
     .specialty-card {
         width: auto;
         min-width: 0;
+        max-width: 100%;
         padding: 1rem 0.75rem;
     }
 
