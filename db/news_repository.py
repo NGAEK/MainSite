@@ -9,7 +9,6 @@ _NEWS_COLUMNS = (
     "description_be, description_en, image_path"
 )
 
-# Поля, допустимые при частичном обновлении (PATCH)
 _PATCH_KEYS = frozenset(
     {
         "name",
@@ -25,7 +24,6 @@ _PATCH_KEYS = frozenset(
 
 
 def get_all_news():
-    """Возвращает все новости из базы данных."""
     try:
         db = get_db()
         with db.cursor() as cursor:
@@ -43,7 +41,6 @@ def get_all_news():
 
 
 def search_news(query):
-    """Поиск новостей по всем языковым полям."""
     try:
         db = get_db()
         with db.cursor() as cursor:
@@ -66,7 +63,6 @@ def search_news(query):
 
 
 def get_news_by_id(news_id):
-    """Возвращает новость по ID."""
     try:
         db = get_db()
         with db.cursor() as cursor:
@@ -88,7 +84,6 @@ def get_news_by_id(news_id):
 
 
 def news_exists(news_id) -> bool:
-    """Проверяет существование новости по ID."""
     try:
         db = get_db()
         with db.cursor() as cursor:
@@ -104,7 +99,6 @@ def news_exists(news_id) -> bool:
 
 
 def count_news() -> int:
-    """Возвращает количество новостей."""
     db = get_db()
     with db.cursor() as cursor:
         cursor.execute("SELECT COUNT(*) AS total FROM news")
@@ -121,7 +115,6 @@ def _date_iso(val):
 
 
 def news_to_dict(news: News) -> dict:
-    """Сериализация новости для JSON API."""
     return {
         "id": news.id,
         "name": news.name,
@@ -136,7 +129,6 @@ def news_to_dict(news: News) -> dict:
 
 
 def insert_news(row: dict) -> int:
-    """Создаёт новость; возвращает id новой записи."""
     db = get_db()
     with db.cursor() as c:
         c.execute(
@@ -162,7 +154,6 @@ def insert_news(row: dict) -> int:
 
 
 def update_news_full(news_id: int, row: dict) -> None:
-    """Полная замена полей новости."""
     db = get_db()
     with db.cursor() as c:
         c.execute(
@@ -187,11 +178,9 @@ def update_news_full(news_id: int, row: dict) -> None:
 
 
 def update_news_partial(news_id: int, patch: dict) -> None:
-    """Частичное обновление новости (PATCH)."""
     keys = [k for k in patch if k in _PATCH_KEYS]
     if not keys:
         return
-    # Двойные кавычки для имён полей (date — зарезервированное слово в PG)
     assignments = ", ".join(f'"{k}"=%s' for k in keys)
     values = [patch[k] for k in keys]
     values.append(news_id)
@@ -202,7 +191,6 @@ def update_news_partial(news_id: int, patch: dict) -> None:
 
 
 def delete_news(news_id: int) -> bool:
-    """Удаляет новость по ID. Возвращает True если запись была найдена и удалена."""
     db = get_db()
     with db.cursor() as c:
         c.execute("DELETE FROM news WHERE id=%s", (news_id,))

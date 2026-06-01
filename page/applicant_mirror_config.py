@@ -1,6 +1,5 @@
 """Раздел «Абитуриентам»: пути на ngaek.by (после /index.php/ru/)."""
 
-# Читаемые slug в URL нашего сайта -> путь на старом Joomla
 APPLICANT_SOURCE_PATHS: dict[str, str] = {
     "spetsialnosti": "2013-01-31-07-20-51/spetsialnosti",
     "kontrolnye-tsifry-priema": "2013-01-31-07-20-51/ygfcyjgvhj",

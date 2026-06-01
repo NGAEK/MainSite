@@ -6,7 +6,6 @@ logger = logging.getLogger(__name__)
 
 
 def ensure_admin_users_table() -> None:
-    """Создаёт таблицу admin_users если она ещё не существует (идемпотентно)."""
     db = get_db()
     with db.cursor() as c:
         c.execute(
@@ -40,7 +39,6 @@ def get_admin_user_by_username(username: str) -> dict | None:
 
 
 def create_admin_user(username: str, password_hash: str) -> int:
-    """Создаёт администратора; возвращает id новой записи."""
     db = get_db()
     with db.cursor() as c:
         c.execute(

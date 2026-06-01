@@ -2,7 +2,6 @@ from db.connection import get_db
 
 
 def ensure_tabs_table() -> None:
-    """Создаёт таблицу site_tabs если она ещё не существует (идемпотентно)."""
     db = get_db()
     with db.cursor() as c:
         c.execute(
@@ -31,7 +30,6 @@ def ensure_tabs_table() -> None:
 
 
 def search_tabs(query: str) -> list[dict]:
-    """Поиск по заголовку, пункту меню и содержимому активных вкладок (ILIKE)."""
     db = get_db()
     with db.cursor() as c:
         like = f"%{query}%"

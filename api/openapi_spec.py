@@ -1,15 +1,10 @@
-"""OpenAPI 3.0 описание Admin API (MainSite)."""
 from __future__ import annotations
 
 API_KEY_HEADER = "X-API-Key"
 
 
 def build_openapi_spec(base_url: str | None = None) -> dict:
-    """
-    Собирает OpenAPI-документ.
-    base_url — корень сайта (например http://127.0.0.1:8099/) для Try it out в Swagger UI.
-    """
-    servers = [{"url": "/api/v1", "description": "Относительный путь (тот же хост)"}]
+    servers = [{"url": "/api/v1", "description": "RestAPI"}]
     if base_url:
         root = base_url.rstrip("/")
         servers.insert(0, {"url": f"{root}/api/v1", "description": "Текущий сервер"})
@@ -17,7 +12,7 @@ def build_openapi_spec(base_url: str | None = None) -> dict:
     return {
         "openapi": "3.0.3",
         "info": {
-            "title": "NGAEK MainSite — Admin API",
+            "title": "NGAEK — API",
             "version": "1.0.0",
             "description": (
                 "REST API для внешней админ-панели: новости, вкладки меню, "

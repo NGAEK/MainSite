@@ -77,7 +77,6 @@ class News:
         return (self.description or "").strip()
 
     def formatted_date(self, lang: str = "ru") -> str:
-        """Дата в формате, зависящем от языка интерфейса."""
         lang = (lang or "ru").lower()
         dt = _to_datetime(self.date)
         if dt is None:
@@ -94,7 +93,6 @@ class News:
         return cls(
             id=data.get("id"),
             name=data.get("name"),
-            # Нормализуем дату сразу — psycopg2 отдаёт datetime.date, MySQL отдавал str или datetime
             date=_to_datetime(data.get("date")),
             description=data.get("description"),
             name_be=data.get("name_be"),

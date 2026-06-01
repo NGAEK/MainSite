@@ -5,14 +5,12 @@ import logging
 logger = logging.getLogger(__name__)
 
 _db_connection = None
-_db_config: dict = {}  # Сохраняем конфигурацию для переподключения
+_db_config: dict = {}
 
-# DB: USE_DB=False — приложение без PostgreSQL (новости/вкладки/метрики из БД недоступны).
-USE_DB = True  # ← False = работаем без БД
+USE_DB = True
 
 
 def init_db(user, password, host, port, db_name):
-    """Инициализирует подключение к базе данных PostgreSQL."""
     if not USE_DB:
         logger.info("DB: init_db пропущен — приложение работает без БД (USE_DB=False)")
         return None
@@ -25,7 +23,6 @@ def init_db(user, password, host, port, db_name):
         'user': user,
         'dbname': db_name,
         'connect_timeout': 10,
-        # cursor_factory на уровне соединения — все cursor() вернут RealDictRow (dict-подобные объекты)
         'cursor_factory': psycopg2.extras.RealDictCursor,
     }
     if password:
@@ -41,7 +38,6 @@ def init_db(user, password, host, port, db_name):
 
 
 def _new_connection():
-    """Создаёт новое соединение и включает autocommit."""
     conn = psycopg2.connect(**_db_config)
     conn.autocommit = True
     return conn
@@ -56,7 +52,6 @@ def get_db():
     if not _db_config:
         raise RuntimeError("Database not initialized. Call init_db() first.")
 
-    # Проверяем живость соединения
     if _db_connection is not None and not _db_connection.closed:
         try:
             with _db_connection.cursor() as cur:
@@ -66,7 +61,6 @@ def get_db():
             logger.warning(f"Database connection lost: {e}")
             _db_connection = None
 
-    # Переподключение
     try:
         _db_connection = _new_connection()
         logger.info("Database reconnection successful")
@@ -79,8 +73,6 @@ def get_db():
 def is_db_alive() -> bool:
     if not USE_DB:
         return False
-    # DB: раскомментируй ↓ если USE_DB = True
-    """Проверяет доступность БД простым SELECT 1."""
     try:
         db = get_db()
         with db.cursor() as cursor:
@@ -95,8 +87,6 @@ def is_db_alive() -> bool:
 def get_table_names() -> list[str]:
     if not USE_DB:
         return []
-    # DB: раскомментируй ↓ если USE_DB = True
-    """Возвращает список таблиц текущей схемы (public)."""
     db = get_db()
     with db.cursor() as cursor:
         cursor.execute(
@@ -113,7 +103,6 @@ def get_table_names() -> list[str]:
 
 
 def close_connection():
-    """Закрывает соединение с БД (вызывать при завершении приложения)."""
     global _db_connection
     if _db_connection and not _db_connection.closed:
         try:

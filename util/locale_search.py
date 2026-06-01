@@ -1,6 +1,3 @@
-"""
-Поиск по локализации: static/locales/messages.json (UI, меню) и content.json (тела страниц).
-"""
 from __future__ import annotations
 
 import json
@@ -21,7 +18,6 @@ _HTML_TAG_RE = re.compile(r"<[^>]+>")
 
 
 def href_with_lang(path: str, fragment: str, lang_ui: str) -> str:
-    """Собирает URL с ?lang= так, чтобы якорь оставался в конце."""
     frag = f"#{fragment}" if fragment else ""
     if lang_ui == "ru":
         return path + frag
@@ -56,7 +52,6 @@ def _strip_html(html: str) -> str:
 
 
 def content_page_href(namespace: str, slug: str) -> str:
-    """URL страницы по ключу в content.json."""
     if namespace == "students_mirror":
         return f"/students/{slug}"
     if namespace == "applicants_mirror":
@@ -81,10 +76,6 @@ def _dedupe_hits(hits: list[dict]) -> list[dict]:
 
 
 def search_locale_strings(query: str, lang_ui: str, messages_path: Path | None = None) -> list[dict]:
-    """
-    Ищет подстроку (без учёта регистра) во всех i18n-листьях messages.json.
-    Возвращает элементы: title, excerpt, href, path (для отладки).
-    """
     q = (query or "").strip()
     if not q:
         return []
@@ -138,10 +129,6 @@ def search_locale_strings(query: str, lang_ui: str, messages_path: Path | None =
 
 
 def search_content_pages(query: str, lang_ui: str, content_path: Path | None = None) -> list[dict]:
-    """
-    Ищет подстроку в title/body страниц из content.json
-    (migrated, students_mirror, applicants_mirror, site_mirror).
-    """
     q = (query or "").strip()
     if not q:
         return []
@@ -187,7 +174,6 @@ def search_content_pages(query: str, lang_ui: str, content_path: Path | None = N
 
 
 def search_localized_site(query: str, lang_ui: str) -> list[dict]:
-    """messages.json (UI) + content.json (тела страниц), без дублей по href."""
     return _dedupe_hits(search_locale_strings(query, lang_ui) + search_content_pages(query, lang_ui))
 
 

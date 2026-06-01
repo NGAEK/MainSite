@@ -5,7 +5,6 @@ from db.connection import get_db
 
 
 def ensure_site_visits_table() -> None:
-    """Создаёт таблицу site_visits если она ещё не существует (идемпотентно)."""
     db = get_db()
     with db.cursor() as c:
         c.execute(
@@ -35,7 +34,6 @@ def build_visitor_key(ip: str, user_agent: str) -> str:
 
 
 def record_visit(visitor_key: str, at: datetime | None = None) -> None:
-    """Записывает посещение: создаёт новую запись или обновляет счётчик хитов."""
     now = at or datetime.utcnow()
     db = get_db()
     with db.cursor() as c:
@@ -52,7 +50,6 @@ def record_visit(visitor_key: str, at: datetime | None = None) -> None:
 
 
 def get_user_metrics() -> dict:
-    """Возвращает метрики уникальных посетителей за сегодня, месяц, год и всего."""
     db = get_db()
     with db.cursor() as c:
         c.execute(

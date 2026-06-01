@@ -31,7 +31,6 @@ def _make_excerpt(text: str, query: str, length: int = _EXCERPT_LEN) -> str:
 
 
 def collect_search_matches(query: str, lang: str) -> list[dict]:
-    """Единый список результатов поиска для HTML и API."""
     query = sanitize_search_query(query)
     lang = normalize_search_lang(lang)
     if not query:
@@ -117,7 +116,6 @@ def collect_search_matches(query: str, lang: str) -> list[dict]:
 
 
 def search_handler(request):
-    """Обработчик страницы поиска: новости, страницы site_pages и динамические вкладки site_tabs."""
     query = sanitize_search_query(request.args.get("q", ""))
     lang = normalize_search_lang(request.args.get("lang"), request.cookies.get("locale"))
 
