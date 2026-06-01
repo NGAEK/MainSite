@@ -51,6 +51,7 @@
     })();
 </script>
 <script>window.NGAEK_I18N = {{ ui_i18n|tojson }};</script>
+{% raw %}
 <script>
 /* Scroll reveal: .reveal → .visible */
 (function () {
@@ -98,6 +99,7 @@
     }, 800);
 })();
 </script>
+{% endraw %}
 <script src="/static/js/vision-panel.js" defer></script>
 {% block extra_js %}{% endblock %}
 </body>

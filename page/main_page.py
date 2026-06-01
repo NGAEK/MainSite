@@ -32,6 +32,6 @@ def home_handler(request):
     try:
         return render_template('index.html', **data)
     except Exception as e:
-        logger.error(f"Ошибка рендеринга шаблона: {e}")
+        logger.error("Ошибка рендеринга шаблона index.html: %s", e, exc_info=True)
         return "500 Internal Server Error", 500
 
