@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS site_pages (
   content_html TEXT,
   sort_order   INT           NOT NULL DEFAULT 100,
   is_active    BOOLEAN       NOT NULL DEFAULT TRUE,
+  branch_id    VARCHAR(64),
   created_at   TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
   updated_at   TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
   CONSTRAINT uq_site_pages_slug UNIQUE (slug)

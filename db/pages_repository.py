@@ -26,6 +26,12 @@ def ensure_pages_table() -> None:
               ON site_pages (is_active, sort_order)
             """
         )
+        c.execute(
+            """
+            ALTER TABLE site_pages
+            ADD COLUMN IF NOT EXISTS branch_id VARCHAR(64)
+            """
+        )
 
 
 def search_pages(query: str) -> list[dict]:
@@ -35,7 +41,7 @@ def search_pages(query: str) -> list[dict]:
         like = f"%{query}%"
         c.execute(
             """
-            SELECT id, slug, title, content_html
+            SELECT id, slug, title, content_html, branch_id
             FROM site_pages
             WHERE is_active = TRUE
               AND (title ILIKE %s OR content_html ILIKE %s)
@@ -51,7 +57,7 @@ def get_all_pages() -> list[dict]:
     with db.cursor() as c:
         c.execute(
             """
-            SELECT id, slug, title, content_html, sort_order, is_active
+            SELECT id, slug, title, content_html, sort_order, is_active, branch_id
             FROM site_pages
             ORDER BY sort_order ASC, id ASC
             """
@@ -64,12 +70,27 @@ def get_page_by_slug(slug: str) -> dict | None:
     with db.cursor() as c:
         c.execute(
             """
-            SELECT id, slug, title, content_html, sort_order, is_active
+            SELECT id, slug, title, content_html, sort_order, is_active, branch_id
             FROM site_pages
             WHERE slug = %s
             LIMIT 1
             """,
             (slug,),
+        )
+        return c.fetchone()
+
+
+def get_page_by_id(page_id: int) -> dict | None:
+    db = get_db()
+    with db.cursor() as c:
+        c.execute(
+            """
+            SELECT id, slug, title, content_html, sort_order, is_active, branch_id
+            FROM site_pages
+            WHERE id = %s
+            LIMIT 1
+            """,
+            (page_id,),
         )
         return c.fetchone()
 
@@ -102,8 +123,8 @@ def create_page(row: dict) -> int:
     with db.cursor() as c:
         c.execute(
             """
-            INSERT INTO site_pages (slug, title, content_html, sort_order, is_active)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO site_pages (slug, title, content_html, sort_order, is_active, branch_id)
+            VALUES (%s, %s, %s, %s, %s, %s)
             RETURNING id
             """,
             (
@@ -112,6 +133,7 @@ def create_page(row: dict) -> int:
                 row.get("content_html") or "",
                 row.get("sort_order", 100),
                 bool(row.get("is_active", True)),
+                row.get("branch_id") or None,
             ),
         )
         return c.fetchone()["id"]
@@ -123,7 +145,7 @@ def update_page(page_id: int, row: dict) -> None:
         c.execute(
             """
             UPDATE site_pages
-            SET slug=%s, title=%s, content_html=%s, sort_order=%s, is_active=%s
+            SET slug=%s, title=%s, content_html=%s, sort_order=%s, is_active=%s, branch_id=%s
             WHERE id=%s
             """,
             (
@@ -132,6 +154,7 @@ def update_page(page_id: int, row: dict) -> None:
                 row.get("content_html") or "",
                 row.get("sort_order", 100),
                 bool(row.get("is_active", True)),
+                row.get("branch_id") or None,
                 page_id,
             ),
         )

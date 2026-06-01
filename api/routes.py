@@ -208,6 +208,40 @@ def _slugify(value: str) -> str:
     )
 
 
+def _normalize_branch_id(value) -> str | None:
+    branch_id = str(value or "").strip()
+    if not branch_id:
+        return None
+    return branch_id[:64]
+
+
+def _serialize_page(row: dict | None) -> dict | None:
+    if not row:
+        return None
+    out = dict(row)
+    slug = str(out.get("slug") or "").strip()
+    if slug:
+        out["route"] = f"/pages/{slug}"
+    return out
+
+
+def _page_row_from_payload(payload: dict):
+    """Собирает поля site_pages из JSON; при ошибке возвращает (None, flask_response)."""
+    title = str(payload.get("title") or "").strip()
+    slug = _slugify(str(payload.get("slug") or title))
+    if not title or not slug:
+        return None, _json_error(400, "validation_error", "Поля title/slug обязательны")
+    row = {
+        "slug": slug,
+        "title": title,
+        "content_html": str(payload.get("content_html") or ""),
+        "sort_order": int(payload.get("sort_order") or 100),
+        "is_active": bool(payload.get("is_active", True)),
+        "branch_id": _normalize_branch_id(payload.get("branch_id")),
+    }
+    return row, None
+
+
 def _is_allowed_image(filename: str) -> bool:
     if "." not in filename:
         return False
@@ -556,11 +590,26 @@ def list_pages():
     if err:
         return err
     try:
-        items = pages_repository.get_all_pages()
+        items = [_serialize_page(row) for row in pages_repository.get_all_pages()]
     except Exception as e:
         logger.exception("DB: API list_pages (БД отключена?)")
         return _json_error(503, "database_unavailable", "База данных недоступна")
     return jsonify({"data": items}), 200
+
+
+@api_bp.route("/pages/<int:page_id>", methods=["GET"])
+def get_page(page_id):
+    err = _require_auth()
+    if err:
+        return err
+    try:
+        row = pages_repository.get_page_by_id(page_id)
+    except Exception as e:
+        logger.exception("DB: API get_page (БД отключена?)")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
+    if not row:
+        return _json_error(404, "not_found", "Страница не найдена")
+    return jsonify({"data": _serialize_page(row)}), 200
 
 
 @api_bp.route("/pages", methods=["POST"])
@@ -571,17 +620,10 @@ def create_page():
     payload, err = _parse_json_body()
     if err:
         return err
-    title = str(payload.get("title") or "").strip()
-    slug = _slugify(str(payload.get("slug") or title))
-    if not title or not slug:
-        return _json_error(400, "validation_error", "Поля title/slug обязательны")
-    row = {
-        "slug": slug,
-        "title": title,
-        "content_html": str(payload.get("content_html") or ""),
-        "sort_order": int(payload.get("sort_order") or 100),
-        "is_active": bool(payload.get("is_active", True)),
-    }
+    row, row_err = _page_row_from_payload(payload)
+    if row_err is not None:
+        return row_err
+    slug = row["slug"]
     try:
         if pages_repository.slug_exists(slug):
             return _json_error(
@@ -590,12 +632,13 @@ def create_page():
                 f'Страница со slug «{slug}» уже существует. Укажите другой slug или измените существующую страницу.',
             )
         page_id = pages_repository.create_page(row)
+        created = _serialize_page(pages_repository.get_page_by_id(page_id))
     except Exception as e:
         resp = _db_write_error_response(e, slug=slug)
         if resp[1] == 409:
             logger.warning("API create_page: дубликат slug %s", slug)
         return resp
-    return jsonify({"data": {"id": page_id}}), 201
+    return jsonify({"data": created or {"id": page_id}}), 201
 
 
 @api_bp.route("/pages/<int:page_id>", methods=["PUT"])
@@ -606,18 +649,14 @@ def update_page(page_id):
     payload, err = _parse_json_body()
     if err:
         return err
-    title = str(payload.get("title") or "").strip()
-    slug = _slugify(str(payload.get("slug") or title))
-    if not title or not slug:
-        return _json_error(400, "validation_error", "Поля title/slug обязательны")
-    row = {
-        "slug": slug,
-        "title": title,
-        "content_html": str(payload.get("content_html") or ""),
-        "sort_order": int(payload.get("sort_order") or 100),
-        "is_active": bool(payload.get("is_active", True)),
-    }
+    row, row_err = _page_row_from_payload(payload)
+    if row_err is not None:
+        return row_err
+    slug = row["slug"]
     try:
+        existing = pages_repository.get_page_by_id(page_id)
+        if not existing:
+            return _json_error(404, "not_found", "Страница не найдена")
         if pages_repository.slug_exists(slug, exclude_id=page_id):
             return _json_error(
                 409,
@@ -625,12 +664,13 @@ def update_page(page_id):
                 f'Страница со slug «{slug}» уже существует. Укажите другой slug или измените существующую страницу.',
             )
         pages_repository.update_page(page_id, row)
+        updated = _serialize_page(pages_repository.get_page_by_id(page_id))
     except Exception as e:
         resp = _db_write_error_response(e, slug=slug)
         if resp[1] == 409:
             logger.warning("API update_page: дубликат slug %s (id=%s)", slug, page_id)
         return resp
-    return jsonify({"data": {"id": page_id, "updated": True}}), 200
+    return jsonify({"data": updated or {"id": page_id, "updated": True}}), 200
 
 
 @api_bp.route("/pages/<int:page_id>", methods=["DELETE"])

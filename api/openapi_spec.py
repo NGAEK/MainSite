@@ -185,6 +185,15 @@ def _components() -> dict:
                     "content_html": {"type": "string"},
                     "sort_order": {"type": "integer"},
                     "is_active": {"type": "boolean"},
+                    "branch_id": {
+                        "type": "string",
+                        "description": "Раздел каталога в админке (history, education, …)",
+                    },
+                    "route": {
+                        "type": "string",
+                        "readOnly": True,
+                        "example": "/pages/example",
+                    },
                 },
             },
             "SitePageInput": {
@@ -196,6 +205,7 @@ def _components() -> dict:
                     "content_html": {"type": "string"},
                     "sort_order": {"type": "integer", "default": 100},
                     "is_active": {"type": "boolean", "default": True},
+                    "branch_id": {"type": "string"},
                 },
             },
             "IdResponse": {
@@ -584,7 +594,12 @@ def _paths() -> dict:
                     "201": {
                         "content": {
                             "application/json": {
-                                "schema": {"$ref": "#/components/schemas/IdResponse"}
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {"$ref": "#/components/schemas/SitePage"},
+                                    },
+                                }
                             }
                         }
                     },
@@ -595,6 +610,27 @@ def _paths() -> dict:
             ),
         },
         "/pages/{page_id}": {
+            "get": _op(
+                tag="Pages",
+                summary="Получить страницу по id",
+                parameters=[{"$ref": "#/components/parameters/PageId"}],
+                responses={
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {"$ref": "#/components/schemas/SitePage"},
+                                    },
+                                }
+                            }
+                        }
+                    },
+                    "404": {"$ref": "#/components/responses/NotFound"},
+                    **auth_err,
+                },
+            ),
             "put": _op(
                 tag="Pages",
                 summary="Обновить страницу",
