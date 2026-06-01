@@ -50,23 +50,38 @@ def extract_preview_title(full_html: str) -> str:
     return ""
 
 
-def render_route_preview(app, route: str, lang: str = "ru") -> dict | None:
-    """GET маршрута через test_client; возвращает content_html как на сайте."""
+def render_route_preview(app, route: str, lang: str = "ru") -> dict:
+    """GET маршрута через test_client; всегда dict (для JSON API)."""
     path = str(route or "").strip() or "/"
     if not path.startswith("/"):
         path = f"/{path}"
+    base_path = path.split("?")[0]
     query = f"?lang={lang}" if lang and lang != "ru" else ""
     url = f"{path}{query}" if "?" not in path else path
     with app.test_client() as client:
         response = client.get(url)
-    if response.status_code != 200:
-        return None
+    status_code = int(response.status_code)
+    if status_code != 200:
+        return {
+            "route": base_path,
+            "status_code": status_code,
+            "title": "",
+            "content_html": "",
+            "error": f"Сайт вернул HTTP {status_code} для {base_path}",
+        }
     full_html = response.get_data(as_text=True)
     content_html = extract_preview_html(full_html)
     if not content_html.strip():
-        return None
+        return {
+            "route": base_path,
+            "status_code": 404,
+            "title": "",
+            "content_html": "",
+            "error": "Пустое тело страницы (не найден блок для превью)",
+        }
     return {
-        "route": path.split("?")[0],
+        "route": base_path,
+        "status_code": 200,
         "title": extract_preview_title(full_html),
         "content_html": content_html,
     }

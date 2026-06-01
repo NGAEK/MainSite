@@ -609,6 +609,47 @@ def _paths() -> dict:
                 },
             ),
         },
+        "/search": {
+            "get": _op(
+                tag="Pages",
+                summary="Поиск по сайту (JSON)",
+                parameters=[
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "required": True,
+                        "schema": {"type": "string"},
+                    },
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "schema": {"type": "string", "enum": ["ru", "be", "en"]},
+                    },
+                ],
+                responses={
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "query": {"type": "string"},
+                                                "lang": {"type": "string"},
+                                                "matches": {"type": "array"},
+                                            },
+                                        }
+                                    },
+                                }
+                            }
+                        }
+                    },
+                    **auth_err,
+                },
+            ),
+        },
         "/pages/{page_id}": {
             "get": _op(
                 tag="Pages",

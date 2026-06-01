@@ -5,7 +5,6 @@ logger = logging.getLogger(__name__)
 
 
 def not_found_handler(request):
-    """Обработчик страницы 404"""
     try:
         data = {
             'title': 'Страница не найдена',

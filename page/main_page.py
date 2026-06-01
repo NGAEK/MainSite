@@ -9,7 +9,6 @@ logger = logging.getLogger(__name__)
 
 
 def home_handler(request):
-    """Обработчик главной страницы. Запрос ?q= перенаправляется на полнотекстовый поиск по сайту."""
     query = request.args.get("q", "").strip()
     if query:
         params = {"q": query}

@@ -30,6 +30,8 @@ from api.openapi_spec import build_openapi_spec
 from api.template_guard import extract_editable_content, merge_jinja_template, validate_jinja_syntax
 from api import locale_content as locale_content_api
 from api.preview_render import render_route_preview
+from util.search_util import sanitize_search_query
+from page import search_page as search_page_module
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +56,17 @@ def handle_preflight():
     if request.method == "OPTIONS":
         return "", 204
     return None
+
+
+@api_bp.errorhandler(Exception)
+def api_unhandled_exception(exc):
+    """Любая необработанная ошибка API — JSON, не HTML."""
+    from werkzeug.exceptions import HTTPException
+
+    if isinstance(exc, HTTPException):
+        raise exc
+    logger.exception("API: необработанное исключение")
+    return _json_error(500, "internal_error", "Внутренняя ошибка сервера")
 
 
 def _expected_key():
@@ -477,9 +490,36 @@ def preview_public_page():
     except Exception as e:
         logger.exception("preview_public_page route=%s", route)
         return _json_error(500, "render_error", str(e))
-    if not rendered:
-        return _json_error(404, "not_found", f"Не удалось отрисовать маршрут {route}")
+    if rendered.get("status_code") != 200 or not str(rendered.get("content_html") or "").strip():
+        code = int(rendered.get("status_code") or 404)
+        if code < 400 or code > 599:
+            code = 404
+        return _json_error(
+            code,
+            "render_error",
+            str(rendered.get("error") or f"Не удалось отрисовать маршрут {route}"),
+        )
     return jsonify({"data": rendered}), 200
+
+
+@api_bp.route("/search", methods=["GET"])
+def api_search():
+    """Поиск по сайту (JSON для админки и интеграций)."""
+    err = _require_auth()
+    if err:
+        return err
+    query = sanitize_search_query(request.args.get("q", ""))
+    lang = str(request.args.get("lang") or "ru").strip().lower()
+    if lang not in ("ru", "be", "en"):
+        lang = "ru"
+    if not query:
+        return _json_error(400, "validation_error", "Параметр q обязателен")
+    try:
+        matches = search_page_module.collect_search_matches(query, lang)
+    except Exception as e:
+        logger.exception("API search")
+        return _json_error(503, "database_unavailable", "База данных недоступна")
+    return jsonify({"data": {"query": query, "lang": lang, "matches": matches}}), 200
 
 
 def _merge_template_file_content(service, scope: str, rel_path: str, content: str) -> str:
