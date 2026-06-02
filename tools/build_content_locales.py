@@ -1,7 +1,3 @@
-"""
-Собирает HTML-контент из templates/migrated и data/*_mirror в static/locales/content.json.
-Для BY/EN пока копируется RU (как в fill_messages_en).
-"""
 from __future__ import annotations
 
 import json

@@ -1,16 +1,9 @@
-"""
-Защита Jinja-блоков в шаблонах при сохранении через API.
-
-Редактор часто отдаёт только тело {% block content %}, из-за чего пропадают
-{% block extra_css %}, {% block extra_js %}, {% block breadcrumbs %} и преамбула (extends, import).
-"""
 from __future__ import annotations
 
 import re
 
 from jinja2 import Environment, TemplateSyntaxError
 
-# Блоки, которые всегда восстанавливаются из файла на диске, если в запросе пусты или отсутствуют.
 PROTECTED_BLOCKS = frozenset({"extra_css", "extra_js", "breadcrumbs"})
 EDITABLE_BLOCK = "content"
 
@@ -30,7 +23,6 @@ _HTML_ENTITIES_IN_JINJA = (
 
 
 def sanitize_jinja_html_entities(template: str) -> str:
-    """В {% %} и {{ }} заменяет HTML-сущности (&gt; и т.д.) на символы для Jinja."""
     if not template:
         return template
 

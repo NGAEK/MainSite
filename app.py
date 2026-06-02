@@ -39,13 +39,11 @@ LANG_KEY_MAP = {'ru': 'RU', 'be': 'BY', 'en': 'EN'}  # код языка -> кл
 
 
 def get_locale():
-    """Язык из query ?lang= или cookie locale, по умолчанию русский."""
     lang = request.args.get('lang') or request.cookies.get('locale', DEFAULT_LANG)
     return lang if lang in SUPPORTED_LANGS else DEFAULT_LANG
 
 
 def _resolve_messages(obj, lang_key):
-    """Рекурсивно подставить строку языка: каждый { RU, BY [, EN] } -> значение для lang_key."""
     if isinstance(obj, dict):
         if 'RU' in obj and 'BY' in obj:
             return obj.get(lang_key) or obj.get('RU')
@@ -63,7 +61,6 @@ def _deep_merge(base: dict, extra: dict) -> dict:
 
 
 def get_translations():
-    """Загрузка UI (messages.json) и контента (content.json) для текущего языка."""
     lang_key = LANG_KEY_MAP.get(get_locale(), 'RU')
     merged: dict = {}
     try:
@@ -82,7 +79,6 @@ def get_translations():
 
 @app.context_processor
 def inject_locale_and_query():
-    """Передача переводов (t), текущего языка и query во все шаблоны."""
     tr = get_translations()
     acc = tr.get('accessibility') or {}
     js = tr.get('js') or {}
@@ -113,7 +109,6 @@ def inject_hreflang():
 
 @app.context_processor
 def inject_site_public():
-    """Реквизиты из config.yml (site) для футера и страниц."""
     s = current_app.config.get("SITE") or {}
     gris = s.get("gris") if isinstance(s.get("gris"), dict) else {}
     num = str(gris.get("number") or "").strip()
@@ -137,7 +132,6 @@ def inject_site_public():
     )
 
 
-# DB: ↓↓↓ inject_dynamic_tabs — без БД возвращает пустой список ↓↓↓
 @app.context_processor
 def inject_dynamic_tabs():
     try:
@@ -148,7 +142,6 @@ def inject_dynamic_tabs():
     return dict(dynamic_tabs=tabs)
 
 
-# DB: ↓↓↓ collect_site_user_metrics — без БД просто пропускает ↓↓↓
 @app.after_request
 def set_locale_cookie(response):
     """Сохраняем выбранный язык в cookie при ?lang=."""
@@ -173,10 +166,8 @@ def add_api_cors_headers(response):
     return response
 
 
-# DB: ↓↓↓ collect_site_user_metrics — без БД просто пропускает ↓↓↓
 @app.after_request
 def collect_site_user_metrics(response):
-    """Собирает метрики уникальных пользователей по посещениям."""
     path = request.path or ""
     if (
         path.startswith("/api/")
@@ -196,10 +187,8 @@ def collect_site_user_metrics(response):
     return response
 
 
-# Регистрация фильтров для шаблонов
 @app.template_filter('date_format')
 def date_format_filter(date, format_str='%Y-%m-%d'):
-    """Фильтр для форматирования даты"""
     if date is None:
         return ''
     if isinstance(date, str):
@@ -223,8 +212,7 @@ app.config["ADMIN_API_KEY"] = config.admin_api_key
 app.config["ADMIN_AUTH"] = config.admin_auth
 app.config["SITE"] = config.site or {}
 
-# DB: ↓↓↓ Инициализация базы данных — если USE_DB=False, init_db вернёт None ↓↓↓
-from db.connection import USE_DB  # noqa: флаг для проверки
+from db.connection import USE_DB
 init_db(
     config.database.user,
     config.database.password,
@@ -233,7 +221,6 @@ init_db(
     config.database.name
 )
 
-# DB: ↓↓↓ Создание таблиц и seed-админа — только если БД включена ↓↓↓
 if USE_DB:
     admin_users_repository.ensure_admin_users_table()
     visitor_metrics_repository.ensure_site_visits_table()
@@ -249,7 +236,6 @@ if USE_DB:
             logger.info("Bootstrap admin user created in PostgreSQL")
 else:
     logger.info("DB: Пропущено создание таблиц и seed-админа — БД отключена")
-# DB: ↑↑↑ конец блока с БД ↑↑↑
 
 app.register_blueprint(api_bp)
 register_swagger(app)

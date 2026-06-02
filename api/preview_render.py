@@ -1,4 +1,3 @@
-"""Рендер страницы MainSite для превью в админ-конструкторе."""
 from __future__ import annotations
 
 import re
@@ -18,7 +17,6 @@ _BLOCK_CONTENT_RE = re.compile(
 
 
 def extract_preview_html(full_html: str) -> str:
-    """Выделяет редактируемое тело страницы из полного HTML ответа."""
     text = str(full_html or "")
     if not text.strip():
         return ""

@@ -1,4 +1,3 @@
-"""One-off: add EN to messages.json (setdefault from RU + UI overrides). Run: python tools/fill_messages_en.py"""
 import json
 from pathlib import Path
 

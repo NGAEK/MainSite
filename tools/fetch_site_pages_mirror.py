@@ -1,7 +1,3 @@
-"""
-Скачивает страницы подпунктов меню с ngaek.by в data/site_pages_mirror.
-Запуск из корня проекта: python tools/fetch_site_pages_mirror.py
-"""
 from __future__ import annotations
 
 import os
