@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    /* ── Mobile menu (не блокирует слайдеры и прочие модули) ── */
+    (function initMobileNav() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mainNav       = document.getElementById('mainNav');
     const smartNav      = document.getElementById('smartNav');
@@ -177,6 +179,7 @@
 
     window.addEventListener('load', syncNavTop);
     syncNavTop();
+    })();
 
     /* ══════════════════════════════════════════════════════════════
        SLIDER MODULE

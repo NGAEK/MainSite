@@ -1,6 +1,8 @@
 """Сервис безопасного доступа к файлам сайта для админ API."""
 from pathlib import Path
 
+from util.html_sanitize import sanitize_template_html
+
 
 class FileServiceError(Exception):
     """Базовая ошибка файлового сервиса."""
@@ -56,7 +58,10 @@ class FileService:
     def write_text(self, scope: str, rel_path: str, content: str) -> None:
         target = self._resolve(scope, rel_path)
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(content, encoding="utf-8")
+        body = content
+        if scope == "templates" and str(rel_path or "").lower().endswith(".html"):
+            body = sanitize_template_html(content)
+        target.write_text(body, encoding="utf-8")
 
     def delete_file(self, scope: str, rel_path: str) -> bool:
         target = self._resolve(scope, rel_path)
